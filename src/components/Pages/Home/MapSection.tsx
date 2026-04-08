@@ -172,42 +172,32 @@ export default function MapSection() {
                     initial={{ opacity: 0, y: 22 }}
                     animate={inView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.62, ease: EASE }}
-                    className="mb-12 flex flex-col justify-between gap-6 md:flex-row md:items-end"
+                    className="mb-16 flex flex-col items-start text-left pt-8 md:pt-16"
                 >
-                    <div className="max-w-3xl">
-                        <span className="mb-2 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-(--sys-accent)">
-                            <span className="inline-block h-[1.5px] w-7 rounded-full bg-(--sys-accent)" />
+                    <div className="flex flex-col flex-wrap md:flex-row items-start md:items-baseline gap-4 md:gap-6 justify-start w-full">
+                        {/* Eyebrow */}
+                        <span className="flex items-center justify-start gap-4 text-[0.8rem] font-bold uppercase tracking-[0.16em] text-(--sys-accent) mb-4 md:mb-0">
+                            <span className="inline-block w-8 h-0.5 bg-(--sys-accent)" />
                             Collaboration map
+                            <span className="inline-block w-8 h-0.5 bg-(--sys-accent)" />
                         </span>
 
-                        <h2 className="m-0 flex flex-col leading-none" style={{ fontFamily: "var(--font-sans)" }}>
-                            <span
-                                className="text-[clamp(2rem,4.8vw,3.5rem)] font-light tracking-[-0.02em]"
-                                style={{ color: "color-mix(in srgb, var(--sys-text-primary) 45%, transparent)" }}
-                            >
-                                Where engineering meets
-                            </span>
-                            <span
-                                className="relative mt-1 w-fit text-[clamp(2.4rem,6vw,4.5rem)] font-black italic tracking-[-0.03em]"
-                                style={{
-                                    fontFamily: "var(--font-display)",
-                                    color: "var(--sys-text-primary)",
-                                }}
-                            >
-                                global delivery
-                                <span className="absolute -bottom-2 left-1 h-[3px] w-[68%] rounded-full bg-linear-to-r from-(--sys-accent) to-transparent" />
-                            </span>
+                        {/* Title */}
+                        <h2 className="m-0 font-sans text-[clamp(2.4rem,5.5vw,4.2rem)] font-extrabold leading-[1.05] tracking-[-0.03em] text-(--sys-text-primary)">
+                            Where engineering meets <span className="text-(--sys-accent)">global delivery</span>.
                         </h2>
+                    </div>
 
-                        <p className="mt-4 max-w-2xl text-[15px] leading-[1.8] text-(--sys-text-secondary)">
+                    <div className="flex flex-col md:flex-row justify-between w-full items-start md:items-end gap-6 md:gap-0 mt-4">
+                        <p className="m-0 max-w-xl text-[clamp(0.95rem,1.4vw,1.08rem)] leading-relaxed text-(--sys-text-secondary)">
                             Built for recruiter confidence: location-aware collaboration, timezone-friendly communication,
                             and execution workflows tuned for fast hiring decisions.
                         </p>
-                    </div>
 
-                    <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-(--sys-text-secondary) backdrop-blur-md">
-                        <OrbitIcon />
-                        Hybrid ready
+                        <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[0.7rem] font-bold uppercase tracking-[0.16em] text-(--sys-text-secondary) backdrop-blur-md">
+                            <OrbitIcon />
+                            Hybrid ready
+                        </div>
                     </div>
                 </motion.header>
 

@@ -99,5 +99,3 @@ Implemented and active core features:
 - Resume export engine and manager page shell.
 
 Planned expansions, including deep AI integrations and IoT/Hardware bridges, are tracked in the project roadmap (`FutureScope.md`).
-
-

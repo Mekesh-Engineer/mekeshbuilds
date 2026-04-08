@@ -33,6 +33,22 @@ import {
     useSpring,
     useTransform,
 } from 'framer-motion';
+import type { IconType } from 'react-icons';
+import { FaGithub } from 'react-icons/fa';
+import {
+    MdBolt,
+    MdCode,
+    MdBuildCircle,
+    MdEmojiEvents,
+    MdMailOutline,
+    MdMemory,
+    MdMilitaryTech,
+    MdRocketLaunch,
+    MdVerified,
+    MdVisibility,
+    MdWifi,
+    MdWorkspacePremium,
+} from 'react-icons/md';
 
 // ─── Design tokens (mirrors variables.css exactly) ────────────────────────────
 // All raw values kept in sync so the component is self-contained for Storybook.
@@ -57,150 +73,154 @@ const SPRING_SOFT = { stiffness: 80, damping: 20, mass: 0.9 };
 
 // ─── Resume data ──────────────────────────────────────────────────────────────
 
-const HERO_STATS = [
-    {
-        id: 'projects',
-        value: 8,
-        suffix: '+',
-        label: 'Technical Projects',
-        sublabel: 'Deployed & documented',
-        icon: (
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
-                <path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"
-                    stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-        ),
-        color: TOKEN.accent,
-    },
-    {
-        id: 'events',
-        value: 11,
-        suffix: '+',
-        label: 'Competitions Presented',
-        sublabel: 'Across Tamil Nadu institutions',
-        icon: (
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
-                <path d="M8 21h8M12 21V10M12 10C10.5 10 7 9 7 5h10c0 4-3.5 5-5 5Z"
-                    stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M7 5H5v2a4 4 0 0 0 4 4M17 5h2v2a4 4 0 0 1-4 4"
-                    stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-            </svg>
-        ),
-        color: TOKEN.warning,
-    },
-    {
-        id: 'awards',
-        value: 3,
-        suffix: '',
-        label: 'Competition Prizes',
-        sublabel: '1× Gold · 2× Bronze',
-        icon: (
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
-                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14l-5-4.87 6.91-1.01z"
-                    stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-        ),
-        color: TOKEN.warning,
-    },
-    {
-        id: 'skills',
-        value: 24,
-        suffix: '+',
-        label: 'Tools & Technologies',
-        sublabel: 'Across 6 engineering domains',
-        icon: (
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
-                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"
-                    stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-        ),
-        color: TOKEN.info,
-    },
-];
+const HERO_STATS: Array<{
+    id: string;
+    value: number;
+    suffix: string;
+    label: string;
+    sublabel: string;
+    icon: IconType;
+    color: string;
+}> = [
+        {
+            id: 'projects',
+            value: 8,
+            suffix: '+',
+            label: 'Technical Projects',
+            sublabel: 'Deployed & documented',
+            icon: MdRocketLaunch,
+            color: TOKEN.accent,
+        },
+        {
+            id: 'events',
+            value: 11,
+            suffix: '+',
+            label: 'Competitions Presented',
+            sublabel: 'Across Tamil Nadu institutions',
+            icon: MdEmojiEvents,
+            color: TOKEN.accent,
+        },
+        {
+            id: 'awards',
+            value: 3,
+            suffix: '',
+            label: 'Competition Prizes',
+            sublabel: '1× Gold · 2× Bronze',
+            icon: MdMilitaryTech,
+            color: TOKEN.accent,
+        },
+        {
+            id: 'skills',
+            value: 24,
+            suffix: '+',
+            label: 'Tools & Technologies',
+            sublabel: 'Across 6 engineering domains',
+            icon: MdBuildCircle,
+            color: TOKEN.accent,
+        },
+    ];
 
-const SKILL_DOMAINS = [
-    {
-        label: 'Embedded Systems',
-        tools: ['ESP32', 'Arduino', 'FreeRTOS', 'ARM Cortex', 'UART/SPI/I2C'],
-        proficiency: 88,
-        color: '#ff6b2c',
-    },
-    {
-        label: 'Full-Stack Engineering',
-        tools: ['React 19', 'TypeScript', 'Flask', 'Firebase', 'WebSockets'],
-        proficiency: 84,
-        color: '#3b82f6',
-    },
-    {
-        label: 'Computer Vision & AI',
-        tools: ['YOLOv8', 'OpenCV', 'PyTorch', 'TensorFlow', 'ONNX'],
-        proficiency: 80,
-        color: '#8b5cf6',
-    },
-    {
-        label: 'Industrial Automation',
-        tools: ['SCADA Dashboards', 'PLC Logic', 'Proteus', 'MATLAB', 'Simulink'],
-        proficiency: 76,
-        color: '#22c55e',
-    },
-    {
-        label: 'IoT & Smart Systems',
-        tools: ['Blynk IoT', 'MQTT', 'UDP', 'OTA Updates', 'Edge AI'],
-        proficiency: 82,
-        color: '#f59e0b',
-    },
-    {
-        label: 'Power Electronics & EE',
-        tools: ['Fuzzy Logic', 'EV Drivers', 'ACS712', 'Mi Power', 'AutoCAD Elec.'],
-        proficiency: 72,
-        color: '#ef4444',
-    },
-];
+const SKILL_DOMAINS: Array<{
+    label: string;
+    tools: string[];
+    proficiency: number;
+    color: string;
+    icon: IconType;
+}> = [
+        {
+            label: 'Embedded Systems',
+            tools: ['ESP32', 'Arduino', 'FreeRTOS', 'ARM Cortex', 'UART/SPI/I2C'],
+            proficiency: 88,
+            color: '#ff6b2c',
+            icon: MdMemory,
+        },
+        {
+            label: 'Full-Stack Engineering',
+            tools: ['React 19', 'TypeScript', 'Flask', 'Firebase', 'WebSockets'],
+            proficiency: 84,
+            color: '#3b82f6',
+            icon: MdCode,
+        },
+        {
+            label: 'Computer Vision & AI',
+            tools: ['YOLOv8', 'OpenCV', 'PyTorch', 'TensorFlow', 'ONNX'],
+            proficiency: 80,
+            color: '#8b5cf6',
+            icon: MdVisibility,
+        },
+        {
+            label: 'Industrial Automation',
+            tools: ['SCADA Dashboards', 'PLC Logic', 'Proteus', 'MATLAB', 'Simulink'],
+            proficiency: 76,
+            color: '#22c55e',
+            icon: MdBuildCircle,
+        },
+        {
+            label: 'IoT & Smart Systems',
+            tools: ['Blynk IoT', 'MQTT', 'UDP', 'OTA Updates', 'Edge AI'],
+            proficiency: 82,
+            color: '#f59e0b',
+            icon: MdWifi,
+        },
+        {
+            label: 'Power Electronics & EE',
+            tools: ['Fuzzy Logic', 'EV Drivers', 'ACS712', 'Mi Power', 'AutoCAD Elec.'],
+            proficiency: 72,
+            color: '#ef4444',
+            icon: MdBolt,
+        },
+    ];
 
-const ACHIEVEMENTS = [
-    {
-        year: '2026',
-        label: '1st Prize — Tamizhanskills Ideathon',
-        desc: 'Smart IoT Event & Venue Management Platform — New Prince Shri Bhavani College, Chennai',
-        badge: '🥇',
-        accent: '#f59e0b',
-    },
-    {
-        year: '2026',
-        label: '3rd Prize — Elixir 2026',
-        desc: 'Smart IoT Platform — Government College of Engineering, Erode',
-        badge: '🥉',
-        accent: '#ff6b2c',
-    },
-    {
-        year: '2025',
-        label: '3rd Prize — Oracle 2025 (GCT)',
-        desc: 'ROV-Based Underwater Crack Detection System — GCT Coimbatore',
-        badge: '🥉',
-        accent: '#ff6b2c',
-    },
-    {
-        year: '2025',
-        label: 'Certified — ARM Processors',
-        desc: 'Embedded Application Development using ARM — Maven Silicon',
-        badge: '📜',
-        accent: '#3b82f6',
-    },
-    {
-        year: '2024',
-        label: 'Certified — Google Cloud AI',
-        desc: 'Introduction to Generative AI — Google Cloud',
-        badge: '📜',
-        accent: '#3b82f6',
-    },
-    {
-        year: '2024',
-        label: 'ISTE Executive Member',
-        desc: 'Indian Society for Technical Education, KEC — Technical event organiser',
-        badge: '🎓',
-        accent: '#22c55e',
-    },
-];
+const ACHIEVEMENTS: Array<{
+    year: string;
+    label: string;
+    desc: string;
+    badgeIcon: IconType;
+    accent: string;
+}> = [
+        {
+            year: '2026',
+            label: '1st Prize — Tamizhanskills Ideathon',
+            desc: 'Smart IoT Event & Venue Management Platform — New Prince Shri Bhavani College, Chennai',
+            badgeIcon: MdWorkspacePremium,
+            accent: TOKEN.accent,
+        },
+        {
+            year: '2026',
+            label: '3rd Prize — Elixir 2026',
+            desc: 'Smart IoT Platform — Government College of Engineering, Erode',
+            badgeIcon: MdMilitaryTech,
+            accent: TOKEN.accent,
+        },
+        {
+            year: '2025',
+            label: '3rd Prize — Oracle 2025 (GCT)',
+            desc: 'ROV-Based Underwater Crack Detection System — GCT Coimbatore',
+            badgeIcon: MdMilitaryTech,
+            accent: TOKEN.accent,
+        },
+        {
+            year: '2025',
+            label: 'Certified — ARM Processors',
+            desc: 'Embedded Application Development using ARM — Maven Silicon',
+            badgeIcon: MdVerified,
+            accent: TOKEN.accent,
+        },
+        {
+            year: '2024',
+            label: 'Certified — Google Cloud AI',
+            desc: 'Introduction to Generative AI — Google Cloud',
+            badgeIcon: MdVerified,
+            accent: TOKEN.accent,
+        },
+        {
+            year: '2024',
+            label: 'ISTE Executive Member',
+            desc: 'Indian Society for Technical Education, KEC — Technical event organiser',
+            badgeIcon: MdEmojiEvents,
+            accent: TOKEN.accent,
+        },
+    ];
 
 const PROJECTS = [
     { name: 'Rod & Pipe Inspection', stack: 'YOLOv8 · OpenCV · ESP32-CAM', category: 'Vision' },
@@ -326,6 +346,7 @@ const StatCard = ({
     const inView = useInView(ref, { once: true, margin: '-60px' });
     const count = useCountUp(stat.value, 1200 + index * 100, inView);
     const prefersReduced = useReducedMotion();
+    const StatIcon = stat.icon;
 
     const rotateX = useTransform(mouseY, [-300, 300], prefersReduced ? [0, 0] : [4, -4]);
     const rotateY = useTransform(mouseX, [-300, 300], prefersReduced ? [0, 0] : [-4, 4]);
@@ -350,7 +371,7 @@ const StatCard = ({
                         color: stat.color,
                     }}
                 >
-                    {stat.icon}
+                    <StatIcon aria-hidden className="text-[1.15rem] sm:text-[1.25rem]" />
                 </div>
 
                 {/* Counter */}
@@ -385,6 +406,8 @@ const SkillRow = ({
     inView: boolean;
 }) => {
     const prefersReduced = useReducedMotion();
+    const DomainIcon = domain.icon;
+
     return (
         <motion.div
             initial={{ opacity: 0, x: -16 }}
@@ -396,9 +419,15 @@ const SkillRow = ({
             <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
                     <span
-                        className="inline-block w-2 h-2 rounded-full"
-                        style={{ background: domain.color }}
-                    />
+                        className="inline-flex h-6 w-6 items-center justify-center rounded-md border"
+                        style={{
+                            background: `color-mix(in srgb, ${domain.color} 14%, transparent)`,
+                            borderColor: `color-mix(in srgb, ${domain.color} 26%, transparent)`,
+                            color: domain.color,
+                        }}
+                    >
+                        <DomainIcon aria-hidden className="text-[0.9rem]" />
+                    </span>
                     <span className="text-[13px] font-bold text-sys-text-primary">{domain.label}</span>
                 </div>
                 <span className="text-[12px] font-bold" style={{ color: domain.color }}>
@@ -452,44 +481,58 @@ const AchievementItem = ({ item, index, inView }: {
     item: typeof ACHIEVEMENTS[number];
     index: number;
     inView: boolean;
-}) => (
-    <motion.div
-        initial={{ opacity: 0, x: 14 }}
-        animate={inView ? { opacity: 1, x: 0 } : {}}
-        transition={{ duration: 0.45, delay: 0.08 + index * 0.06, ease: EASE }}
-        className="flex gap-3 items-start group"
-    >
-        {/* Timeline dot + line */}
-        <div className="flex flex-col items-center gap-0 shrink-0 pt-1">
-            <span className="text-base leading-none">{item.badge}</span>
-            {index < ACHIEVEMENTS.length - 1 && (
-                <div
-                    className="w-px flex-1 mt-1"
-                    style={{ background: `linear-gradient(${item.accent}, transparent)`, minHeight: 28, opacity: 0.3 }}
-                />
-            )}
-        </div>
+}) => {
+    const BadgeIcon = item.badgeIcon;
 
-        {/* Content */}
-        <div className="pb-5 min-w-0">
-            <div className="flex items-center gap-2 mb-0.5">
+    return (
+        <motion.div
+            initial={{ opacity: 0, x: 14 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.45, delay: 0.08 + index * 0.06, ease: EASE }}
+            className="flex gap-3 items-start group"
+        >
+            {/* Timeline dot + line */}
+            <div className="flex flex-col items-center gap-0 shrink-0 pt-1">
                 <span
-                    className="text-[9px] font-bold uppercase tracking-widest px-1.5 py-0.5 rounded"
+                    aria-hidden
+                    className="flex h-7 w-7 items-center justify-center rounded-lg border"
                     style={{
-                        background: `color-mix(in srgb, ${item.accent} 14%, transparent)`,
-                        color: item.accent,
+                        background: 'color-mix(in srgb, var(--sys-accent) 12%, var(--sys-bg-secondary))',
+                        borderColor: 'color-mix(in srgb, var(--sys-accent) 30%, transparent)',
+                        color: 'var(--sys-accent)',
                     }}
                 >
-                    {item.year}
+                    <BadgeIcon className="text-[0.95rem]" />
                 </span>
+                {index < ACHIEVEMENTS.length - 1 && (
+                    <div
+                        className="w-px flex-1 mt-1"
+                        style={{ background: `linear-gradient(${item.accent}, transparent)`, minHeight: 28, opacity: 0.3 }}
+                    />
+                )}
             </div>
-            <p className="text-[12px] font-bold text-sys-text-primary leading-snug mb-0.5 group-hover:text-sys-accent transition-colors duration-200">
-                {item.label}
-            </p>
-            <p className="text-[11px] text-sys-text-secondary leading-relaxed">{item.desc}</p>
-        </div>
-    </motion.div>
-);
+
+            {/* Content */}
+            <div className="pb-5 min-w-0">
+                <div className="flex items-center gap-2 mb-0.5">
+                    <span
+                        className="text-[9px] font-bold uppercase tracking-widest px-1.5 py-0.5 rounded"
+                        style={{
+                            background: `color-mix(in srgb, ${item.accent} 14%, transparent)`,
+                            color: item.accent,
+                        }}
+                    >
+                        {item.year}
+                    </span>
+                </div>
+                <p className="text-[12px] font-bold text-sys-text-primary leading-snug mb-0.5 group-hover:text-sys-accent transition-colors duration-200">
+                    {item.label}
+                </p>
+                <p className="text-[11px] text-sys-text-secondary leading-relaxed">{item.desc}</p>
+            </div>
+        </motion.div>
+    );
+};
 
 /** Project pill for the project strip */
 const ProjectPill = ({ project, index, inView }: {
@@ -540,9 +583,9 @@ const AvailabilityBadge = () => (
             borderColor: 'color-mix(in srgb, var(--sys-success) 28%, transparent)',
         }}
     >
-        <span className="relative flex h-2.5 w-2.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sys-success opacity-60" />
-            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-sys-success" />
+        <span className="relative flex h-4 w-4 items-center justify-center text-sys-success" aria-hidden>
+            <span className="animate-ping absolute inline-flex h-2.5 w-2.5 rounded-full bg-sys-success opacity-60" />
+            <MdBolt className="relative text-[0.85rem]" />
         </span>
         <span className="text-[12px] font-bold text-sys-success">Available for hire — 2026</span>
     </div>
@@ -642,18 +685,19 @@ export default function QuantifiableImpact() {
                     className="mb-14"
                 >
                     {/* Eyebrow */}
-                    <div className="flex items-center gap-3 mb-4">
-                        <div className="w-7 h-px rounded-full bg-sys-accent" />
-                        <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-sys-accent">
+                    <div className="mb-4 flex items-center gap-4">
+                        <div className="h-0.5 w-8 bg-sys-accent" />
+                        <span className="text-[0.8rem] font-bold uppercase tracking-[0.16em] text-sys-accent">
                             Impact Dashboard
                         </span>
+                        <div className="h-0.5 w-8 bg-sys-accent" />
                     </div>
 
                     {/* Headline */}
                     <h2
                         id="impact-heading"
-                        className="m-0 mb-4 font-black tracking-tight text-sys-text-primary"
-                        style={{ fontSize: 'clamp(2.2rem, 5.5vw, 4rem)', lineHeight: 1.05, letterSpacing: '-0.03em' }}
+                        className="m-0 mb-4 font-sans font-extrabold tracking-tight text-sys-text-primary"
+                        style={{ fontSize: 'clamp(2.4rem, 5.5vw, 4.2rem)', lineHeight: 1.05, letterSpacing: '-0.03em' }}
                     >
                         Quantifiable{' '}
                         <span className="text-sys-accent">Impact.</span>
@@ -903,10 +947,7 @@ export default function QuantifiableImpact() {
                                 className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-white/15 border border-white/25 text-white text-[13px] font-bold backdrop-blur transition-all hover:bg-white/25 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
                                 aria-label="Email Mekesh Kumar"
                             >
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden>
-                                    <rect x="2" y="4" width="20" height="16" rx="3" stroke="currentColor" strokeWidth="2" />
-                                    <path d="M2 8l10 6 10-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                                </svg>
+                                <MdMailOutline aria-hidden className="text-[15px] sm:text-[16px]" />
                                 mekesh.engineer@gmail.com
                             </a>
 
@@ -917,9 +958,7 @@ export default function QuantifiableImpact() {
                                 className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-white text-sys-accent-dark text-[13px] font-bold transition-all hover:bg-white/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
                                 aria-label="View GitHub profile"
                             >
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-                                    <path d="M12 0C5.37 0 0 5.373 0 12c0 5.303 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.73.083-.73 1.205.085 1.84 1.237 1.84 1.237 1.07 1.835 2.807 1.305 3.492.998.108-.776.418-1.305.762-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.524.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.4 3-.405 1.02.005 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.652.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.605-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.298 24 12c0-6.627-5.373-12-12-12z" />
-                                </svg>
+                                <FaGithub aria-hidden className="text-[15px] sm:text-[16px]" />
                                 github.com/Mekesh-Engineer
                             </a>
                         </div>

@@ -6,42 +6,45 @@ The repository is structured to prioritize rapid onboarding, strict module isola
 
 ```text
 mekeshbuilds/
-|- .github/
-|  |- workflows/         # CI/CD deployment pipelines (GitHub Actions)
-|- public/
+|- coverage/             # Test coverage reports (Vitest)
+|- Docs/                 # Project documentation
+|- firebase/             # Firebase security rules
+|- public/               # Static public assets
 |  |- robots.txt
-|  |- manifest.webmanifest # PWA configuration and offline assets
+|- scripts/              # Custom workspace scripts
 |- src/
 |  |- App.tsx
 |  |- main.tsx           # Application entry point & provider composition
-|  |- assets/            # Static media, 3D models (.glb/.gltf), and fonts
-|  |- components/        # Granular UI modules (Bento, 3D, Shared)
+|  |- vite-env.d.ts      # Vite type declarations
+|  |- assets/            # Static media, icons, and images
+|  |- components/        # Granular UI modules (Builder, Canvas, Shared, etc.)
 |  |- data/              # Static TypeScript data files (project-list, blog-posts)
 |  |- features/          # Domain-driven feature modules
 |  |  |- admin/          # Admin dashboard feature logic
-|  |  |- auth/           # Auth hooks and services (useAuth, etc.)
+|  |  |- auth/           # Auth hooks and services
 |  |  |- public/         # Public portfolio feature logic
 |  |- forms/             # Zod validation schemas
-|  |- hooks/             # Stateful orchestration (AI, PWA, Data)
-|  |- lib/               # 3rd-party client singletons (Firebase)
+|  |- hooks/             # Stateful orchestration (UI, Data, Sync)
+|  |- lib/               # 3rd-party client singletons (Firebase) & external utils
 |  |- pages/             # Route-level view components
 |  |  |- admin/          # Admin page components
 |  |  |- auth/           # Auth page components
 |  |  |- public/         # Public-facing page components
-|  |- routes/            # Route topology and Guard wrappers
+|  |  |- test/           # Local test pages / sandboxes
+|  |- routes/            # Route topology (AppRouter)
 |  |- services/          # Firebase API abstraction layer
 |  |- store/             # Zustand global state slices
 |  |- styles/            # Tailwind CSS v4 variables & custom tokens
 |  |- test/              # Vitest global mocks & setup
 |  |- types/             # TypeScript interfaces & Firestore converters
 |  |- utils/             # Pure helper functions
+|- firebase.json         # Firebase project configuration
 |- index.html
 |- package.json
 |- tsconfig.json
+|- tsconfig.node.json
 |- vite.config.ts        # Vite + PWA + manual chunking config
 |- vitest.config.ts      # Test environment config (jsdom)
-|- .env.example
-|- README.md
 ```
 
 ````
@@ -67,39 +70,40 @@ Static TypeScript data files used as fallback or seed content:
 
 The visual building blocks of the application, strictly separated by domain:
 
-- `3D/`: WebGL components utilizing React Three Fiber and Drei for interactive storytelling.
-- `Bento/`: Reusable CSS Grid blocks constructing the core Bento Box layouts.
-- `Canvas/`: High-level portfolio sections (Hero, About, Projects) consumed by both the public profile and the live builder.
-- `auth/`: Login modal and Firebase authentication UI.
+- `auth/`: Authentication UI and elements.
+- `Builder/`: Components orchestrating the live portfolio builder interface.
+- `Canvas/`: High-level portfolio sections consumed by both the public profile and the live builder.
+- `forms/`: Form UI components encapsulating logic and presentation.
 - `guards/`: Route protection wrappers (`AuthGuard`, `AdminGuard`).
 - `layout/`: Shared navigational shells (`AdminLayout`, `PublicLayout`).
+- `Pages/`: Distinct section components specifically mapped to full pages.
 - `Shared/`: Agnostic, highly reusable primitives (`Button`, `Card`, `Skeleton`, `Modal`).
 
 ### `src/hooks`
 
 Stateful logic, side effects, and hardware/API abstractions:
 
-- `useAuth`: Firebase session bootstrap and role hydration.
-- `useAiContext`: Evaluates visitor intent to trigger layout/bio personalization.
-- `usePwaSync`: Manages offline status and service worker update prompts.
+- `usePortfolioData`: Fetches and syncs portfolio profile configurations.
+- `useRealtimeSync`: Real-time data listener implementation.
+- `useAutoSave`: Debounced persistence hook for dashboard form state.
 - `useThemeEngine`: Mutates DOM CSS variables for real-time visual updates.
+- `useMotionPreference`: Respects user's reduced-motion device settings via Framer Motion.
 
 ### `src/lib`
 
 External client instantiations and heavy SDK setups:
 
-- `firebaseClient.ts`: The _sole_ entry point for initializing the Firebase App, Auth, and Firestore instances, ensuring singleton performance.
+- `firebaseClient.ts`: Entry point for initializing the Firebase App, Auth, and Firestore instances, ensuring singleton performance.
+- `utils/`: Associated external library configurations or utilities.
 
 ### `src/services`
 
 The data abstraction layer. UI components **never** interact with the database directly.
 
-- `authService.ts`
-- `profileService.ts`
-- `adminService.ts`
-- `ctaMailService.ts`
-- `serviceError.ts`
-- `aiService.ts` **[PLANNED — Bridge to Firebase Cloud Functions for AI inference]**
+- `adminService.ts`: Admin operations (fetching configurations, user stats).
+- `profileService.ts`: Reads/writes core user profile data.
+- `ctaMailService.ts`: Handles automated contact form email dispatches.
+- `serviceError.ts`: Universal API error wrapping and reporting.
 
 ### `src/types`
 

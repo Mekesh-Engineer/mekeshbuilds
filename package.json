@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "deploy": "firebase deploy --project mekeshbuild",
     "deploy:hosting": "firebase deploy --only hosting --project mekeshbuild",
-    "deploy:rules": "firebase deploy --only firestore:rules,database:rules --project mekeshbuild",
+    "deploy:rules": "firebase deploy --only firestore:rules,database:rules,storage --project mekeshbuild",
     "lint": "eslint src --ext .ts,.tsx",
     "test": "vitest run",
     "test:ci": "vitest run",

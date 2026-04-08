@@ -150,37 +150,18 @@ export default function ProjectSection() {
                     transition={{ duration: 0.6, ease: EASE }}
                     className="mb-12 flex flex-col justify-between gap-6 md:flex-row md:items-end"
                 >
-                    <div className="max-w-2xl">
-                        <span className="mb-2 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-(--sys-accent)">
-                            <span className="inline-block h-[1.5px] w-7 rounded-full bg-(--sys-accent)" />
+                    <div className="max-w-3xl">
+                        <span className="mb-4 inline-flex items-center gap-4 text-[0.8rem] font-bold uppercase tracking-[0.16em] text-(--sys-accent)">
+                            <span className="inline-block h-0.5 w-8 bg-(--sys-accent)" />
                             Featured work
+                            <span className="inline-block h-0.5 w-8 bg-(--sys-accent)" />
                         </span>
 
-                        <h2 className="m-0 flex flex-col leading-none" style={{ fontFamily: 'var(--font-sans)' }}>
-                            <span
-                                className="text-[clamp(2rem,4.5vw,3.4rem)] font-light tracking-[-0.02em]"
-                                style={{ color: 'color-mix(in srgb, var(--sys-text-primary) 45%, transparent)' }}
-                            >
-                                Let&apos;s have a look at my
-                            </span>
-
-                            <span
-                                className="relative inline-block text-[clamp(2.6rem,6vw,4.8rem)] font-bold italic tracking-[-0.03em]"
-                                style={{
-                                    color: 'var(--sys-text-primary)',
-                                    background:
-                                        'linear-gradient(135deg, color-mix(in srgb, var(--sys-text-primary) 88%, white 12%) 25%, color-mix(in srgb, var(--sys-accent) 75%, var(--sys-text-primary) 25%) 100%)',
-                                    WebkitBackgroundClip: 'text',
-                                    WebkitTextFillColor: 'transparent',
-                                    backgroundClip: 'text',
-                                }}
-                            >
-                                Projects
-                                <span className="absolute -bottom-2 left-0 h-[4px] w-full rounded-full bg-(--sys-accent) opacity-60 blur-[2px]" />
-                            </span>
+                        <h2 className="m-0 whitespace-nowrap font-sans text-[clamp(1.5rem,5vw,3.25rem)] font-extrabold leading-[1.05] tracking-[-0.03em] text-(--sys-text-primary)">
+                            Let&apos;s have a look at my <span className="text-(--sys-accent)">Projects.</span>
                         </h2>
 
-                        <p className="mt-4 max-w-xl text-[15px] leading-[1.8] text-(--sys-text-secondary)">
+                        <p className="mt-6 max-w-xl text-[15px] leading-[1.8] text-(--sys-text-secondary)">
                             Recruiter-friendly highlights with engineering outcomes, stack depth, and deployment-ready implementation detail.
                         </p>
                     </div>

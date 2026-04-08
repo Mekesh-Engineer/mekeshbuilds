@@ -82,13 +82,6 @@ const Envelope = () => (
     </svg>
 );
 
-const PulseRing = () => (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.8" opacity="0.5" />
-        <circle cx="12" cy="12" r="5" stroke="currentColor" strokeWidth="1.8" />
-    </svg>
-);
-
 // ─── Main Section ─────────────────────────────────────────────────────────────
 export default function CTASection({ data }: CTASectionProps) {
     const [email, setEmail] = useState("");
@@ -212,28 +205,17 @@ export default function CTASection({ data }: CTASectionProps) {
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, ease: E }}
                     >
-                        <span className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-(--sys-accent)">
-                            <PulseRing />
+                        <span className="mb-4 inline-flex items-center gap-4 text-[0.8rem] font-bold uppercase tracking-[0.16em] text-(--sys-accent)">
+                            <span className="inline-block h-0.5 w-8 bg-(--sys-accent)" />
                             Opportunity ready
+                            <span className="inline-block h-0.5 w-8 bg-(--sys-accent)" />
                         </span>
 
-                        <h2 className="m-0 flex flex-col leading-none" style={{ fontFamily: "var(--font-sans)" }}>
-                            <span
-                                className="text-[clamp(1.9rem,4.6vw,3.3rem)] font-light tracking-[-0.02em]"
-                                style={{ color: "color-mix(in srgb, var(--sys-text-primary) 45%, transparent)" }}
-                            >
-                                {content.titleLineOne}
-                            </span>
-                            <span
-                                className="relative mt-1 w-fit text-[clamp(2.3rem,5.8vw,4.3rem)] font-black italic tracking-[-0.03em]"
-                                style={{ fontFamily: "var(--font-display)", color: "var(--sys-text-primary)" }}
-                            >
-                                {content.accentText}
-                                <span className="absolute -bottom-2 left-1 h-[3px] w-[64%] rounded-full bg-linear-to-r from-(--sys-accent) to-transparent" />
-                            </span>
+                        <h2 className="m-0 font-sans text-[clamp(2.2rem,5.2vw,4rem)] font-extrabold leading-[1.05] tracking-[-0.03em] text-(--sys-text-primary)">
+                            {content.titleLineOne} <span className="text-(--sys-accent)">{content.accentText}</span>
                         </h2>
 
-                        <p className="mt-4 max-w-3xl text-[15px] leading-[1.85] text-(--sys-text-secondary)">
+                        <p className="mt-6 max-w-3xl text-[15px] leading-[1.85] text-(--sys-text-secondary)">
                             Recruiter-friendly contact flow: send your email and I will respond with role fit, project links,
                             and next-step availability.
                         </p>

@@ -119,27 +119,25 @@ const blogSectionStyles = `
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: 0.9rem;
 }
 
 /* ── Eyebrow label ──────────────────────────────────────────── */
 .bs__eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 0.65rem;
-
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.18em;
+  gap: 1rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--sys-accent, #ff6b2c);
-  opacity: 0.9;
 }
 
 .bs__eyebrow-line {
   display: inline-block;
-  width: 28px;
-  height: 1.5px;
+  width: 32px;
+  height: 2px;
   background: var(--sys-accent, #ff6b2c);
   border-radius: 2px;
 }
@@ -147,29 +145,15 @@ const blogSectionStyles = `
 /* ── Main title ─────────────────────────────────────────────── */
 .bs__title {
   margin: 0;
-  display: flex;
-  flex-direction: column;
-  line-height: 1;
-}
-
-.bs__title-top {
-  font-size: clamp(2rem, 4.5vw, 3.4rem);
-  font-weight: 300;
-  letter-spacing: -0.02em;
-  color: color-mix(in srgb, var(--sys-text-primary) 45%, transparent);
-}
-
-.bs__title-bottom {
-  font-size: clamp(2.6rem, 6vw, 4.8rem);
-  font-weight: 700;
-  font-style: italic;
+  font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+  font-weight: 800;
+  line-height: 1.05;
   letter-spacing: -0.03em;
   color: var(--sys-text-primary);
-  /* Subtle gradient on the display word */
-  background: linear-gradient(135deg, #fff 30%, rgba(255, 107, 44, 0.75) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+}
+
+.bs__title-accent {
+  color: var(--sys-accent, #ff6b2c);
 }
 
 /* ── Floating accent chip ───────────────────────────────────── */
@@ -675,12 +659,8 @@ const blogSectionStyles = `
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .bs__title-top {
-    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
-  }
-
-  .bs__title-bottom {
-    font-size: clamp(2.2rem, 5vw, 3.6rem);
+  .bs__title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
   }
 
   .bs__card-wrap .blog-card {
@@ -798,16 +778,6 @@ const blogSectionStyles = `
 }
 
 /* ── Light mode ─────────────────────────────────────────────── */
-[data-mode='light'] .bs__title-bottom {
-  background: linear-gradient(
-    135deg,
-    color-mix(in srgb, var(--sys-text-primary) 95%, white 5%) 20%,
-    color-mix(in srgb, var(--sys-accent) 65%, var(--sys-text-primary) 35%) 100%
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
 
 [data-mode='light'] .bs__card-shadow {
   background: linear-gradient(
@@ -879,203 +849,198 @@ const blogSectionStyles = `
 const EASE = [0.32, 0.72, 0, 1] as const;
 
 const STAGGER_CHILDREN = {
-    hidden: {},
-    show: {
-        transition: {
-            staggerChildren: 0.15,
-            delayChildren: 0.25,
-        },
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.15,
+      delayChildren: 0.25,
     },
+  },
 };
 
 const CARD_VARIANT = {
-    hidden: { opacity: 0, y: 36, scale: 0.96 },
-    show: {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        transition: { duration: 0.7, ease: EASE },
-    },
+  hidden: { opacity: 0, y: 36, scale: 0.96 },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.7, ease: EASE },
+  },
 };
 
 interface BlogSectionProps {
-    posts?: BlogCardItem[];
-    headingTop?: string;
-    headingBottom?: string;
-    ctaLabel?: string;
-    onSeeAll?: () => void;
+  posts?: BlogCardItem[];
+  headingTop?: string;
+  headingBottom?: string;
+  ctaLabel?: string;
+  onSeeAll?: () => void;
 }
 
 const ALL_CATEGORIES = 'All Topics';
 
 function parseDate(date?: string) {
-    if (!date) return 0;
-    const ts = Date.parse(date);
-    return Number.isNaN(ts) ? 0 : ts;
+  if (!date) return 0;
+  const ts = Date.parse(date);
+  return Number.isNaN(ts) ? 0 : ts;
 }
 
 export default function BlogSection({
-    posts = BLOG_POSTS,
-    headingTop = 'Engineering',
-    headingBottom = 'insights',
-    ctaLabel = 'See All',
-    onSeeAll,
+  posts = BLOG_POSTS,
+  headingTop = 'Engineering',
+  headingBottom = 'insights',
+  ctaLabel = 'See All',
+  onSeeAll,
 }: BlogSectionProps) {
-    const [activeCategory, setActiveCategory] = useState(ALL_CATEGORIES);
-    const [featuredOnly, setFeaturedOnly] = useState(false);
+  const [activeCategory, setActiveCategory] = useState(ALL_CATEGORIES);
+  const [featuredOnly, setFeaturedOnly] = useState(false);
 
-    const categories = useMemo(
-        () => [ALL_CATEGORIES, ...Array.from(new Set(posts.map((post) => post.category)))],
-        [posts],
-    );
+  const categories = useMemo(
+    () => [ALL_CATEGORIES, ...Array.from(new Set(posts.map((post) => post.category)))],
+    [posts],
+  );
 
-    const visiblePosts = useMemo(() => {
-        const filtered = posts.filter((post) => {
-            const categoryPass = activeCategory === ALL_CATEGORIES || post.category === activeCategory;
-            const featuredPass = !featuredOnly || !!post.featured;
-            return categoryPass && featuredPass;
-        });
+  const visiblePosts = useMemo(() => {
+    const filtered = posts.filter((post) => {
+      const categoryPass = activeCategory === ALL_CATEGORIES || post.category === activeCategory;
+      const featuredPass = !featuredOnly || !!post.featured;
+      return categoryPass && featuredPass;
+    });
 
-        return filtered.sort((a, b) => parseDate(b.date) - parseDate(a.date));
-    }, [activeCategory, featuredOnly, posts]);
+    return filtered.sort((a, b) => parseDate(b.date) - parseDate(a.date));
+  }, [activeCategory, featuredOnly, posts]);
 
-    const renderedPosts = visiblePosts.slice(0, 3);
+  const renderedPosts = visiblePosts.slice(0, 3);
 
-    return (
-        <>
-            <style>{blogSectionStyles}</style>
-            <section className="bs" id="blog" aria-label="Blog post section">
-                {/* ── Ambient floating decoration ── */}
-                <div className="bs__orb bs__orb--a" aria-hidden="true" />
-                <div className="bs__orb bs__orb--b" aria-hidden="true" />
-                <div className="bs__orb bs__orb--c" aria-hidden="true" />
-                <div className="bs__noise" aria-hidden="true" />
+  return (
+    <>
+      <style>{blogSectionStyles}</style>
+      <section className="bs" id="blog" aria-label="Blog post section">
+        {/* ── Ambient floating decoration ── */}
+        <div className="bs__orb bs__orb--a" aria-hidden="true" />
+        <div className="bs__orb bs__orb--b" aria-hidden="true" />
+        <div className="bs__orb bs__orb--c" aria-hidden="true" />
+        <div className="bs__noise" aria-hidden="true" />
 
-            <div className="bs__inner">
-                {/* ── Header row ── */}
-                <motion.header
-                    className="bs__header"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: '-60px' }}
-                    transition={{ duration: 0.6, ease: EASE }}
-                >
-                    <div className="bs__heading-wrap">
-                        {/* Decorative index label */}
-                        <span className="bs__eyebrow" aria-hidden="true">
-                            <span className="bs__eyebrow-line" />
-                            Latest posts
-                        </span>
+        <div className="bs__inner">
+          {/* ── Header row ── */}
+          <motion.header
+            className="bs__header"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.6, ease: EASE }}
+          >
+            <div className="bs__heading-wrap">
+              {/* Decorative index label */}
+              <span className="bs__eyebrow" aria-hidden="true">
+                <span className="bs__eyebrow-line" />
+                Latest posts
+                <span className="bs__eyebrow-line" />
+              </span>
 
-                        <h2 className="bs__title">
-                            <span className="bs__title-top">{headingTop}</span>
-                            <span className="bs__title-bottom">{headingBottom}</span>
-                        </h2>
-
-                        {/* Floating accent chip */}
-                        <div className="bs__accent-chip" aria-hidden="true">
-                            ✦ recruiter-ready reads
-                        </div>
-                    </div>
-
-                    <div className="bs__header-right">
-                        {/* Post count badge */}
-                        <div className="bs__count-badge" aria-hidden="true">
-                            <span className="bs__count-number">{visiblePosts.length}</span>
-                            <span className="bs__count-label">articles</span>
-                        </div>
-
-                        <button
-                            className="bs__cta"
-                            type="button"
-                            onClick={onSeeAll}
-                            aria-label={`${ctaLabel} blog posts`}
-                        >
-                            <span className="bs__cta-label">{ctaLabel}</span>
-                            <span className="bs__cta-arrow" aria-hidden="true">
-                                <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                                    <path
-                                        d="M4 10h12M11 5l5 5-5 5"
-                                        stroke="currentColor"
-                                        strokeWidth="1.6"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    />
-                                </svg>
-                            </span>
-                        </button>
-                    </div>
-                </motion.header>
-
-                {/* ── Divider ── */}
-                <motion.div
-                    className="bs__divider"
-                    initial={{ scaleX: 0 }}
-                    whileInView={{ scaleX: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.7, delay: 0.15, ease: EASE }}
-                    aria-hidden="true"
-                />
-
-                <motion.div
-                    initial={{ opacity: 0, y: 14 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: '-40px' }}
-                    transition={{ duration: 0.5, ease: EASE }}
-                    className="bs__filters"
-                    role="tablist"
-                    aria-label="Filter blog topics"
-                >
-                    {categories.map((category) => (
-                        <button
-                            key={category}
-                            type="button"
-                            role="tab"
-                            aria-selected={activeCategory === category}
-                            className={`bs__filter-chip ${activeCategory === category ? 'is-active' : ''}`}
-                            onClick={() => setActiveCategory(category)}
-                        >
-                            {category}
-                        </button>
-                    ))}
-
-                    <button
-                        type="button"
-                        aria-pressed={featuredOnly}
-                        className={`bs__featured-toggle ${featuredOnly ? 'is-active' : ''}`}
-                        onClick={() => setFeaturedOnly((prev) => !prev)}
-                    >
-                        Featured only
-                    </button>
-                </motion.div>
-
-                {/* ── Card grid ── */}
-                <motion.div
-                    className="bs__grid"
-                    variants={STAGGER_CHILDREN}
-                    initial="hidden"
-                    whileInView="show"
-                    viewport={{ once: true, margin: '-40px' }}
-                >
-                    {renderedPosts.map((post, idx) => (
-                        <motion.div
-                            key={post.id}
-                            className="bs__card-wrap"
-                            variants={CARD_VARIANT}
-                            whileHover={{ y: -5 }}
-                        >
-                            {/* Per-card ordinal number */}
-                            <span className="bs__card-index" aria-hidden="true">
-                                {String(idx + 1).padStart(2, '0')}
-                            </span>
-                            {/* Offset shadow backing — testimonial pattern */}
-                            <div className="bs__card-shadow" aria-hidden="true" />
-                            <BlogCard item={post} variant="blog-post" />
-                        </motion.div>
-                    ))}
-                </motion.div>
+              <h2 className="bs__title">
+                {headingTop} <span className="bs__title-accent">{headingBottom}.</span>
+              </h2>
             </div>
-            </section>
-        </>
-    );
+
+            <div className="bs__header-right">
+              {/* Post count badge */}
+              <div className="bs__count-badge" aria-hidden="true">
+                <span className="bs__count-number">{visiblePosts.length}</span>
+                <span className="bs__count-label">articles</span>
+              </div>
+
+              <button
+                className="bs__cta"
+                type="button"
+                onClick={onSeeAll}
+                aria-label={`${ctaLabel} blog posts`}
+              >
+                <span className="bs__cta-label">{ctaLabel}</span>
+                <span className="bs__cta-arrow" aria-hidden="true">
+                  <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                    <path
+                      d="M4 10h12M11 5l5 5-5 5"
+                      stroke="currentColor"
+                      strokeWidth="1.6"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
+              </button>
+            </div>
+          </motion.header>
+
+          {/* ── Divider ── */}
+          <motion.div
+            className="bs__divider"
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.15, ease: EASE }}
+            aria-hidden="true"
+          />
+
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.5, ease: EASE }}
+            className="bs__filters"
+            role="tablist"
+            aria-label="Filter blog topics"
+          >
+            {categories.map((category) => (
+              <button
+                key={category}
+                type="button"
+                role="tab"
+                aria-selected={activeCategory === category}
+                className={`bs__filter-chip ${activeCategory === category ? 'is-active' : ''}`}
+                onClick={() => setActiveCategory(category)}
+              >
+                {category}
+              </button>
+            ))}
+
+            <button
+              type="button"
+              aria-pressed={featuredOnly}
+              className={`bs__featured-toggle ${featuredOnly ? 'is-active' : ''}`}
+              onClick={() => setFeaturedOnly((prev) => !prev)}
+            >
+              Featured only
+            </button>
+          </motion.div>
+
+          {/* ── Card grid ── */}
+          <motion.div
+            className="bs__grid"
+            variants={STAGGER_CHILDREN}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: '-40px' }}
+          >
+            {renderedPosts.map((post, idx) => (
+              <motion.div
+                key={post.id}
+                className="bs__card-wrap"
+                variants={CARD_VARIANT}
+                whileHover={{ y: -5 }}
+              >
+                {/* Per-card ordinal number */}
+                <span className="bs__card-index" aria-hidden="true">
+                  {String(idx + 1).padStart(2, '0')}
+                </span>
+                {/* Offset shadow backing — testimonial pattern */}
+                <div className="bs__card-shadow" aria-hidden="true" />
+                <BlogCard item={post} variant="blog-post" />
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+    </>
+  );
 }

@@ -319,128 +319,190 @@ const ProfRing: React.FC<{ pct: number; catColor: string; size?: number }> = ({ 
   );
 };
 
-const OrbitPill: React.FC<{ skill: Skill; catColor: string; isSelected: boolean; reduced: boolean; onClick: () => void }> = ({ skill, catColor, isSelected, reduced, onClick }) => (
-  <motion.button
-    type="button"
-    onClick={onClick}
-    aria-pressed={isSelected}
-    aria-label={`Select ${skill.name}`}
-    whileHover={reduced ? {} : { scale: 1.06, y: -3 }}
-    whileTap={reduced ? {} : { scale: 0.94 }}
-    style={{
-      display: 'flex', alignItems: 'center', gap: '0.5rem',
-      padding: '0.44rem 1.1rem', borderRadius: '9999px',
-      border: `1.5px solid ${isSelected ? catColor : PLANE_BORDER}`,
-      cursor: 'pointer', outline: 'none', flexShrink: 0,
-      whiteSpace: 'nowrap',
-      background: isSelected ? `color-mix(in srgb,${catColor} 10%,${PLANE_SURFACE})` : PLANE_SURFACE,
-      boxShadow: isSelected ? `0 6px 18px color-mix(in srgb,${catColor} 22%,transparent), 0 0 0 1px ${catColor}` : '0 6px 16px rgba(0,0,0,0.3)',
-      transition: 'border-color 0.25s cubic-bezier(0.25,0.1,0.25,1), box-shadow 0.25s cubic-bezier(0.25,0.1,0.25,1), background 0.25s cubic-bezier(0.25,0.1,0.25,1)',
-    }}
-    className="focus-visible:ring-2 focus-visible:ring-[var(--sys-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--sys-bg-primary)]"
-  >
-    <span style={{ display: 'flex', fontSize: '1.1rem', color: isSelected ? catColor : PLANE_TEXT, flexShrink: 0 }}>{resolveIcon(skill.iconKey)}</span>
-    <span style={{ fontSize: '0.8rem', fontWeight: 800, color: isSelected ? catColor : PLANE_TEXT, letterSpacing: '-0.01em' }}>{skill.name}</span>
-    {isSelected && <span style={{ width: 6, height: 6, borderRadius: '50%', background: catColor, flexShrink: 0, animation: 'ta-breathe 2s ease-in-out infinite', transition: 'background 0.4s' }} />}
-  </motion.button>
-);
-
-const SkillPanel: React.FC<{ skill: Skill; category: SkillCategory }> = ({ skill: sk, category: cat }) => (
-  <AnimatePresence mode="wait">
-    <motion.div
-      key={sk.id}
-      initial={{ rotateY: -55, opacity: 0, scale: 0.96 }}
-      animate={{ rotateY: 0, opacity: 1, scale: 1 }}
-      exit={{ rotateY: 55, opacity: 0, scale: 0.96 }}
-      transition={{ duration: 0.45, ease: EASE_C }}
+const OrbitPill: React.FC<{ skill: Skill; catColor: string; isSelected: boolean; reduced: boolean; onClick: () => void }> = ({ skill, catColor: _, isSelected, reduced, onClick }) => {
+  const accent = ACCENT;
+  return (
+    <motion.button
+      type="button"
+      onClick={onClick}
+      aria-pressed={isSelected}
+      aria-label={`Select ${skill.name}`}
+      whileHover={reduced ? {} : { scale: 1.06, y: -3 }}
+      whileTap={reduced ? {} : { scale: 0.94 }}
       style={{
-        height: '100%', borderRadius: '1.5rem',
-        border: `1px solid color-mix(in srgb,${cat.color} 16%,${PLANE_BORDER})`,
-        background: PLANE_SURFACE,
-        boxShadow: [
-          `0 0 0 1px color-mix(in srgb,${cat.color} 8%,transparent)`,
-          '0 12px 40px rgba(0,0,0,0.45)',
-          'inset 0 1px 0 rgba(255,255,255,0.12)',
-        ].join(', '),
-        backdropFilter: 'blur(16px)',
-        display: 'flex', flexDirection: 'column',
-        overflow: 'hidden', position: 'relative',
+        display: 'flex', alignItems: 'center', gap: '0.5rem',
+        padding: '0.44rem 1.1rem', borderRadius: '9999px',
+        border: isSelected ? '1px solid transparent' : `1px solid color-mix(in srgb, var(--sys-text-primary) 15%, transparent)`,
+        cursor: 'pointer', outline: 'none', flexShrink: 0,
+        whiteSpace: 'nowrap',
+        background: isSelected ? `linear-gradient(135deg, ${accent} 0%, color-mix(in srgb, ${accent} 80%, black 20%) 100%)` : PLANE_SURFACE,
+        boxShadow: isSelected ? `0 8px 16px color-mix(in srgb, ${accent} 30%, transparent)` : '0 4px 12px rgba(0,0,0,0.1)',
+        color: isSelected ? '#ffffff' : PLANE_TEXT,
+        transition: 'border-color 0.25s cubic-bezier(0.25,0.1,0.25,1), box-shadow 0.25s cubic-bezier(0.25,0.1,0.25,1), background 0.25s cubic-bezier(0.25,0.1,0.25,1), color 0.25s',
       }}
+      className="focus-visible:ring-2 focus-visible:ring-[var(--sys-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--sys-bg-primary)] backdrop-blur-sm"
     >
-      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2.5, background: `linear-gradient(90deg,${cat.color},color-mix(in srgb,${cat.color} 30%,transparent))`, transition: 'background 0.5s ease' }} />
-      <div aria-hidden style={{ position: 'absolute', top: 0, left: 0, width: 220, height: 220, background: `radial-gradient(circle at top left,color-mix(in srgb,${cat.color} 7%,transparent) 0%,transparent 68%)`, pointerEvents: 'none', transition: 'background 0.5s ease' }} />
-      <div aria-hidden style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, overflow: 'hidden', pointerEvents: 'none' }}>
-        <div style={{ position: 'absolute', top: 0, bottom: 0, width: '35%', background: 'linear-gradient(90deg,transparent,rgba(154,163,184,0.14),transparent)', animation: 'ta-shimmer 5s ease-in-out 0.8s infinite' }} />
-      </div>
+      <span style={{ display: 'flex', fontSize: '1.1rem', color: isSelected ? '#ffffff' : accent, flexShrink: 0 }}>{resolveIcon(skill.iconKey)}</span>
+      <span style={{ fontSize: '0.8rem', fontWeight: 800, color: 'inherit', letterSpacing: '-0.01em' }}>{skill.name}</span>
+      {isSelected && <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#ffffff', flexShrink: 0, animation: 'ta-breathe 2s ease-in-out infinite', transition: 'background 0.4s' }} />}
+    </motion.button>
+  );
+};
 
-      <div style={{ flex: 1, overflowY: 'auto', padding: '1.75rem', display: 'flex', flexDirection: 'column', gap: '1rem', scrollbarWidth: 'none' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-          <span style={{ fontSize: '0.52rem', fontWeight: 900, letterSpacing: '0.18em', textTransform: 'uppercase', color: cat.color, transition: 'color 0.4s' }}>Active Selection</span>
-          <span style={{ fontSize: '0.6rem', fontWeight: 600, color: PLANE_TEXT_MUTED, letterSpacing: '0.04em' }}>{cat.tagline}</span>
+const FloatingSkillOrb: React.FC<{ skill: Skill; total: number; index: number; catColor: string; isSelected: boolean; onClick: () => void }> = ({ skill, total, index, catColor: _, isSelected, onClick }) => {
+  const accent = ACCENT;
+  // Distribute along an ellipse (wider X to handle text safely)
+  const angle = (index / total) * Math.PI * 2 - Math.PI / 2; // Starts from top
+  const radiusX = 36; // % from center
+  const radiusY = 36; // % from center
+
+  const top = `${50 + Math.sin(angle) * radiusY}%`;
+  const left = `${50 + Math.cos(angle) * radiusX}%`;
+
+  return (
+    <motion.button
+      type="button"
+      onClick={onClick}
+      aria-label={`Select ${skill.name}`}
+      aria-pressed={isSelected}
+      initial={{ opacity: 0, scale: 0 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0 }}
+      whileHover={{ scale: 1.08, y: -2 }}
+      whileTap={{ scale: 0.94 }}
+      style={{
+        position: 'absolute',
+        top,
+        left,
+        x: '-50%',
+        y: '-50%',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '0.4rem',
+        padding: '0.4rem 1rem',
+        borderRadius: '9999px',
+        whiteSpace: 'nowrap',
+        pointerEvents: 'auto',
+        background: isSelected ? `linear-gradient(135deg, ${accent} 0%, color-mix(in srgb, ${accent} 80%, black 20%) 100%)` : 'color-mix(in srgb, var(--sys-text-primary) 5%, var(--sys-bg-primary))',
+        color: isSelected ? '#ffffff' : 'var(--sys-text-primary)',
+        border: `1px solid ${isSelected ? 'transparent' : 'color-mix(in srgb, var(--sys-text-primary) 20%, transparent)'}`,
+        boxShadow: isSelected
+          ? `0 8px 20px color-mix(in srgb, ${accent} 40%, transparent)`
+          : '0 4px 12px rgba(0, 0, 0, 0.15)',
+        transition: 'background 0.3s, border-color 0.3s, box-shadow 0.3s, color 0.3s',
+        zIndex: 30, // Hovered or selected skills need to be above the portrait
+      }}
+      className="focus-visible:ring-2 focus-visible:ring-[var(--sys-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--sys-bg-primary)] backdrop-blur-md"
+    >
+      <span style={{ fontSize: '1.2rem', color: isSelected ? '#ffffff' : accent, flexShrink: 0, transition: 'color 0.3s' }}>
+        {resolveIcon(skill.iconKey)}
+      </span>
+      <span style={{ fontSize: '0.85rem', fontWeight: 800, letterSpacing: '-0.02em', flexShrink: 0 }}>
+        {skill.name}
+      </span>
+    </motion.button>
+  );
+};
+
+const SkillPanel: React.FC<{ skill: Skill; category: SkillCategory }> = ({ skill: sk, category: cat }) => {
+  const accent = ACCENT;
+  return (
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={sk.id}
+        initial={{ rotateY: -55, opacity: 0, scale: 0.96 }}
+        animate={{ rotateY: 0, opacity: 1, scale: 1 }}
+        exit={{ rotateY: 55, opacity: 0, scale: 0.96 }}
+        transition={{ duration: 0.45, ease: EASE_C }}
+        style={{
+          height: '100%', borderRadius: '1.5rem',
+          border: `1px solid color-mix(in srgb,${accent} 16%,${PLANE_BORDER})`,
+          background: PLANE_SURFACE,
+          boxShadow: [
+            `0 0 0 1px color-mix(in srgb,${accent} 8%,transparent)`,
+            '0 12px 40px rgba(0,0,0,0.45)',
+            'inset 0 1px 0 rgba(255,255,255,0.12)',
+          ].join(', '),
+          backdropFilter: 'blur(16px)',
+          display: 'flex', flexDirection: 'column',
+          overflow: 'hidden', position: 'relative',
+        }}
+      >
+        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2.5, background: `linear-gradient(90deg,${accent},color-mix(in srgb,${accent} 30%,transparent))`, transition: 'background 0.5s ease' }} />
+        <div aria-hidden style={{ position: 'absolute', top: 0, left: 0, width: 220, height: 220, background: `radial-gradient(circle at top left,color-mix(in srgb,${accent} 7%,transparent) 0%,transparent 68%)`, pointerEvents: 'none', transition: 'background 0.5s ease' }} />
+        <div aria-hidden style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, overflow: 'hidden', pointerEvents: 'none' }}>
+          <div style={{ position: 'absolute', top: 0, bottom: 0, width: '35%', background: 'linear-gradient(90deg,transparent,rgba(154,163,184,0.14),transparent)', animation: 'ta-shimmer 5s ease-in-out 0.8s infinite' }} />
         </div>
 
-        <div>
-          <h3 style={{ margin: 0, fontSize: 'clamp(1.3rem,2.1vw,1.65rem)', fontWeight: 900, lineHeight: 1.1, color: PLANE_TEXT, letterSpacing: '-0.03em' }}>{sk.name}</h3>
-          <div style={{ display: 'flex', gap: '0.4rem', marginTop: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
-            <span style={{ fontSize: '0.58rem', fontWeight: 800, letterSpacing: '0.08em', textTransform: 'uppercase', padding: '0.22rem 0.65rem', borderRadius: '9999px', border: `1px solid color-mix(in srgb,${cat.color} 40%,transparent)`, background: `color-mix(in srgb,${cat.color} 10%,transparent)`, color: cat.color, transition: 'all 0.4s' }}>{cat.label}</span>
-            <span style={{ fontSize: '0.58rem', fontWeight: 800, letterSpacing: '0.06em', color: sk.trend === 'active' ? PLANE_TEXT_SOFT : cat.color, padding: '0.22rem 0.55rem', borderRadius: '9999px', border: `1px solid ${PLANE_BORDER_SOFT}`, transition: 'color 0.4s' }}>{TREND_DISPLAY[sk.trend].icon} {TREND_DISPLAY[sk.trend].label}</span>
+        <div style={{ flex: 1, overflowY: 'auto', padding: '1.75rem', display: 'flex', flexDirection: 'column', gap: '1rem', scrollbarWidth: 'none' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+            <span style={{ fontSize: '0.52rem', fontWeight: 900, letterSpacing: '0.18em', textTransform: 'uppercase', color: accent, transition: 'color 0.4s' }}>Active Selection</span>
+            <span style={{ fontSize: '0.6rem', fontWeight: 600, color: PLANE_TEXT_MUTED, letterSpacing: '0.04em' }}>{cat.tagline}</span>
           </div>
-        </div>
 
-        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-          <ProfRing key={sk.id} pct={sk.proficiency} catColor={cat.color} size={76} />
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '0.4rem', flex: 1 }}>
-            {([{ label: 'Experience', value: sk.experience }, { label: 'Projects', value: String(sk.projects) }, { label: 'Level', value: sk.level }] as const).map(({ label, value }) => (
-              <div key={label} style={{ background: PLANE_CHIP_BG, border: `1px solid ${PLANE_BORDER_SOFT}`, borderRadius: '0.55rem', padding: '0.45rem' }}>
-                <span style={{ display: 'block', fontSize: '0.46rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: PLANE_TEXT_MUTED, marginBottom: '0.16rem' }}>{label}</span>
-                <span style={{ display: 'block', fontSize: '0.72rem', fontWeight: 900, color: PLANE_TEXT, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{value}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div style={{ height: 1, background: PLANE_BORDER_SOFT }} />
-        <p style={{ margin: 0, fontSize: '0.82rem', lineHeight: 1.74, color: PLANE_TEXT_SOFT }}>{sk.extendedDesc}</p>
-
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem' }}>
-          {sk.tags.map(t => (<span key={t} style={{ fontSize: '0.62rem', fontWeight: 700, padding: '0.24rem 0.6rem', borderRadius: '9999px', border: `1px solid color-mix(in srgb,${cat.color} 34%,transparent)`, background: `color-mix(in srgb,${cat.color} 9%,transparent)`, color: cat.color, transition: 'all 0.4s' }}>{t}</span>))}
-        </div>
-
-        <div style={{ height: 1, background: PLANE_BORDER_SOFT }} />
-
-        <div>
-          <span style={{ display: 'block', fontSize: '0.5rem', fontWeight: 900, letterSpacing: '0.14em', textTransform: 'uppercase', color: PLANE_TEXT_MUTED, marginBottom: '0.44rem' }}>Highlights</span>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.36rem' }}>
-            {sk.achievements.map((a, i) => (
-              <div key={i} style={{ display: 'flex', gap: '0.5rem', alignItems: 'flex-start' }}>
-                <span style={{ color: cat.color, fontSize: '0.7rem', flexShrink: 0, marginTop: '0.05rem', fontWeight: 900, transition: 'color 0.4s' }}>✓</span>
-                <span style={{ fontSize: '0.75rem', lineHeight: 1.6, color: PLANE_TEXT_SOFT }}>{a}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div>
-          <span style={{ display: 'block', fontSize: '0.5rem', fontWeight: 900, letterSpacing: '0.14em', textTransform: 'uppercase', color: PLANE_TEXT_MUTED, marginBottom: '0.38rem' }}>Ecosystem</span>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem' }}>
-            {sk.ecosystem.map(t => (<span key={t} style={{ fontSize: '0.62rem', fontWeight: 600, padding: '0.22rem 0.55rem', borderRadius: '9999px', border: `1px solid ${PLANE_BORDER_SOFT}`, background: PLANE_CHIP_BG, color: PLANE_TEXT_SOFT }}>{t}</span>))}
-          </div>
-        </div>
-
-        {sk.relatedProjects && sk.relatedProjects.length > 0 && sk.relatedProjects[0] !== 'All Projects' && (
           <div>
-            <span style={{ display: 'block', fontSize: '0.5rem', fontWeight: 900, letterSpacing: '0.14em', textTransform: 'uppercase', color: PLANE_TEXT_MUTED, marginBottom: '0.38rem' }}>Applied In</span>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem' }}>
-              {sk.relatedProjects.map(p => (
-                <span key={p} style={{ fontSize: '0.62rem', fontWeight: 700, padding: '0.22rem 0.6rem', borderRadius: '9999px', border: `1px solid color-mix(in srgb,${cat.color} 22%,transparent)`, background: `color-mix(in srgb,${cat.color} 6%,transparent)`, color: `color-mix(in srgb,${cat.color} 85%,${PLANE_TEXT_SOFT})`, transition: 'all 0.4s' }}>→ {p}</span>
+            <h3 style={{ margin: 0, fontSize: 'clamp(1.3rem,2.1vw,1.65rem)', fontWeight: 900, lineHeight: 1.1, color: PLANE_TEXT, letterSpacing: '-0.03em' }}>{sk.name}</h3>
+            <div style={{ display: 'flex', gap: '0.4rem', marginTop: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
+              <span style={{ fontSize: '0.58rem', fontWeight: 800, letterSpacing: '0.08em', textTransform: 'uppercase', padding: '0.22rem 0.65rem', borderRadius: '9999px', border: `1px solid color-mix(in srgb,${accent} 40%,transparent)`, background: `color-mix(in srgb,${accent} 10%,transparent)`, color: accent, transition: 'all 0.4s' }}>{cat.label}</span>
+              <span style={{ fontSize: '0.58rem', fontWeight: 800, letterSpacing: '0.06em', color: sk.trend === 'active' ? PLANE_TEXT_SOFT : accent, padding: '0.22rem 0.55rem', borderRadius: '9999px', border: `1px solid ${PLANE_BORDER_SOFT}`, transition: 'color 0.4s' }}>{TREND_DISPLAY[sk.trend].icon} {TREND_DISPLAY[sk.trend].label}</span>
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+            <ProfRing key={sk.id} pct={sk.proficiency} catColor={accent} size={76} />
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '0.4rem', flex: 1 }}>
+              {([{ label: 'Experience', value: sk.experience }, { label: 'Projects', value: String(sk.projects) }, { label: 'Level', value: sk.level }] as const).map(({ label, value }) => (
+                <div key={label} style={{ background: PLANE_CHIP_BG, border: `1px solid ${PLANE_BORDER_SOFT}`, borderRadius: '0.55rem', padding: '0.45rem' }}>
+                  <span style={{ display: 'block', fontSize: '0.46rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: PLANE_TEXT_MUTED, marginBottom: '0.16rem' }}>{label}</span>
+                  <span style={{ display: 'block', fontSize: '0.72rem', fontWeight: 900, color: PLANE_TEXT, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{value}</span>
+                </div>
               ))}
             </div>
           </div>
-        )}
-      </div>
-    </motion.div>
-  </AnimatePresence>
-);
+
+          <div style={{ height: 1, background: PLANE_BORDER_SOFT }} />
+          <p style={{ margin: 0, fontSize: '0.82rem', lineHeight: 1.74, color: PLANE_TEXT_SOFT }}>{sk.extendedDesc}</p>
+
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem' }}>
+            {sk.tags.map(t => (<span key={t} style={{ fontSize: '0.62rem', fontWeight: 700, padding: '0.24rem 0.6rem', borderRadius: '9999px', border: `1px solid color-mix(in srgb,${accent} 34%,transparent)`, background: `color-mix(in srgb,${accent} 9%,transparent)`, color: accent, transition: 'all 0.4s' }}>{t}</span>))}
+          </div>
+
+          <div style={{ height: 1, background: PLANE_BORDER_SOFT }} />
+
+          <div>
+            <span style={{ display: 'block', fontSize: '0.5rem', fontWeight: 900, letterSpacing: '0.14em', textTransform: 'uppercase', color: PLANE_TEXT_MUTED, marginBottom: '0.44rem' }}>Highlights</span>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.36rem' }}>
+              {sk.achievements.map((a, i) => (
+                <div key={i} style={{ display: 'flex', gap: '0.5rem', alignItems: 'flex-start' }}>
+                  <span style={{ color: accent, fontSize: '0.7rem', flexShrink: 0, marginTop: '0.05rem', fontWeight: 900, transition: 'color 0.4s' }}>✓</span>
+                  <span style={{ fontSize: '0.75rem', lineHeight: 1.6, color: PLANE_TEXT_SOFT }}>{a}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <span style={{ display: 'block', fontSize: '0.5rem', fontWeight: 900, letterSpacing: '0.14em', textTransform: 'uppercase', color: PLANE_TEXT_MUTED, marginBottom: '0.38rem' }}>Ecosystem</span>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem' }}>
+              {sk.ecosystem.map(t => (<span key={t} style={{ fontSize: '0.62rem', fontWeight: 600, padding: '0.22rem 0.55rem', borderRadius: '9999px', border: `1px solid ${PLANE_BORDER_SOFT}`, background: PLANE_CHIP_BG, color: PLANE_TEXT_SOFT }}>{t}</span>))}
+            </div>
+          </div>
+
+          {sk.relatedProjects && sk.relatedProjects.length > 0 && sk.relatedProjects[0] !== 'All Projects' && (
+            <div>
+              <span style={{ display: 'block', fontSize: '0.5rem', fontWeight: 900, letterSpacing: '0.14em', textTransform: 'uppercase', color: PLANE_TEXT_MUTED, marginBottom: '0.38rem' }}>Applied In</span>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem' }}>
+                {sk.relatedProjects.map(p => (
+                  <span key={p} style={{ fontSize: '0.62rem', fontWeight: 700, padding: '0.22rem 0.6rem', borderRadius: '9999px', border: `1px solid color-mix(in srgb,${accent} 22%,transparent)`, background: `color-mix(in srgb,${accent} 6%,transparent)`, color: `color-mix(in srgb,${accent} 85%,${PLANE_TEXT_SOFT})`, transition: 'all 0.4s' }}>→ {p}</span>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </motion.div>
+    </AnimatePresence>
+  );
+};
 
 /* ─────────────────────────────────────────────────────────────────
    MAIN COMPONENT — TechArsenalSection
@@ -561,7 +623,7 @@ const TechArsenalSection: React.FC = () => {
         </motion.header>
 
         {/* Main 2-Column Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_440px] xl:grid-cols-[minmax(0,1fr)_480px] gap-[clamp(1.25rem,3vw,2rem)] items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_520px] xl:grid-cols-[minmax(0,1fr)_640px] gap-[clamp(1.25rem,3vw,2rem)] items-stretch">
 
           {/* ════════════════════════════════════════════════════
               LEFT — Interactive Image Container
@@ -573,18 +635,18 @@ const TechArsenalSection: React.FC = () => {
             className="relative flex items-end justify-center overflow-hidden rounded-3xl"
             style={{
               minHeight: "clamp(360px,52vw,580px)",
-              background: PLANE_SURFACE,
+              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.01) 100%)',
               border: `1px solid ${PLANE_BORDER}`
             }}
           >
-            <GridOverlay color={activeCategory.color} />
-            <ParticleField particles={particles} color={activeCategory.color} />
+            <GridOverlay color={ACCENT} />
+            <ParticleField particles={particles} color={ACCENT} />
 
-            <RippleRings hovered={portraitHovered} ringX={ringXS} ringY={ringYS} color={activeCategory.color} />
-            <SpotlightBloom hovered={portraitHovered} color={activeCategory.color} />
+            <RippleRings hovered={portraitHovered} ringX={ringXS} ringY={ringYS} color={ACCENT} />
+            <SpotlightBloom hovered={portraitHovered} color={ACCENT} />
 
             <div className="absolute inset-0 z-[6] pointer-events-none">
-              <EnergyAura visible={portraitHovered} color={activeCategory.color} />
+              <EnergyAura visible={portraitHovered} color={ACCENT} />
             </div>
 
             <motion.div
@@ -600,7 +662,7 @@ const TechArsenalSection: React.FC = () => {
                   height: isDesktop ? PORTRAIT_HEIGHT_DESKTOP : PORTRAIT_HEIGHT_MOBILE,
                   objectFit: "contain",
                   filter: portraitHovered
-                    ? `drop-shadow(0 0 36px color-mix(in srgb, ${activeCategory.color} 55%, transparent)) drop-shadow(0 24px 52px rgba(0,0,0,0.65))`
+                    ? `drop-shadow(0 0 36px color-mix(in srgb, ${ACCENT} 55%, transparent)) drop-shadow(0 24px 52px rgba(0,0,0,0.65))`
                     : "drop-shadow(0 20px 44px rgba(0,0,0,0.58))",
                   transition: "filter 0.5s ease",
                 }}
@@ -623,11 +685,28 @@ const TechArsenalSection: React.FC = () => {
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.4 }}
                   style={{
-                    boxShadow: `inset 0 0 60px color-mix(in srgb, ${activeCategory.color} 18%, transparent)`,
+                    boxShadow: `inset 0 0 60px color-mix(in srgb, ${ACCENT} 18%, transparent)`,
                   }}
                 />
               )}
             </AnimatePresence>
+
+            {/* Floating Skill Pills */}
+            <div className="absolute inset-0 z-30 pointer-events-none">
+              <AnimatePresence>
+                {visSkills.map((skill, index) => (
+                  <FloatingSkillOrb
+                    key={skill.id}
+                    skill={skill}
+                    total={visSkills.length}
+                    index={index}
+                    catColor={ACCENT}
+                    isSelected={selectedSkill.id === skill.id}
+                    onClick={() => setSelectedId(skill.id)}
+                  />
+                ))}
+              </AnimatePresence>
+            </div>
           </motion.div>
 
           {/* ════════════════════════════════════════════════════
@@ -694,7 +773,7 @@ const TechArsenalSection: React.FC = () => {
                 <style>{`.ta-mq { display:flex; width:max-content; gap:0.55rem; } .group:hover .ta-mq { animation-play-state:paused !important; }`}</style>
                 <div className="ta-mq" style={{ animation: reduced ? 'none' : 'ta-marquee 28s linear infinite' }}>
                   {[...visSkills, ...visSkills, ...visSkills, ...visSkills, ...visSkills, ...visSkills].map((skill, i) => (
-                    <OrbitPill key={`mq-${skill.id}-${i}`} skill={skill} catColor={activeCategory.color} isSelected={selectedSkill.id === skill.id} reduced={reduced} onClick={() => setSelectedId(skill.id)} />
+                    <OrbitPill key={`mq-${skill.id}-${i}`} skill={skill} catColor={ACCENT} isSelected={selectedSkill.id === skill.id} reduced={reduced} onClick={() => setSelectedId(skill.id)} />
                   ))}
                 </div>
               </motion.div>

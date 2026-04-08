@@ -307,48 +307,39 @@ export default function TestimonialsSection() {
                     initial="hidden"
                     animate={inView ? "visible" : "hidden"}
                     variants={fadeInUp}
-                    className="mb-14 flex flex-col justify-between gap-6 md:flex-row md:items-end"
+                    className="mb-16 flex flex-col items-start text-left pt-8 md:pt-16"
                 >
-                    <div className="max-w-2xl">
-                        <div className="mb-4 inline-flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 shadow-sm backdrop-blur-md">
-                            <StarIcon active />
-                            <span className="text-xs font-bold uppercase tracking-wider text-sys-text-secondary">Recruiter validation</span>
-                        </div>
+                    <div className="flex flex-col flex-wrap md:flex-row items-start md:items-baseline gap-4 md:gap-6 justify-start w-full">
+                        {/* Eyebrow */}
+                        <span className="inline-flex items-center gap-2.5 text-[0.7rem] font-bold uppercase tracking-[0.16em] text-sys-accent">
+                            <span className="inline-block w-7 h-0.5 rounded-full bg-sys-accent" />
+                            Recruiter validation
+                        </span>
 
-                        <h2 className="m-0 flex flex-col leading-none" style={{ fontFamily: "var(--font-sans)" }}>
-                            <span
-                                className="text-[clamp(2rem,4.8vw,3.5rem)] font-light tracking-[-0.02em]"
-                                style={{ color: "color-mix(in srgb, var(--sys-text-primary) 45%, transparent)" }}
-                            >
-                                Teams trust me for
-                            </span>
-                            <span
-                                className="relative mt-1 w-fit text-[clamp(2.4rem,6vw,4.5rem)] font-black italic tracking-[-0.03em]"
-                                style={{ fontFamily: "var(--font-display)", color: "var(--sys-text-primary)" }}
-                            >
-                                delivery quality
-                                <span className="absolute -bottom-2 left-1 h-[3px] w-[64%] rounded-full bg-linear-to-r from-(--sys-accent) to-transparent" />
-                            </span>
+                        {/* Title */}
+                        <h2 className="m-0 font-sans text-[clamp(1.8rem,4vw,3.5rem)] font-extrabold leading-[1.05] tracking-[-0.03em] text-sys-text-primary">
+                            Teams trust me for <span className="text-sys-accent">delivery quality</span>
                         </h2>
-
-                        <p className="mt-4 text-lg leading-relaxed text-sys-text-secondary">
-                            Feedback from collaborators focused on execution speed, architecture quality, and reliable
-                            communication under real project pressure.
-                        </p>
                     </div>
 
-                    <div className="flex items-center gap-3">
-                        <div className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-sys-text-secondary backdrop-blur-md">
-                            6 verified testimonials
-                        </div>
+                    <div className="flex flex-col md:flex-row justify-between w-full items-start md:items-end gap-6 md:gap-0 mt-4">
+                        <p className="m-0 max-w-xl text-[clamp(0.95rem,1.4vw,1.08rem)] leading-relaxed text-sys-text-secondary/84">
+                            Feedback from collaborators focused on execution speed, architecture quality, and reliable communication under real project pressure.
+                        </p>
 
-                        <Link
-                            to="/reviews"
-                            className="group flex items-center gap-2 rounded-xl border border-sys-border bg-sys-bg-secondary px-6 py-3 shadow-sm transition-all hover:border-sys-accent hover:text-sys-accent hover:shadow-md"
-                        >
-                            <span>See All Reviews</span>
-                            <ArrowRightIcon className="transition-transform group-hover:translate-x-1" size={18} />
-                        </Link>
+                        <div className="flex items-center gap-3">
+                            <div className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[0.7rem] font-bold uppercase tracking-[0.16em] text-sys-text-secondary backdrop-blur-md">
+                                6 verified testimonials
+                            </div>
+
+                            <Link
+                                to="/reviews"
+                                className="group flex items-center gap-2 rounded-full border border-sys-border bg-sys-bg-secondary px-6 py-2 shadow-sm transition-all hover:border-sys-accent hover:text-sys-accent hover:shadow-md text-sm font-semibold"
+                            >
+                                <span>See All Reviews</span>
+                                <ArrowRightIcon className="transition-transform group-hover:translate-x-1" size={16} />
+                            </Link>
+                        </div>
                     </div>
                 </motion.div>
 

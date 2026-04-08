@@ -138,7 +138,7 @@ export default function CategorySegmentedTabs({
                                 {/* Count Badge */}
                                 {typeof category.count === 'number' && (
                                     <span
-                                        className="relative z-10 inline-flex items-center justify-evenly gap-2 rounded-full pl-3 pr-2 py-1.5 text-[16px] font-semibold w-fit"
+                                        className="relative z-10 inline-flex items-center justify-evenly gap-2 rounded-full pl-3 pr-2 py-1.5 text-[12px] font-bold w-fit"
                                         style={{
                                             color: isActive ? 'var(--sys-text-primary)' : 'color-mix(in srgb, var(--sys-text-secondary) 86%, transparent)',
                                             background: isActive
