@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+Disallow: /admin-access
+Disallow: /dashboard
+Disallow: /builder
+Disallow: /analytics
+Disallow: /resume
+Disallow: /projects
+Disallow: /content
+Disallow: /settings
+Disallow: /themes
+
+Sitemap: https://mekeshbuild.web.app/sitemap.xml

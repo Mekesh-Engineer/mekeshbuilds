@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="tile" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#ff6b2c"/>
+      <stop offset="55%"  stop-color="#ff8a57"/>
+      <stop offset="100%" stop-color="#e65100"/>
+    </linearGradient>
+
+    <linearGradient id="sheen" x1="0%" y1="0%" x2="70%" y2="70%">
+      <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Ambient glow halo -->
+  <circle cx="256" cy="268" r="208" fill="#ff6b2c" fill-opacity="0.16"/>
+
+  <!-- Main tile -->
+  <rect x="56" y="56" width="400" height="400" rx="96" ry="96" fill="url(#tile)"/>
+  <!-- Sheen overlay -->
+  <rect x="56" y="56" width="400" height="400" rx="96" ry="96" fill="url(#sheen)"/>
+
+  <!-- dashboard_customize icon — all white -->
+  <g transform="translate(145 145) scale(9.25)">
+    <path d="M3 3h8v8H3zm10 0h8v8h-8zM3 13h8v8H3z" fill="#ffffff"/>
+    <path d="M18 13h-2v3h-3v2h3v3h2v-3h3v-2h-3z"   fill="#ffffff"/>
+  </g>
+</svg>
