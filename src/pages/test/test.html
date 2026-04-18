@@ -5,73 +5,74 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Manrope:wght@400;500;600;700&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
+    <title>EngineerCore | MekeshBuilds Dashboard</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Manrope:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     "colors": {
-                        "background": "#f9f6f5",
-                        "on-error": "#ffefec",
-                        "inverse-surface": "#0e0e0e",
-                        "tertiary-container": "#fbb423",
-                        "on-primary-container": "#401500",
-                        "on-tertiary": "#fff1df",
-                        "on-secondary-fixed-variant": "#803f00",
-                        "secondary": "#904800",
-                        "on-tertiary-container": "#523700",
-                        "surface-container-high": "#e4e2e1",
-                        "surface-variant": "#dfdcdc",
-                        "on-surface-variant": "#5c5b5b",
-                        "secondary-fixed-dim": "#ffb37d",
-                        "on-error-container": "#520c00",
-                        "on-primary": "#fff0ea",
-                        "primary-fixed": "#ff7a30",
-                        "secondary-container": "#ffc6a0",
-                        "surface-dim": "#d6d4d3",
-                        "on-background": "#2f2f2e",
-                        "error-dim": "#b92902",
-                        "inverse-on-surface": "#9e9c9c",
-                        "primary-container": "#ff7a30",
-                        "on-surface": "#2f2f2e",
-                        "on-secondary-fixed": "#552800",
-                        "surface": "#f9f6f5",
-                        "on-tertiary-fixed": "#372400",
-                        "surface-tint": "#9c3e00",
-                        "tertiary-fixed-dim": "#eca60f",
                         "primary-dim": "#893600",
-                        "on-secondary-container": "#723700",
-                        "surface-container-low": "#f3f0ef",
-                        "surface-container-highest": "#dfdcdc",
-                        "surface-container": "#eae7e7",
+                        "on-primary": "#fff0ea",
+                        "inverse-surface": "#0e0e0e",
                         "on-secondary": "#fff0e8",
-                        "secondary-dim": "#7e3e00",
-                        "primary": "#9c3e00",
-                        "tertiary-dim": "#6b4900",
-                        "secondary-fixed": "#ffc6a0",
+                        "primary-fixed": "#ff7a30",
+                        "on-tertiary-fixed": "#372400",
+                        "on-tertiary-container": "#523700",
+                        "on-primary-container": "#401500",
+                        "on-tertiary-fixed-variant": "#5e4000",
                         "on-primary-fixed": "#000000",
+                        "tertiary-fixed-dim": "#eca60f",
+                        "on-tertiary": "#fff1df",
                         "tertiary": "#7b5400",
-                        "surface-container-lowest": "#ffffff",
-                        "outline-variant": "#afadac",
-                        "error": "#b02500",
-                        "surface-bright": "#f9f6f5",
-                        "primary-fixed-dim": "#ee6d23",
-                        "outline": "#787676",
-                        "tertiary-fixed": "#fbb423",
-                        "error-container": "#f95630",
-                        "inverse-primary": "#ff7a30",
                         "on-primary-fixed-variant": "#4f1c00",
-                        "on-tertiary-fixed-variant": "#5e4000"
+                        "on-background": "#2f2f2e",
+                        "outline-variant": "#afadac",
+                        "error-dim": "#b92902",
+                        "tertiary-fixed": "#fbb423",
+                        "secondary": "#904800",
+                        "on-secondary-fixed-variant": "#803f00",
+                        "background": "#f9f6f5",
+                        "surface-container-low": "#f3f0ef",
+                        "error-container": "#f95630",
+                        "on-surface": "#2f2f2e",
+                        "tertiary-dim": "#6b4900",
+                        "on-surface-variant": "#5c5b5b",
+                        "surface": "#f9f6f5",
+                        "secondary-container": "#ffc6a0",
+                        "on-secondary-container": "#723700",
+                        "on-error-container": "#520c00",
+                        "surface-variant": "#dfdcdc",
+                        "on-secondary-fixed": "#552800",
+                        "surface-container-highest": "#dfdcdc",
+                        "primary-container": "#ff7a30",
+                        "primary-fixed-dim": "#ee6d23",
+                        "surface-container": "#eae7e7",
+                        "surface-dim": "#d6d4d3",
+                        "surface-container-high": "#e4e2e1",
+                        "surface-tint": "#9c3e00",
+                        "tertiary-container": "#fbb423",
+                        "surface-bright": "#f9f6f5",
+                        "secondary-fixed": "#ffc6a0",
+                        "inverse-primary": "#ff7a30",
+                        "secondary-dim": "#7e3e00",
+                        "on-error": "#ffefec",
+                        "secondary-fixed-dim": "#ffb37d",
+                        "primary": "#9c3e00",
+                        "outline": "#787676",
+                        "error": "#b02500",
+                        "inverse-on-surface": "#9e9c9c",
+                        "surface-container-lowest": "#ffffff"
                     },
                     "borderRadius": {
                         "DEFAULT": "1rem",
@@ -93,414 +94,350 @@
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
 
-        .sphere-glow {
-            filter: drop-shadow(0 0 12px rgba(255, 122, 48, 0.4));
+        .bento-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .orbit-ring {
-            border: 1px solid rgba(255, 122, 48, 0.15);
-            transform: rotateX(75deg);
+        .bento-card:hover {
+            box-shadow: 0 12px 40px -12px rgba(255, 122, 48, 0.15);
         }
     </style>
 </head>
 
-<body class="bg-background font-body text-on-surface">
+<body
+    class="bg-inverse-surface font-body text-on-surface-variant selection:bg-primary-fixed selection:text-white antialiased">
 
-    <main class="min-h-screen pt-32 pb-20 px-4 md:px-8 max-w-7xl mx-auto">
-
-
-        <!-- Achievements Timeline Section -->
-        <section
-            class="max-w-7xl mx-auto bg-surface-container-low rounded-[28px] dot-pattern p-8 md:p-16 shadow-sm border border-outline-variant/10">
-            <!-- Header Section -->
-            <div class="text-center mb-16">
-                <h1 class="font-headline text-4xl md:text-6xl font-extrabold tracking-tight mb-4">
-                    My <span class="text-primary-fixed">Achievements</span> Timeline
-                </h1>
-                <p class="text-on-surface-variant text-lg md:text-xl max-w-2xl mx-auto">
-                    A journey of certifications, experience, and milestones shaping my career.
-                </p>
+    <!-- Main Content Canvas -->
+    <main class="lg:ml-64 pt-24 px-8 pb-12 min-h-screen">
+        <!-- Header Branding Punctuation -->
+        <header class="mb-10">
+            <div class="flex items-end gap-2 mb-1">
+                <h1 class="text-4xl font-black font-headline text-white tracking-tighter">Command Center<span
+                        class="text-orange-500">.</span></h1>
             </div>
-            <!-- Filter Chips -->
-            <div class="flex flex-wrap justify-center gap-3 mb-20">
-                <button
-                    class="px-6 py-2.5 rounded-full bg-primary-fixed text-white font-semibold shadow-[0_4px_12px_rgba(255,122,48,0.3)] transition-all">All</button>
-                <button
-                    class="px-6 py-2.5 rounded-full bg-surface-container-lowest text-on-surface-variant font-medium hover:bg-surface-container transition-all">Certificates</button>
-                <button
-                    class="px-6 py-2.5 rounded-full bg-surface-container-lowest text-on-surface-variant font-medium hover:bg-surface-container transition-all">Awards</button>
-                <button
-                    class="px-6 py-2.5 rounded-full bg-surface-container-lowest text-on-surface-variant font-medium hover:bg-surface-container transition-all">Experience</button>
-                <button
-                    class="px-6 py-2.5 rounded-full bg-surface-container-lowest text-on-surface-variant font-medium hover:bg-surface-container transition-all">Training</button>
-                <button
-                    class="px-6 py-2.5 rounded-full bg-surface-container-lowest text-on-surface-variant font-medium hover:bg-surface-container transition-all">Education</button>
+            <p class="text-stone-500 font-medium">Monitoring engine for <span class="text-white">MekeshBuilds</span>
+                core services.</p>
+        </header>
+        <!-- Main Grid: 3-column asymmetric bento layout -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+            <!-- Block 1: Stat Cards (Top Row spanning 12 cols) -->
+            <div
+                class="md:col-span-4 bento-card bg-white/5 border border-white/5 rounded-lg p-6 flex flex-col justify-between group">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="p-3 bg-orange-500/10 rounded-full">
+                        <span class="material-symbols-outlined text-orange-500">visibility</span>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-[10px] font-bold text-orange-500/50 uppercase tracking-widest">+12.4%</span>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-stone-400 text-sm font-medium font-headline">Portfolio Views</h3>
+                    <p class="text-4xl font-black text-white mt-1 tracking-tight">12,842</p>
+                </div>
+                <div class="mt-6 h-8 flex items-end gap-1">
+                    <div class="flex-1 bg-white/10 h-[40%] rounded-sm"></div>
+                    <div class="flex-1 bg-white/10 h-[60%] rounded-sm"></div>
+                    <div class="flex-1 bg-white/10 h-[30%] rounded-sm"></div>
+                    <div class="flex-1 bg-orange-500 h-[80%] rounded-sm"></div>
+                    <div class="flex-1 bg-orange-500 h-[70%] rounded-sm"></div>
+                    <div class="flex-1 bg-orange-500 h-[90%] rounded-sm"></div>
+                    <div class="flex-1 bg-orange-500 h-[100%] rounded-sm"></div>
+                </div>
             </div>
-            <!-- Timeline Visual Area -->
-            <div class="relative bg-surface-container-lowest rounded-xl p-4 md:p-12 mb-16 overflow-hidden">
-                <!-- Bezier Curved Path (SVG) -->
-                <div class="absolute inset-0 pointer-events-none opacity-20 md:opacity-100">
-                    <svg class="w-full h-full" fill="none" preserveaspectratio="none" viewbox="0 0 1200 400"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path class="bezier-curve" d="M-50 200C150 200 350 50 600 200C850 350 1050 200 1250 200"
-                            stroke="#FF7A30" stroke-dasharray="12 12" stroke-width="3"></path>
+            <div
+                class="md:col-span-4 bento-card bg-white/5 border border-white/5 rounded-lg p-6 flex flex-col justify-between group">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="p-3 bg-orange-500/10 rounded-full">
+                        <span class="material-symbols-outlined text-orange-500">download</span>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-[10px] font-bold text-orange-500/50 uppercase tracking-widest">+4.2%</span>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-stone-400 text-sm font-medium font-headline">Resume Downloads</h3>
+                    <p class="text-4xl font-black text-white mt-1 tracking-tight">1,204</p>
+                </div>
+                <div class="mt-6 h-8 flex items-end gap-1">
+                    <div class="flex-1 bg-white/10 h-[20%] rounded-sm"></div>
+                    <div class="flex-1 bg-white/10 h-[40%] rounded-sm"></div>
+                    <div class="flex-1 bg-orange-500 h-[50%] rounded-sm"></div>
+                    <div class="flex-1 bg-white/10 h-[30%] rounded-sm"></div>
+                    <div class="flex-1 bg-orange-500 h-[60%] rounded-sm"></div>
+                    <div class="flex-1 bg-orange-500 h-[85%] rounded-sm"></div>
+                    <div class="flex-1 bg-orange-500 h-[90%] rounded-sm"></div>
+                </div>
+            </div>
+            <div
+                class="md:col-span-4 bento-card bg-white/5 border border-white/5 rounded-lg p-6 flex flex-col justify-between group">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="p-3 bg-orange-500/10 rounded-full">
+                        <span class="material-symbols-outlined text-orange-500">ads_click</span>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-[10px] font-bold text-orange-500/50 uppercase tracking-widest">+22.1%</span>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-stone-400 text-sm font-medium font-headline">Project Clicks</h3>
+                    <p class="text-4xl font-black text-white mt-1 tracking-tight">8,930</p>
+                </div>
+                <div class="mt-6 h-8 flex items-end gap-1">
+                    <div class="flex-1 bg-white/10 h-[30%] rounded-sm"></div>
+                    <div class="flex-1 bg-orange-500 h-[50%] rounded-sm"></div>
+                    <div class="flex-1 bg-orange-500 h-[40%] rounded-sm"></div>
+                    <div class="flex-1 bg-white/10 h-[60%] rounded-sm"></div>
+                    <div class="flex-1 bg-orange-500 h-[75%] rounded-sm"></div>
+                    <div class="flex-1 bg-orange-500 h-[90%] rounded-sm"></div>
+                    <div class="flex-1 bg-orange-500 h-[95%] rounded-sm"></div>
+                </div>
+            </div>
+            <!-- Block 2: Engagement Overview (Center/Left) -->
+            <div
+                class="md:col-span-8 lg:col-span-9 bento-card bg-white/5 border border-white/5 rounded-lg p-8 relative overflow-hidden">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-10 gap-4">
+                    <div>
+                        <h2 class="text-xl font-bold text-white font-headline">Engagement Overview</h2>
+                        <p class="text-stone-500 text-sm">Interaction delta over specified intervals</p>
+                    </div>
+                    <div class="flex bg-white/5 p-1 rounded-full">
+                        <button
+                            class="px-4 py-1 text-xs font-bold text-white bg-orange-500 rounded-full shadow-lg">7D</button>
+                        <button
+                            class="px-4 py-1 text-xs font-bold text-stone-500 hover:text-white transition-colors">30D</button>
+                        <button
+                            class="px-4 py-1 text-xs font-bold text-stone-500 hover:text-white transition-colors">90D</button>
+                    </div>
+                </div>
+                <!-- Technical Area Chart Mockup -->
+                <div class="relative h-64 w-full">
+                    <svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 1000 200">
+                        <defs>
+                            <lineargradient id="gradViews" x1="0" x2="0" y1="0" y2="1">
+                                <stop offset="0%" stop-color="#FF7A30" stop-opacity="0.2"></stop>
+                                <stop offset="100%" stop-color="#FF7A30" stop-opacity="0"></stop>
+                            </lineargradient>
+                        </defs>
+                        <path d="M0,180 Q100,160 200,170 T400,120 T600,140 T800,80 T1000,90 L1000,200 L0,200 Z"
+                            fill="url(#gradViews)"></path>
+                        <path d="M0,180 Q100,160 200,170 T400,120 T600,140 T800,80 T1000,90" fill="none"
+                            stroke="#FF7A30" stroke-linecap="round" stroke-width="3"></path>
+                        <circle cx="800" cy="80" fill="#FF7A30" r="4"></circle>
                     </svg>
+                    <!-- Grid Lines -->
+                    <div class="absolute inset-0 grid grid-rows-4 pointer-events-none">
+                        <div class="border-t border-white/5"></div>
+                        <div class="border-t border-white/5"></div>
+                        <div class="border-t border-white/5"></div>
+                        <div class="border-t border-white/5"></div>
+                    </div>
                 </div>
-                <!-- Milestone Grid (Responsive Asymmetric) -->
-                <div class="relative grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
-                    <!-- Milestone 1 -->
-                    <div class="relative z-10 md:mt-32">
-                        <div
-                            class="bg-surface-container-lowest border-l-4 border-primary-fixed rounded-lg p-6 shadow-[0_8px_32px_rgba(0,0,0,0.04)] hover:translate-y-[-4px] transition-transform">
-                            <span
-                                class="text-[10px] font-black tracking-widest text-primary-fixed uppercase mb-2 block">Certificate</span>
-                            <h3 class="font-headline font-bold text-lg mb-1">Google Cloud Architect</h3>
-                            <p class="text-sm font-semibold text-on-surface mb-2">Google Cloud Training</p>
-                            <p class="text-xs text-on-surface-variant leading-relaxed">Advanced cloud infrastructure
-                                optimization and architectural security implementation.</p>
-                            <div
-                                class="mt-4 text-[11px] font-bold text-on-surface-variant bg-surface-container px-2 py-1 rounded w-fit">
-                                2023</div>
-                        </div>
+                <div class="grid grid-cols-3 gap-4 mt-8 pt-8 border-t border-white/5">
+                    <div class="flex items-center gap-3">
+                        <span class="w-3 h-3 rounded-full bg-orange-500"></span>
+                        <span class="text-xs font-medium text-stone-400">Views</span>
                     </div>
-                    <!-- Milestone 2 (Featured) -->
-                    <div class="relative z-10">
-                        <div
-                            class="bg-surface-container-lowest border-l-4 border-[#f59e0b] rounded-lg p-8 shadow-[0_20px_40px_rgba(156,62,0,0.12)] border-t border-t-white/50 relative overflow-visible">
-                            <!-- Badge Icon -->
-                            <div class="absolute -top-4 -left-4 bg-[#f59e0b] text-white p-2 rounded-lg shadow-lg">
-                                <span class="material-symbols-outlined"
-                                    style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
-                            </div>
-                            <span
-                                class="text-[10px] font-black tracking-widest text-[#f59e0b] uppercase mb-2 block">Award</span>
-                            <h3 class="font-headline font-bold text-xl mb-1">Developer of the Year</h3>
-                            <p class="text-base font-semibold text-on-surface mb-3">Global Tech Excellence</p>
-                            <p class="text-sm text-on-surface-variant leading-relaxed">Recognized for outstanding
-                                contributions to open-source UI design systems and accessibility standards.</p>
-                            <div class="mt-4 text-xs font-bold text-white bg-[#f59e0b] px-3 py-1 rounded-full w-fit">
-                                2024 • Winner</div>
-                        </div>
+                    <div class="flex items-center gap-3">
+                        <span class="w-3 h-3 rounded-full bg-stone-700"></span>
+                        <span class="text-xs font-medium text-stone-400">Clicks</span>
                     </div>
-                    <!-- Milestone 3 -->
-                    <div class="relative z-10 md:mt-40">
-                        <div
-                            class="bg-surface-container-lowest border-l-4 border-[#3b82f6] rounded-lg p-6 shadow-[0_8px_32px_rgba(0,0,0,0.04)] hover:translate-y-[-4px] transition-transform">
-                            <span
-                                class="text-[10px] font-black tracking-widest text-[#3b82f6] uppercase mb-2 block">Experience</span>
-                            <h3 class="font-headline font-bold text-lg mb-1">Senior UI Architect</h3>
-                            <p class="text-sm font-semibold text-on-surface mb-2">Vibrant Digital Studio</p>
-                            <p class="text-xs text-on-surface-variant leading-relaxed">Leading design operations and
-                                frontend strategy for Fortune 500 digital transformation projects.</p>
-                            <div
-                                class="mt-4 text-[11px] font-bold text-on-surface-variant bg-surface-container px-2 py-1 rounded w-fit">
-                                2021 — 2023</div>
-                        </div>
-                    </div>
-                    <!-- Milestone 4 -->
-                    <div class="relative z-10 md:mt-[-80px] md:col-start-1">
-                        <div
-                            class="bg-surface-container-lowest border-l-4 border-[#8b5cf6] rounded-lg p-6 shadow-[0_8px_32px_rgba(0,0,0,0.04)] hover:translate-y-[-4px] transition-transform">
-                            <span
-                                class="text-[10px] font-black tracking-widest text-[#8b5cf6] uppercase mb-2 block">Education</span>
-                            <h3 class="font-headline font-bold text-lg mb-1">Masters in HCI</h3>
-                            <p class="text-sm font-semibold text-on-surface mb-2">Institute of Design Tech</p>
-                            <p class="text-xs text-on-surface-variant leading-relaxed">Deep specialization in
-                                neuropsychology applied to interface design and interactive systems.</p>
-                            <div
-                                class="mt-4 text-[11px] font-bold text-on-surface-variant bg-surface-container px-2 py-1 rounded w-fit">
-                                2021</div>
-                        </div>
-                    </div>
-                    <!-- Milestone 5 -->
-                    <div class="relative z-10 md:mt-4 md:col-start-3">
-                        <div
-                            class="bg-surface-container-lowest border-l-4 border-[#22c55e] rounded-lg p-6 shadow-[0_8px_32px_rgba(0,0,0,0.04)] hover:translate-y-[-4px] transition-transform">
-                            <span
-                                class="text-[10px] font-black tracking-widest text-[#22c55e] uppercase mb-2 block">Training</span>
-                            <h3 class="font-headline font-bold text-lg mb-1">Scrum Master Plus</h3>
-                            <p class="text-sm font-semibold text-on-surface mb-2">Agile Alliance UK</p>
-                            <p class="text-xs text-on-surface-variant leading-relaxed">Certified training in
-                                high-performance team orchestration and lean product development.</p>
-                            <div
-                                class="mt-4 text-[11px] font-bold text-on-surface-variant bg-surface-container px-2 py-1 rounded w-fit">
-                                2022</div>
-                        </div>
+                    <div class="flex items-center gap-3">
+                        <span class="w-3 h-3 rounded-full bg-stone-500"></span>
+                        <span class="text-xs font-medium text-stone-400">Downloads</span>
                     </div>
                 </div>
             </div>
-            <!-- CTA Area -->
-            <div class="text-center">
-                <button
-                    class="bg-gradient-to-br from-primary to-primary-container text-white px-10 py-5 rounded-full font-headline font-bold text-lg shadow-[0_12px_24px_rgba(156,62,0,0.2)] hover:scale-[1.02] active:scale-95 transition-all mb-4">
-                    Download Full Resume PDF
-                </button>
-                <p class="text-on-surface-variant text-sm font-medium">
-                    Available for freelance and permanent opportunities.
-                </p>
-            </div>
-        </section>
-
-        <!-- Main Content Area -->
-        <div class="flex-1 space-y-8">
-            <!-- Hero Title -->
-            <header>
-                <h1 class="text-6xl font-headline font-extrabold tracking-tight text-on-surface mb-2">Quantifiable <span
-                        class="text-primary-fixed">Impact.</span></h1>
-                <p class="text-on-surface-variant text-lg max-w-2xl">A technical breakdown of my architectural
-                    contributions, development velocity, and digital footprint.</p>
-            </header>
-            <!-- Bento Grid Section -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Counters Row 1 -->
-                <div
-                    class="bg-surface-container-lowest p-8 rounded-lg flex flex-col justify-between border-b-4 border-primary-fixed">
-                    <span class="material-symbols-outlined text-primary-fixed text-4xl mb-4">architecture</span>
-                    <div>
-                        <div class="text-4xl font-headline font-extrabold text-on-surface">42+</div>
-                        <div class="text-on-surface-variant font-medium">Projects completed</div>
-                    </div>
-                </div>
-                <div class="bg-surface-container-lowest p-8 rounded-lg flex flex-col justify-between">
-                    <span class="material-symbols-outlined text-primary-fixed text-4xl mb-4">emoji_events</span>
-                    <div>
-                        <div class="text-4xl font-headline font-extrabold text-on-surface">12</div>
-                        <div class="text-on-surface-variant font-medium">Awards earned</div>
-                    </div>
-                </div>
-                <div class="bg-surface-container-lowest p-8 rounded-lg flex flex-col justify-between">
-                    <span class="material-symbols-outlined text-primary-fixed text-4xl mb-4">military_tech</span>
-                    <div>
-                        <div class="text-4xl font-headline font-extrabold text-on-surface">08</div>
-                        <div class="text-on-surface-variant font-medium">Competitions participated</div>
-                    </div>
-                </div>
-                <!-- Main Visuals Row: Chart & Feed -->
-                <!-- col-span-2 chart -->
-                <div
-                    class="lg:col-span-2 lg:row-span-2 asymmetric-card bg-surface-container-low overflow-hidden relative group">
-                    <div class="absolute top-8 left-8 z-10">
-                        <h3 class="text-2xl font-headline font-bold text-on-surface">Engagement Trends</h3>
-                        <p class="text-on-surface-variant text-sm">Portfolio views &amp; user interactions</p>
-                    </div>
-                    <div class="w-full h-full min-h-[400px] flex items-end justify-between px-8 pb-12 gap-4">
-                        <!-- Simulated Chart Bars -->
-                        <div
-                            class="flex-1 bg-primary-container/20 rounded-t-xl h-[40%] transition-all group-hover:h-[60%]">
-                        </div>
-                        <div
-                            class="flex-1 bg-primary-container/30 rounded-t-xl h-[55%] transition-all group-hover:h-[45%]">
-                        </div>
-                        <div
-                            class="flex-1 bg-primary-fixed rounded-t-xl h-[85%] transition-all group-hover:h-[75%] relative">
-                            <div
-                                class="absolute -top-12 left-1/2 -translate-x-1/2 bg-inverse-surface text-surface text-xs py-1 px-3 rounded shadow-lg whitespace-nowrap">
-                                Peak Activity</div>
-                        </div>
-                        <div
-                            class="flex-1 bg-primary-container/40 rounded-t-xl h-[45%] transition-all group-hover:h-[65%]">
-                        </div>
-                        <div
-                            class="flex-1 bg-primary-container/20 rounded-t-xl h-[60%] transition-all group-hover:h-[50%]">
-                        </div>
-                        <div class="flex-1 bg-primary-fixed/80 rounded-t-xl h-[70%] transition-all group-hover:h-[80%]">
-                        </div>
-                        <div
-                            class="flex-1 bg-primary-container/10 rounded-t-xl h-[30%] transition-all group-hover:h-[40%]">
-                        </div>
-                    </div>
-                    <img class="absolute inset-0 w-full h-full object-cover opacity-5 pointer-events-none"
-                        data-alt="abstract architectural blueprint line pattern on light background with technical data visualization overlays"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4R0g5U4Kesd0DMqrJAEXE_C1U00pn_dh2BgmSF9YZ-h-qGm6nzNeoIAQem3DhJoPIAyNQe41jtwOyo2ISjqWqmiD5KPkbX8Uccm2hDn0dWSy8w3jd2TZZ5fOA5lUJoAuA9wS3iFP1d06HIcC87lSSwUdSAIVSCcttzURiKJEJdSGktxZ4jMP___EJK4apT1Cva4ToGYYEcBaFgnG-STn_4uZB9vycckRenZTXqTnH1Nw97WOXw4Do7xi4qy48kzF-H9AAWEGBi0Cq" />
-                </div>
-                <!-- Activity Feed + Ticker -->
-                <div class="bg-inverse-surface rounded-lg p-8 lg:row-span-2 flex flex-col">
-                    <h3 class="text-xl font-headline font-bold text-surface mb-6">Live Contributions</h3>
-                    <div class="flex-1 space-y-6 overflow-hidden relative">
-                        <!-- Ticker Items -->
-                        <div class="space-y-6 animate-pulse">
-                            <div class="flex gap-4 items-start">
-                                <div class="w-2 h-2 rounded-full bg-primary-fixed mt-2"></div>
-                                <div>
-                                    <p class="text-surface font-medium text-sm">Pushed 4 commits to "nexus-core"</p>
-                                    <p class="text-on-surface-variant text-xs">2 minutes ago</p>
-                                </div>
-                            </div>
-                            <div class="flex gap-4 items-start">
-                                <div class="w-2 h-2 rounded-full bg-tertiary-fixed mt-2"></div>
-                                <div>
-                                    <p class="text-surface font-medium text-sm">Awarded 'Project of the Month'</p>
-                                    <p class="text-on-surface-variant text-xs">4 hours ago</p>
-                                </div>
-                            </div>
-                            <div class="flex gap-4 items-start">
-                                <div class="w-2 h-2 rounded-full bg-primary-fixed mt-2"></div>
-                                <div>
-                                    <p class="text-surface font-medium text-sm">Merged PR in open-source-UI</p>
-                                    <p class="text-on-surface-variant text-xs">Yesterday</p>
-                                </div>
-                            </div>
-                            <div class="flex gap-4 items-start">
-                                <div class="w-2 h-2 rounded-full bg-stone-500 mt-2"></div>
-                                <div>
-                                    <p class="text-surface font-medium text-sm">Updated availability status</p>
-                                    <p class="text-on-surface-variant text-xs">2 days ago</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div
-                            class="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-inverse-surface to-transparent">
-                        </div>
-                    </div>
-                    <div class="mt-6 pt-6 border-t border-white/10">
-                        <div class="flex items-center gap-2">
-                            <span class="flex h-3 w-3 relative">
-                                <span
-                                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                                <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
-                            </span>
-                            <span class="text-surface text-sm font-bold">Currently available for hire</span>
-                        </div>
-                    </div>
-                </div>
-                <!-- Counters Row 2 -->
-                <div class="bg-surface-container-lowest p-8 rounded-lg flex items-center gap-6">
-                    <div class="bg-primary-container/10 p-4 rounded-full">
-                        <span class="material-symbols-outlined text-primary-fixed">code</span>
-                    </div>
-                    <div>
-                        <div class="text-3xl font-headline font-extrabold text-on-surface">156</div>
-                        <div class="text-on-surface-variant text-xs font-medium uppercase tracking-wider">GitHub Repos
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-surface-container-lowest p-8 rounded-lg flex items-center gap-6">
-                    <div class="bg-primary-container/10 p-4 rounded-full">
-                        <span class="material-symbols-outlined text-primary-fixed">terminal</span>
-                    </div>
-                    <div>
-                        <div class="text-3xl font-headline font-extrabold text-on-surface">24</div>
-                        <div class="text-on-surface-variant text-xs font-medium uppercase tracking-wider">Skills
-                            Mastered</div>
-                    </div>
-                </div>
-                <div class="bg-surface-container-lowest p-8 rounded-lg flex items-center gap-6">
-                    <div class="bg-primary-container/10 p-4 rounded-full">
-                        <span class="material-symbols-outlined text-primary-fixed">visibility</span>
-                    </div>
-                    <div>
-                        <div class="text-3xl font-headline font-extrabold text-on-surface">12.4k</div>
-                        <div class="text-on-surface-variant text-xs font-medium uppercase tracking-wider">Profile Views
-                        </div>
-                    </div>
-                </div>
-                <!-- Bottom Strip: Heatmap -->
-                <div
-                    class="lg:col-span-3 bg-surface-container p-8 rounded-xl flex flex-col md:flex-row items-center justify-between gap-8">
-                    <div class="flex-1 w-full overflow-x-auto hide-scrollbar">
-                        <div class="flex gap-1 items-end min-w-[600px]">
-                            <!-- Mock Heatmap Blocks -->
-                            <div class="flex flex-col gap-1" v-for="i in 52">
-                                <div class="w-3 h-3 rounded-sm bg-stone-200"></div>
-                                <div class="w-3 h-3 rounded-sm bg-primary-container/20"></div>
-                                <div class="w-3 h-3 rounded-sm bg-primary-container/40"></div>
-                                <div class="w-3 h-3 rounded-sm bg-primary-fixed"></div>
-                                <div class="w-3 h-3 rounded-sm bg-primary-container/10"></div>
-                                <div class="w-3 h-3 rounded-sm bg-stone-200"></div>
-                                <div class="w-3 h-3 rounded-sm bg-stone-200"></div>
-                            </div>
-                            <!-- Repeated blocks for visual fullness -->
-                            <div class="flex flex-col gap-1">
-                                <div class="w-3 h-3 rounded-sm bg-primary-fixed"></div>
-                                <div class="w-3 h-3 rounded-sm bg-primary-fixed"></div>
-                                <div class="w-3 h-3 rounded-sm bg-stone-200"></div>
-                                <div class="w-3 h-3 rounded-sm bg-primary-container/20"></div>
-                                <div class="w-3 h-3 rounded-sm bg-stone-200"></div>
-                                <div class="w-3 h-3 rounded-sm bg-primary-fixed"></div>
-                                <div class="w-3 h-3 rounded-sm bg-stone-200"></div>
-                            </div>
-                            <div class="flex flex-col gap-1">
-                                <div class="w-3 h-3 rounded-sm bg-stone-200"></div>
-                                <div class="w-3 h-3 rounded-sm bg-stone-200"></div>
-                                <div class="w-3 h-3 rounded-sm bg-primary-container/60"></div>
-                                <div class="w-3 h-3 rounded-sm bg-stone-200"></div>
-                                <div class="w-3 h-3 rounded-sm bg-stone-200"></div>
-                                <div class="w-3 h-3 rounded-sm bg-stone-200"></div>
-                                <div class="w-3 h-3 rounded-sm bg-stone-200"></div>
-                            </div>
-                            <div class="flex flex-col gap-1">
-                                <div class="w-3 h-3 rounded-sm bg-primary-container/40"></div>
-                                <div class="w-3 h-3 rounded-sm bg-primary-fixed"></div>
-                                <div class="w-3 h-3 rounded-sm bg-primary-fixed"></div>
-                                <div class="w-3 h-3 rounded-sm bg-primary-fixed"></div>
-                                <div class="w-3 h-3 rounded-sm bg-primary-container/40"></div>
-                                <div class="w-3 h-3 rounded-sm bg-stone-200"></div>
-                                <div class="w-3 h-3 rounded-sm bg-primary-container/10"></div>
-                            </div>
-                            <div class="flex flex-col gap-1">
-                                <div class="w-3 h-3 rounded-sm bg-stone-200"></div>
-                                <div class="w-3 h-3 rounded-sm bg-stone-200"></div>
-                                <div class="w-3 h-3 rounded-sm bg-stone-200"></div>
-                                <div class="w-3 h-3 rounded-sm bg-primary-fixed"></div>
-                                <div class="w-3 h-3 rounded-sm bg-stone-200"></div>
-                                <div class="w-3 h-3 rounded-sm bg-stone-200"></div>
-                                <div class="w-3 h-3 rounded-sm bg-stone-200"></div>
-                            </div>
-                            <div class="flex flex-col gap-1">
-                                <div class="w-3 h-3 rounded-sm bg-primary-fixed"></div>
-                                <div class="w-3 h-3 rounded-sm bg-stone-200"></div>
-                                <div class="w-3 h-3 rounded-sm bg-primary-container/20"></div>
-                                <div class="w-3 h-3 rounded-sm bg-stone-200"></div>
-                                <div class="w-3 h-3 rounded-sm bg-primary-fixed"></div>
-                                <div class="w-3 h-3 rounded-sm bg-primary-container/40"></div>
-                                <div class="w-3 h-3 rounded-sm bg-stone-200"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="text-right whitespace-nowrap">
-                        <div class="text-2xl font-headline font-bold text-on-surface">365 Day Streak</div>
-                        <div class="text-primary-fixed font-bold text-sm tracking-widest uppercase">Coding Consistency
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Experience / Metrics Details Section -->
-            <section class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
-                <div
-                    class="asymmetric-card bg-surface-container-lowest p-10 group hover:bg-primary-container transition-colors duration-500">
-                    <h4 class="text-2xl font-headline font-bold mb-4 group-hover:text-surface">Technical Mastery</h4>
-                    <ul class="space-y-4">
-                        <li class="flex justify-between items-center group-hover:text-surface">
-                            <span class="font-medium">Cloud Architecture</span>
-                            <span class="text-primary-fixed font-bold group-hover:text-surface">98%</span>
-                        </li>
-                        <div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
-                            <div class="bg-primary-fixed h-full w-[98%]"></div>
-                        </div>
-                        <li class="flex justify-between items-center group-hover:text-surface">
-                            <span class="font-medium">Full-Stack Dev</span>
-                            <span class="text-primary-fixed font-bold group-hover:text-surface">92%</span>
-                        </li>
-                        <div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
-                            <div class="bg-primary-fixed h-full w-[92%]"></div>
-                        </div>
-                    </ul>
-                </div>
-                <div
-                    class="p-10 rounded-lg bg-surface border-2 border-dashed border-outline-variant flex flex-col items-center justify-center text-center">
-                    <span class="material-symbols-outlined text-outline text-5xl mb-4">download</span>
-                    <h4 class="text-xl font-headline font-bold text-on-surface">Full Performance Audit</h4>
-                    <p class="text-on-surface-variant text-sm mb-6">Download the comprehensive technical report of my
-                        past 12 months in PDF.</p>
+            <!-- Block 3: Quick Actions (Side) -->
+            <div
+                class="md:col-span-4 lg:col-span-3 bento-card bg-white/5 border border-white/5 rounded-lg p-6 flex flex-col">
+                <h2 class="text-sm font-bold text-white uppercase tracking-widest mb-6">Quick Actions</h2>
+                <div class="grid grid-cols-2 gap-3 mb-6">
                     <button
-                        class="bg-inverse-surface text-surface py-3 px-8 rounded-full font-headline font-bold flex items-center gap-2 hover:scale-105 transition-transform">
-                        Download Report <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                        class="aspect-square bg-white/5 hover:bg-orange-500/20 border border-white/10 hover:border-orange-500/50 rounded-2xl flex flex-col items-center justify-center gap-2 group transition-all">
+                        <span
+                            class="material-symbols-outlined text-orange-500 group-hover:scale-110 transition-transform">construction</span>
+                        <span class="text-[10px] font-bold text-stone-300">Open Builder</span>
+                    </button>
+                    <button
+                        class="aspect-square bg-white/5 hover:bg-orange-500/20 border border-white/10 hover:border-orange-500/50 rounded-2xl flex flex-col items-center justify-center gap-2 group transition-all">
+                        <span
+                            class="material-symbols-outlined text-orange-500 group-hover:scale-110 transition-transform">insights</span>
+                        <span class="text-[10px] font-bold text-stone-300">View Analytics</span>
+                    </button>
+                    <button
+                        class="aspect-square bg-white/5 hover:bg-orange-500/20 border border-white/10 hover:border-orange-500/50 rounded-2xl flex flex-col items-center justify-center gap-2 group transition-all">
+                        <span
+                            class="material-symbols-outlined text-orange-500 group-hover:scale-110 transition-transform">article</span>
+                        <span class="text-[10px] font-bold text-stone-300">Manage Resume</span>
+                    </button>
+                    <button
+                        class="aspect-square bg-white/5 hover:bg-orange-500/20 border border-white/10 hover:border-orange-500/50 rounded-2xl flex flex-col items-center justify-center gap-2 group transition-all">
+                        <span
+                            class="material-symbols-outlined text-orange-500 group-hover:scale-110 transition-transform">open_in_new</span>
+                        <span class="text-[10px] font-bold text-stone-300">Preview Portfolio</span>
                     </button>
                 </div>
-            </section>
+                <button
+                    class="w-full py-4 rounded-xl border border-dashed border-white/10 hover:border-orange-500/50 hover:bg-white/5 text-stone-400 hover:text-white transition-all flex items-center justify-center gap-2 text-xs font-bold">
+                    <span class="material-symbols-outlined text-sm">content_copy</span> Copy Share Link
+                </button>
+            </div>
+            <!-- Block 4: Recent Activity (Tall) -->
+            <div class="md:col-span-6 lg:col-span-5 bento-card bg-white/5 border border-white/5 rounded-lg p-6">
+                <div class="flex items-center justify-between mb-8">
+                    <h2 class="text-sm font-bold text-white uppercase tracking-widest">Recent Activity</h2>
+                    <span class="material-symbols-outlined text-stone-600 text-lg">history</span>
+                </div>
+                <div
+                    class="space-y-6 relative before:absolute before:left-[11px] before:top-2 before:bottom-2 before:w-px before:bg-white/5">
+                    <div class="relative flex gap-4 pl-8 group">
+                        <div
+                            class="absolute left-0 top-1 w-6 h-6 rounded-full bg-stone-900 border-2 border-orange-500 flex items-center justify-center z-10 group-hover:scale-110 transition-transform">
+                            <span class="material-symbols-outlined text-[12px] text-orange-500"
+                                style="font-variation-settings: 'FILL' 1;">terminal</span>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-white leading-tight">Production Build Success</p>
+                            <p class="text-[11px] text-stone-500 mt-1">Core engine compiled in 2.4s. All tests passed.
+                            </p>
+                            <p class="text-[9px] text-stone-600 font-bold mt-2">14 MIN AGO</p>
+                        </div>
+                    </div>
+                    <div class="relative flex gap-4 pl-8 group">
+                        <div
+                            class="absolute left-0 top-1 w-6 h-6 rounded-full bg-stone-900 border-2 border-stone-700 flex items-center justify-center z-10 group-hover:scale-110 transition-transform">
+                            <span class="material-symbols-outlined text-[12px] text-stone-500"
+                                style="font-variation-settings: 'FILL' 1;">person</span>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-white leading-tight">Lead Capture: Acme Corp</p>
+                            <p class="text-[11px] text-stone-500 mt-1">A hiring manager downloaded "mekesh_cv_v2.pdf".
+                            </p>
+                            <p class="text-[9px] text-stone-600 font-bold mt-2">2 HOURS AGO</p>
+                        </div>
+                    </div>
+                    <div class="relative flex gap-4 pl-8 group">
+                        <div
+                            class="absolute left-0 top-1 w-6 h-6 rounded-full bg-stone-900 border-2 border-stone-700 flex items-center justify-center z-10 group-hover:scale-110 transition-transform">
+                            <span class="material-symbols-outlined text-[12px] text-stone-500"
+                                style="font-variation-settings: 'FILL' 1;">sync</span>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-white leading-tight">Sync Completed</p>
+                            <p class="text-[11px] text-stone-500 mt-1">GitHub repository 'main' synced with Portfolio
+                                OS.</p>
+                            <p class="text-[9px] text-stone-600 font-bold mt-2">5 HOURS AGO</p>
+                        </div>
+                    </div>
+                </div>
+                <button
+                    class="w-full mt-10 text-[10px] font-bold text-orange-500 uppercase tracking-widest hover:text-white transition-colors">View
+                    All Logs →</button>
+            </div>
+            <!-- Block 5: System Status (Side) -->
+            <div class="md:col-span-6 lg:col-span-4 bento-card bg-white/5 border border-white/5 rounded-lg p-6">
+                <h2 class="text-sm font-bold text-white uppercase tracking-widest mb-6">System Health</h2>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5">
+                        <div class="flex items-center gap-3">
+                            <span class="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.5)]"></span>
+                            <span class="text-xs font-medium text-stone-300">PWA Sync</span>
+                        </div>
+                        <span class="text-[10px] font-bold text-stone-500 uppercase">Online</span>
+                    </div>
+                    <div class="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5">
+                        <div class="flex items-center gap-3">
+                            <span class="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.5)]"></span>
+                            <span class="text-xs font-medium text-stone-300">Autosave</span>
+                        </div>
+                        <span class="text-[10px] font-bold text-stone-500 uppercase">Active</span>
+                    </div>
+                    <div class="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5">
+                        <div class="flex items-center gap-3">
+                            <span
+                                class="w-2 h-2 rounded-full bg-orange-500 shadow-[0_0_8px_rgba(255,122,48,0.5)]"></span>
+                            <span class="text-xs font-medium text-stone-300">Cache</span>
+                        </div>
+                        <span class="text-[10px] font-bold text-stone-500 uppercase">92% Hit</span>
+                    </div>
+                    <div class="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5">
+                        <div class="flex items-center gap-3">
+                            <span class="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.5)]"></span>
+                            <span class="text-xs font-medium text-stone-300">Auth Service</span>
+                        </div>
+                        <span class="text-[10px] font-bold text-stone-500 uppercase">Secure</span>
+                    </div>
+                    <div class="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5">
+                        <div class="flex items-center gap-3">
+                            <span
+                                class="w-2 h-2 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)] animate-pulse"></span>
+                            <span class="text-xs font-medium text-stone-300">Build Status</span>
+                        </div>
+                        <span class="text-[10px] font-bold text-stone-500 uppercase">Idle</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Block 6: AI Intelligence (Reserved) -->
+            <div
+                class="md:col-span-12 lg:col-span-3 bento-card bg-orange-500 border border-orange-400 rounded-lg p-6 text-white relative overflow-hidden group">
+                <!-- Abstract Texture -->
+                <div
+                    class="absolute -right-8 -bottom-8 w-32 h-32 bg-white/20 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-1000">
+                </div>
+                <div class="relative z-10">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="material-symbols-outlined text-white">auto_awesome</span>
+                        <h2 class="text-xs font-black uppercase tracking-widest">AI Intelligence</h2>
+                    </div>
+                    <p class="text-orange-100 text-xs mb-6 font-medium leading-relaxed">System has identified a 15% drop
+                        in portfolio engagement from mobile users. Suggestions generated.</p>
+                    <div class="space-y-3 mb-6">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-sm">check_circle</span>
+                            <span class="text-[10px] font-bold">Optimize PWA cache</span>
+                        </div>
+                        <div class="flex items-center gap-2 opacity-60">
+                            <span class="material-symbols-outlined text-sm">check_circle</span>
+                            <span class="text-[10px] font-bold">Refactor Hero section</span>
+                        </div>
+                    </div>
+                    <button
+                        class="w-full py-3 bg-white text-orange-500 rounded-xl font-black text-[10px] uppercase tracking-tighter hover:bg-orange-50 transition-colors shadow-lg">Configure
+                        AI</button>
+                </div>
+            </div>
         </div>
     </main>
+    <!-- Scrolling Ticker Marquee Style -->
+    <footer class="lg:ml-64 bg-stone-950 border-t border-white/5 py-3 overflow-hidden whitespace-nowrap">
+        <div class="inline-block animate-marquee px-4">
+            <span class="text-[10px] font-bold text-stone-600 uppercase tracking-widest mx-8">Node: US-EAST-1</span>
+            <span class="text-[10px] font-bold text-orange-500 uppercase tracking-widest mx-8">• CLOUD DEPLOYED</span>
+            <span class="text-[10px] font-bold text-stone-600 uppercase tracking-widest mx-8">LATENCY: 42MS</span>
+            <span class="text-[10px] font-bold text-orange-500 uppercase tracking-widest mx-8">• CORE STACK: NEXT.JS +
+                TAILWIND + SUPABASE</span>
+            <span class="text-[10px] font-bold text-stone-600 uppercase tracking-widest mx-8">NODE: US-EAST-1</span>
+            <span class="text-[10px] font-bold text-orange-500 uppercase tracking-widest mx-8">• CLOUD DEPLOYED</span>
+            <span class="text-[10px] font-bold text-stone-600 uppercase tracking-widest mx-8">LATENCY: 42MS</span>
+        </div>
+    </footer>
+    <style>
+        @keyframes marquee {
+            0% {
+                transform: translateX(0);
+            }
 
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .animate-marquee {
+            animation: marquee 20s linear infinite;
+            display: inline-block;
+        }
+    </style>
 </body>
 
 </html>

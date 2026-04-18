@@ -4,8 +4,8 @@ import { useEffect } from 'react';
 import { Link, useRouteError, isRouteErrorResponse } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { addDoc, collection } from 'firebase/firestore';
-import { db } from '@/lib/firebaseClient';
-import { Button } from '@/components/Shared';
+import { db } from '@/services/firebase/client';
+import { Button } from '@/components/common';
 
 export const NotFoundPage: React.FC = () => {
     const error = useRouteError();

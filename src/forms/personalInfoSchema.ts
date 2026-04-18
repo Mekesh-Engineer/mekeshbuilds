@@ -17,6 +17,9 @@ export const personalInfoSchema = z.object({
   twitter_url: urlFieldSchema,
   website_url: urlFieldSchema,
   bio: z.string().max(500, 'Bio must be under 500 characters').optional(),
+  hero_image_url: urlFieldSchema,
+  hero_badges: z.array(z.string()).max(5, 'Maximum 5 badges allowed').optional(),
+  availability_status: z.enum(['open', 'selective', 'unavailable']).optional(),
 });
 
 export type PersonalInfoInput = z.infer<typeof personalInfoSchema>;

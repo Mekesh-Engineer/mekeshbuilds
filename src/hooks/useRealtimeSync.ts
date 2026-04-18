@@ -2,7 +2,7 @@
 // Subscribes to Firestore onSnapshot for live portfolio data sync.
 import { useEffect } from 'react';
 import { doc, onSnapshot } from 'firebase/firestore';
-import { db } from '@/lib/firebaseClient';
+import { db } from '@/services/firebase/client';
 
 export const useRealtimeSync = (
   userId: string | undefined,

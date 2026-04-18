@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useExportPDF } from '@/hooks/useExportPDF';
-import { Card, Button } from '@/components/Shared';
+import { Card, Button } from '@/components/common';
 
 export const ResumeManagerPage: React.FC = () => {
     const { exportPDF, isExporting } = useExportPDF();

@@ -1,9 +1,9 @@
 // src/pages/ProjectsManagerPage.tsx
 // Dedicated project management workspace with sortable table.
 import { Helmet } from 'react-helmet-async';
-import { useAuthStore } from '@/store/authStore';
+import { useAuthStore } from '@/stores/authStore';
 import { usePortfolioData } from '@/hooks/usePortfolioData';
-import { Card, Button, Badge } from '@/components/Shared';
+import { Card, Button, Badge } from '@/components/common';
 
 export const ProjectsManagerPage: React.FC = () => {
     const user = useAuthStore((s) => s.user);

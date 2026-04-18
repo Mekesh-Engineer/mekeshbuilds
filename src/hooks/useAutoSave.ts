@@ -2,7 +2,7 @@
 // Debounces Zustand draft state changes to Firestore via React Query mutations.
 import { useEffect, useRef } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { useBuilderStore } from '@/store/builderStore';
+import { useBuilderStore } from '@/stores/builderStore';
 import * as profileService from '@/services/profileService';
 
 const DEBOUNCE_MS = 800;

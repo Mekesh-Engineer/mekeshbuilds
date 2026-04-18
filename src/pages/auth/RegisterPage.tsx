@@ -29,24 +29,17 @@ export const RegisterPage = () => {
     } = useForm<RegisterInput>({
         resolver: zodResolver(registerSchema),
         mode: 'onBlur',
-        defaultValues: {
-            role: 'user', // default role
-        }
     });
 
     const onSubmit = async (data: RegisterInput) => {
         setIsLoading(true);
         try {
-            await signUpWithEmail(data.email, data.password, data.role);
+            await signUpWithEmail(data.email, data.password);
             setSubmitSuccess(true);
-            showSuccess('Account Created', `Successfully created ${data.role} account!`);
-            
+            showSuccess('Account Created', `Successfully created user account!`);
+
             setTimeout(() => {
-                if (data.role === 'admin') {
-                    navigate('/dashboard', { replace: true });
-                } else {
-                    navigate('/', { replace: true });
-                }
+                navigate('/', { replace: true });
             }, 800);
         } catch (err) {
             showError(err instanceof Error ? err.message : 'Registration failed. Please try again.');
@@ -77,7 +70,7 @@ export const RegisterPage = () => {
             {/* Form */}
             <motion.form
                 onSubmit={handleSubmit(onSubmit)}
-                className="flex flex-col gap-5 w-full"
+                className="flex w-full flex-col gap-4 sm:gap-5"
                 variants={fadeUp(0.12)} initial="hidden" animate="visible" noValidate
             >
                 <FormInput
@@ -104,10 +97,7 @@ export const RegisterPage = () => {
                             type="button"
                             onClick={() => setShowPassword(v => !v)}
                             aria-label={showPassword ? 'Hide password' : 'Show password'}
-                            className="flex h-8 w-8 items-center justify-center rounded-lg transition-colors"
-                            style={{ color: 'var(--sys-text-secondary)' }}
-                            onMouseEnter={e => (e.currentTarget.style.background = 'var(--sys-bg-tertiary)')}
-                            onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                            className="flex h-8 w-8 items-center justify-center rounded-lg text-sys-text-secondary transition-colors hover:bg-sys-bg-tertiary hover:text-sys-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sys-accent/40"
                         >
                             <span className="material-icons-round text-[18px]">
                                 {showPassword ? 'visibility_off' : 'visibility'}
@@ -117,56 +107,10 @@ export const RegisterPage = () => {
                     {...register('password')}
                 />
 
-                <div className="flex flex-col gap-1.5 w-full">
-                    <label className="text-[13px] font-semibold" style={{ color: 'var(--sys-text-primary)' }}>
-                        Select Role
-                    </label>
-                    <div className="relative flex items-center w-full">
-                        <span
-                            className="material-icons-round pointer-events-none absolute left-4 text-[18px] select-none"
-                            style={{ color: 'var(--sys-text-secondary)' }}
-                        >
-                            admin_panel_settings
-                        </span>
-                        <select
-                            {...register('role')}
-                            disabled={isLoading}
-                            className="appearance-none"
-                            style={{
-                                width: '100%',
-                                height: 48,
-                                background: 'var(--sys-bg-tertiary)',
-                                border: '1.5px solid var(--sys-border)',
-                                borderRadius: 12,
-                                padding: '0 44px 0 44px',
-                                fontSize: 15,
-                                color: 'var(--sys-text-primary)',
-                                outline: 'none',
-                                fontFamily: 'inherit',
-                                transition: 'border-color 0.2s, box-shadow 0.2s',
-                            }}
-                            onFocus={e => {
-                                e.currentTarget.style.borderColor = 'var(--sys-accent)';
-                                e.currentTarget.style.boxShadow = '0 0 0 3px rgba(255,107,44,0.18)';
-                            }}
-                            onBlur={e => {
-                                e.currentTarget.style.borderColor = 'var(--sys-border)';
-                                e.currentTarget.style.boxShadow = 'none';
-                            }}
-                        >
-                            <option value="user">User</option>
-                            <option value="admin">Admin</option>
-                        </select>
-                        <span className="material-icons-round pointer-events-none absolute right-4 text-[18px] text-sys-text-secondary">
-                            expand_more
-                        </span>
-                    </div>
-                </div>
-
                 <div className="mt-1 flex justify-end items-center">
                     <Link
                         to="/auth/login"
-                        className="text-[13px] font-semibold transition-all hover:-translate-x-[2px] text-sys-text-secondary hover:text-sys-text-primary"
+                        className="text-[13px] font-semibold text-sys-text-secondary transition-all hover:-translate-x-[2px] hover:text-sys-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sys-accent/40"
                         style={{ pointerEvents: isLoading ? 'none' : 'auto' }}
                     >
                         Already have an account? Sign In
@@ -178,7 +122,7 @@ export const RegisterPage = () => {
                     disabled={isLoading || submitSuccess}
                     whileHover={!isLoading ? { scale: 1.02, y: -1 } : {}}
                     whileTap={!isLoading ? { scale: 0.98 } : {}}
-                    className="relative flex h-12 w-full items-center justify-center gap-2.5 overflow-hidden rounded-xl text-[15px] font-bold text-white transition-all"
+                    className="relative flex h-12 w-full items-center justify-center gap-2.5 overflow-hidden rounded-xl text-[15px] font-bold text-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sys-accent/50"
                     style={{
                         background: submitSuccess ? 'var(--sys-success)' : 'linear-gradient(135deg, var(--sys-accent) 0%, var(--sys-accent-dark) 100%)',
                         boxShadow: submitSuccess ? '0 4px 20px rgba(34,197,94,0.4)' : '0 4px 20px rgba(255,107,44,0.35)',

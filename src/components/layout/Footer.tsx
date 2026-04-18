@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { auth, db } from '@/lib/firebaseClient';
+import { auth, db } from '@/services/firebase/client';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface UserProfile {
@@ -366,7 +366,7 @@ export const Footer: React.FC = () => {
                 style={{ background: 'radial-gradient(circle, #3b82f6 0%, transparent 70%)' }}
             />
 
-            <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="relative w-full px-4 sm:px-6 lg:px-8">
 
                 {/* ── CTA Banner ── */}
                 <RevealOnScroll>
@@ -416,7 +416,7 @@ export const Footer: React.FC = () => {
 
                             <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="w-full sm:w-auto">
                                 <Link
-                                    to="/admin-access"
+                                    to="/auth/login"
                                     className="inline-flex w-full justify-center items-center gap-2 rounded-2xl px-7 py-3.5 text-[14px] font-semibold text-white transition-all"
                                     style={{
                                         background: 'linear-gradient(135deg, #ff6b2c 0%, #e65100 100%)',
@@ -584,14 +584,14 @@ export const Footer: React.FC = () => {
                             </li>
                             <li>
                                 <motion.a
-                                    href="https://mekeshbuilds.vercel.app"
+                                    href="https://mekeshbuild.web.app/"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     whileHover={{ x: 3 }}
                                     className="flex items-center justify-center sm:justify-start gap-2.5 text-[13px] text-sys-text-secondary transition-colors hover:text-sys-accent overflow-hidden"
                                 >
                                     <span className="material-icons-round text-[15px] opacity-60 shrink-0">public</span>
-                                    <span className="truncate">mekeshbuilds.vercel.app</span>
+                                    <span className="truncate">mekeshbuild.web.app</span>
                                     <span className="material-icons-round text-[12px] opacity-50 shrink-0 hidden sm:block">open_in_new</span>
                                 </motion.a>
                             </li>
@@ -659,20 +659,11 @@ export const Footer: React.FC = () => {
                         <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
                             <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="w-full sm:w-auto">
                                 <Link
-                                    to="/admin-access"
+                                    to="/auth/login"
                                     className="flex w-full sm:w-auto items-center justify-center gap-1.5 rounded-xl border border-sys-border/60 bg-sys-bg-secondary px-4 py-2 sm:px-3 sm:py-1.5 text-[12px] font-medium text-sys-text-secondary transition-colors hover:border-sys-border hover:text-sys-text-primary"
                                 >
                                     <span className="material-icons-round text-[13px]">admin_panel_settings</span>
                                     Admin Access
-                                </Link>
-                            </motion.div>
-                            <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="w-full sm:w-auto">
-                                <Link
-                                    to="/admin-access"
-                                    className="flex w-full sm:w-auto items-center justify-center gap-1.5 rounded-xl border border-sys-border/60 bg-sys-bg-secondary px-4 py-2 sm:px-3 sm:py-1.5 text-[12px] font-medium text-sys-text-secondary transition-colors hover:border-sys-border hover:text-sys-text-primary"
-                                >
-                                    <span className="material-icons-round text-[13px]">key</span>
-                                    Owner Login
                                 </Link>
                             </motion.div>
                         </div>

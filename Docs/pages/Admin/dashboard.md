@@ -23,28 +23,28 @@ The Dashboard is the command center of the MekeshBuilds admin workspace. It is t
 
 ### 2.1 Layout
 
-The Dashboard uses `AdminLayout` as its shell — a fixed top navbar (80px) and a collapsible left sidebar (240px expanded, 64px collapsed). The main content area is a responsive CSS Grid Bento layout that adapts from 1 column on mobile to 3 columns on desktop.
+The Dashboard uses `AdminLayout` as its shell — a fixed top navbar (80px). The main content area is a responsive CSS Grid Bento layout that adapts from 1 column on mobile to 3 columns on desktop.
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│  AdminLayout Navbar (fixed, 80px)                       │
-├────────────┬────────────────────────────────────────────┤
-│  Sidebar   │  Dashboard Main Content Grid               │
-│  (240px)   │                                            │
-│            │  ┌──────────┬──────────┬──────────┐        │
-│  Nav Links │  │ Views    │ Downloads│ Clicks   │        │
-│            │  │ Counter  │ Counter  │ Counter  │        │
-│            │  ├──────────┴──────────┴──────────┤        │
-│            │  │  Engagement Sparkline Chart     │        │
-│            │  │  (col-span-3, last 7 days)      │        │
-│            │  ├──────────┬──────────────────────┤        │
-│            │  │  Quick   │  Recent Activity     │        │
-│            │  │  Actions │  Feed (live)         │        │
-│            │  ├──────────┤                      │        │
-│            │  │  System  │                      │        │
-│            │  │  Health  │                      │        │
-│            │  └──────────┴──────────────────────┘        │
-└────────────┴────────────────────────────────────────────┘
+┌────────────────────────────────────────────────┐
+│  AdminLayout Navbar (fixed, 80px)              │
+├────────────────────────────────────────────────┤
+│  Dashboard Main Content Grid                   │
+│                                                │
+│  ┌──────────┬──────────┬──────────┐            │
+│  │ Views    │ Downloads│ Clicks   │            │
+│  │ Counter  │ Counter  │ Counter  │            │
+│  ├──────────┴──────────┴──────────┤            │
+│  │  Engagement Sparkline Chart     │            │
+│  │  (col-span-3, last 7 days)      │            │
+│  ├──────────┬──────────────────────┤            │
+│  │  Quick   │  Recent Activity     │            │
+│  │  Actions │  Feed (live)         │            │
+│  ├──────────┤                      │            │
+│  │  System  │                      │            │
+│  │  Health  │                      │            │
+│  └──────────┴──────────────────────┘            │
+└────────────────────────────────────────────────┘
 ```
 
 ### 2.2 Bento Grid Blocks
@@ -104,21 +104,6 @@ Placeholder card showing:
 - Left: App brand logo + "Dashboard" breadcrumb
 - Center: Global search bar (searches projects, blog posts, skills by name — client-side fuzzy search via `fuse.js`)
 - Right: Notification bell (unread count badge) + Owner avatar dropdown (View Profile / Settings / Sign Out)
-
-### 2.4 Sidebar Navigation
-
-Links with active state highlight:
-
-- Dashboard (current)
-- Builder
-- Analytics
-- Resume Manager
-- Projects Manager
-- Content Editor
-- Theme Studio
-- Settings
-
-Collapse toggle at the bottom of the sidebar saves state to `localStorage`.
 
 ---
 
@@ -200,7 +185,6 @@ Collapse toggle at the bottom of the sidebar saves state to `localStorage`.
 ### 4.4 Responsiveness
 
 - `lg:grid-cols-3` → `md:grid-cols-2` → `grid-cols-1`
-- Sidebar collapses to a bottom navigation bar on mobile (`< 768px`)
 - Charts reflow to single-metric view on small screens
 
 ### 4.5 Motion

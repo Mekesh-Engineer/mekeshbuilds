@@ -4,8 +4,8 @@
 // (e.g., to Context API) without touching any component that calls useAuth().
 import { useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
-import { useAuthStore } from '@/store/authStore';
-import { auth } from '@/lib/firebaseClient';
+import { useAuthStore } from '@/stores/authStore';
+import { auth } from '@/services/firebase/client';
 
 export const useAuth = () => {
   const store = useAuthStore();

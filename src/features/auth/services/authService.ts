@@ -14,7 +14,7 @@ import {
   updatePassword as firebaseUpdatePassword,
 } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { auth, db } from '@/lib/firebaseClient';
+import { auth, db } from '@/services/firebase/client';
 import { ServiceError, assertRequiredString, toServiceError } from '@/services/serviceError';
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
@@ -262,10 +262,10 @@ export async function signInWithEmail(email: string, password: string) {
 }
 
 /**
- * Signs up a new user with email, password, and explicitly stores their role.
+ * Signs up a new user with email/password and provisions a safe default role.
  * Throws on failure.
  */
-export async function signUpWithEmail(email: string, password: string, role: string = 'user') {
+export async function signUpWithEmail(email: string, password: string) {
   assertRequiredString(email, 'email');
   assertRequiredString(password, 'password');
 
@@ -278,10 +278,10 @@ export async function signUpWithEmail(email: string, password: string, role: str
     throw mapFirebaseAuthError(error, 'Registration failed. Please try again.');
   }
 
-  // Store role in the canonical profiles collection used by owner/session checks.
+  // Always provision standard users from public registration.
+  // Owner elevation is handled by configured owner email/custom claims.
   try {
-    const normalizedRole = role.toLowerCase();
-    await ensureUserDocument(credential.user, normalizedRole);
+    await ensureUserDocument(credential.user, 'user');
   } catch (error) {
     // User exists in Auth, but profile provisioning failed.
     throw toServiceError(

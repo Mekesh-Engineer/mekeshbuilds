@@ -11,7 +11,7 @@ import {
   query,
   where,
 } from 'firebase/firestore';
-import { db } from '@/lib/firebaseClient';
+import { db } from '@/services/firebase/client';
 import type { Database } from '@/types/database.types';
 import { assertRequiredString, toServiceError } from '@/services/serviceError';
 

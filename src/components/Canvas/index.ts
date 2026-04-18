@@ -1,8 +1,8 @@
 export {
-	AboutSection,
-	ContactSection,
-	HeroSection,
-	ProjectsSection,
-	SkillsSection,
-	TimelineSection,
+    AboutSection,
+    ContactSection,
+    HeroSection,
+    ProjectsSection,
+    SkillsSection,
+    TimelineSection,
 } from './LegacyCanvasSections';

@@ -7,7 +7,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { ReactNode } from 'react';
 import React from 'react';
 import { useAutoSave } from '@/hooks/useAutoSave';
-import { useBuilderStore } from '@/store/builderStore';
+import { useBuilderStore } from '@/stores/builderStore';
 import type { Profile } from '@/types/profile.types';
 
 // ─── Mock profileService ──────────────────────────────────────────────────────
@@ -52,6 +52,8 @@ const makeProfile = (overrides: Partial<Profile> = {}): Profile => ({
   role: 'owner',
   created_at: new Date().toISOString(),
   updated_at: new Date().toISOString(),
+  hero_image_url: null,
+  hero_badges: null,
   ...overrides,
 });
 

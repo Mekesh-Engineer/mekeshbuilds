@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useAnalyticsData } from '@/hooks/useAnalyticsData';
-import { useAuthStore } from '@/store/authStore';
-import { Card, Button } from '@/components/Shared';
+import { useAuthStore } from '@/stores/authStore';
+import { Card, Button } from '@/components/common';
 
 type DateRangePreset = '7d' | '30d' | '90d' | 'custom';
 

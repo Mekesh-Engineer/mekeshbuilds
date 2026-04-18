@@ -8,16 +8,19 @@ import { AdminLayout } from '@/components/layout/AdminLayout/AdminLayout';
 import { PublicLayout } from '@/components/layout/PublicLayout';
 
 // Guards
-import { AuthGuard } from '@/components/guards/AuthGuard';
-import { AdminGuard } from '@/components/guards/AdminGuard';
+import { AuthGuard } from '@/routes/guards/AuthGuard';
+import { AdminGuard } from '@/routes/guards/AdminGuard';
 
 // Spinner fallback for lazy
-import { Spinner } from '@/components/Shared';
+import { Spinner } from '@/components/common';
 
 // Lazy-loaded pages — code-split for performance
 // Public pages
 const HomePage = lazy(() =>
     import('@/pages/public/HomePage').then((m) => ({ default: m.HomePage })),
+);
+const AboutPage = lazy(() =>
+    import('@/pages/public/AboutPage'),
 );
 const NotFoundPage = lazy(() =>
     import('@/pages/public/NotFoundPage').then((m) => ({ default: m.NotFoundPage })),
@@ -84,6 +87,10 @@ const router = createBrowserRouter([
         path: '/',
         element: withSuspense(<HomePage />),
         errorElement: withSuspense(<NotFoundPage />),
+    },
+    {
+        path: '/about',
+        element: withSuspense(<AboutPage />),
     },
     {
         path: '/auth/callback',

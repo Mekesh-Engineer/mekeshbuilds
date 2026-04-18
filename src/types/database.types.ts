@@ -39,6 +39,8 @@ export interface Database {
           location_lat: number | null;
           location_lng: number | null;
           about_photo_url: string | null;
+          hero_image_url: string | null;
+          hero_badges: string[] | null;
           role: string;
           created_at: string;
           updated_at: string;
@@ -74,6 +76,8 @@ export interface Database {
           location_lat?: number | null;
           location_lng?: number | null;
           about_photo_url?: string | null;
+          hero_image_url?: string | null;
+          hero_badges?: string[] | null;
           role?: string;
           created_at?: string;
           updated_at?: string;
@@ -109,11 +113,13 @@ export interface Database {
           location_lat?: number | null;
           location_lng?: number | null;
           about_photo_url?: string | null;
+          hero_image_url?: string | null;
+          hero_badges?: string[] | null;
           role?: string;
           created_at?: string;
           updated_at?: string;
         };
-      Relationships: [];
+        Relationships: [];
       };
       experience: {
         Row: {
@@ -155,7 +161,7 @@ export interface Database {
           sort_order?: number;
           created_at?: string;
         };
-      Relationships: [];
+        Relationships: [];
       };
       skills: {
         Row: {
@@ -185,7 +191,7 @@ export interface Database {
           sort_order?: number;
           created_at?: string;
         };
-      Relationships: [];
+        Relationships: [];
       };
       projects: {
         Row: {
@@ -233,7 +239,7 @@ export interface Database {
           created_at?: string;
           updated_at?: string;
         };
-      Relationships: [];
+        Relationships: [];
       };
       certificates: {
         Row: {
@@ -266,7 +272,7 @@ export interface Database {
           sort_order?: number;
           created_at?: string;
         };
-      Relationships: [];
+        Relationships: [];
       };
       blog_posts: {
         Row: {
@@ -308,7 +314,7 @@ export interface Database {
           created_at?: string;
           updated_at?: string;
         };
-      Relationships: [];
+        Relationships: [];
       };
       gallery_items: {
         Row: {
@@ -338,7 +344,7 @@ export interface Database {
           sort_order?: number;
           created_at?: string;
         };
-      Relationships: [];
+        Relationships: [];
       };
       testimonials: {
         Row: {
@@ -386,7 +392,7 @@ export interface Database {
           sort_order?: number;
           created_at?: string;
         };
-      Relationships: [];
+        Relationships: [];
       };
       contact_submissions: {
         Row: {
@@ -416,7 +422,7 @@ export interface Database {
           message?: string;
           created_at?: string;
         };
-      Relationships: [];
+        Relationships: [];
       };
       page_views: {
         Row: {
@@ -446,7 +452,7 @@ export interface Database {
           country?: string | null;
           created_at?: string;
         };
-      Relationships: [];
+        Relationships: [];
       };
       project_clicks: {
         Row: {
@@ -467,7 +473,7 @@ export interface Database {
           owner_id?: string;
           created_at?: string;
         };
-      Relationships: [];
+        Relationships: [];
       };
       resume_versions: {
         Row: {
@@ -494,7 +500,7 @@ export interface Database {
           is_active?: boolean;
           uploaded_at?: string;
         };
-      Relationships: [];
+        Relationships: [];
       };
       admin_access_logs: {
         Row: {
@@ -515,7 +521,7 @@ export interface Database {
           success?: boolean;
           created_at?: string;
         };
-      Relationships: [];
+        Relationships: [];
       };
       error_logs: {
         Row: {
@@ -539,7 +545,7 @@ export interface Database {
           error_type?: string | null;
           created_at?: string;
         };
-      Relationships: [];
+        Relationships: [];
       };
     };
     Views: Record<string, never>;

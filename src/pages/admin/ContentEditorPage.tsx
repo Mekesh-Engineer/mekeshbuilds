@@ -2,7 +2,7 @@
 // CMS for blog posts, gallery items, testimonials, and about content.
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Card, Button } from '@/components/Shared';
+import { Card, Button } from '@/components/common';
 
 type ContentTab = 'blog' | 'gallery' | 'testimonials' | 'about';
 

@@ -181,17 +181,15 @@ const BrandPanel = () => (
 
 export const AuthLayout = ({ children }: { children: ReactNode }) => {
     return (
-        <div className="min-h-screen flex items-center justify-center p-4 sm:p-6"
-            style={{ background: 'var(--sys-bg-primary)' }}>
+        <div className="flex min-h-screen items-center justify-center bg-sys-bg-primary p-4 sm:p-6">
             <motion.div
                 initial={{ opacity: 0, scale: 0.98, y: 10 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 transition={{ duration: 0.45, ease: EASE }}
-                className="relative flex w-full overflow-hidden shadow-2xl"
+                className="relative mx-auto flex w-full max-w-[960px] overflow-hidden shadow-2xl"
                 style={{
-                    maxWidth: 900,
-                    minHeight: 560,
-                    borderRadius: 24,
+                    minHeight: 'min(680px, calc(100dvh - 2rem))',
+                    borderRadius: 20,
                     border: '1px solid var(--sys-border)',
                     background: 'var(--sys-bg-primary)',
                     boxShadow: '0 32px 80px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.04)',
@@ -199,7 +197,7 @@ export const AuthLayout = ({ children }: { children: ReactNode }) => {
             >
                 <BrandPanel />
                 <div
-                    className="relative flex flex-1 flex-col justify-center px-8 py-12 sm:px-10"
+                    className="relative flex flex-1 flex-col justify-center px-5 py-8 sm:px-8 sm:py-10 lg:px-10 lg:py-12"
                     style={{ background: 'var(--sys-bg-secondary)', minWidth: 0 }}
                 >
                     {/* Mobile logo */}
@@ -212,7 +210,9 @@ export const AuthLayout = ({ children }: { children: ReactNode }) => {
                         </p>
                     </div>
 
-                    {children}
+                    <div className="form-shell">
+                        {children}
+                    </div>
 
                 </div>
             </motion.div>

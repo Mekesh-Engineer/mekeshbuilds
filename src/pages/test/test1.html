@@ -21,57 +21,57 @@
             theme: {
                 extend: {
                     "colors": {
-                        "primary-fixed": "#ff7a30",
-                        "on-secondary-fixed-variant": "#803f00",
-                        "surface-container-highest": "#dfdcdc",
-                        "on-tertiary": "#fff1df",
-                        "inverse-primary": "#ff7a30",
-                        "surface-tint": "#9c3e00",
-                        "background": "#f9f6f5",
-                        "primary-container": "#ff7a30",
-                        "outline-variant": "#afadac",
-                        "on-tertiary-container": "#523700",
+                        "primary": "#9c3e00",
+                        "on-secondary-fixed": "#552800",
+                        "primary-fixed-dim": "#ee6d23",
+                        "surface": "#f9f6f5",
+                        "surface-container-low": "#f3f0ef",
+                        "primary-dim": "#893600",
                         "surface-dim": "#d6d4d3",
+                        "error-dim": "#b92902",
+                        "secondary": "#904800",
+                        "on-secondary-container": "#723700",
+                        "secondary-fixed-dim": "#ffb37d",
+                        "surface-tint": "#9c3e00",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary": "#7b5400",
                         "on-tertiary-fixed": "#372400",
-                        "inverse-surface": "#0e0e0e",
+                        "error": "#b02500",
+                        "surface-container-highest": "#dfdcdc",
+                        "surface-variant": "#dfdcdc",
+                        "on-primary-container": "#401500",
+                        "tertiary-fixed-dim": "#eca60f",
+                        "inverse-on-surface": "#9e9c9c",
+                        "error-container": "#f95630",
+                        "on-error-container": "#520c00",
                         "surface-container": "#eae7e7",
+                        "surface-container-high": "#e4e2e1",
+                        "tertiary-dim": "#6b4900",
+                        "on-error": "#ffefec",
+                        "on-tertiary": "#fff1df",
+                        "inverse-surface": "#0e0e0e",
+                        "on-secondary-fixed-variant": "#803f00",
+                        "on-primary": "#fff0ea",
+                        "secondary-container": "#ffc6a0",
+                        "on-surface": "#2f2f2e",
+                        "secondary-fixed": "#ffc6a0",
+                        "on-surface-variant": "#5c5b5b",
+                        "on-primary-fixed": "#000000",
                         "tertiary-container": "#fbb423",
                         "tertiary-fixed": "#fbb423",
-                        "secondary-container": "#ffc6a0",
-                        "on-secondary-fixed": "#552800",
-                        "on-tertiary-fixed-variant": "#5e4000",
-                        "surface-bright": "#f9f6f5",
-                        "on-surface-variant": "#5c5b5b",
-                        "on-secondary-container": "#723700",
-                        "tertiary-fixed-dim": "#eca60f",
-                        "on-background": "#2f2f2e",
-                        "on-primary-fixed-variant": "#4f1c00",
-                        "secondary-fixed": "#ffc6a0",
-                        "error": "#b02500",
-                        "on-primary-fixed": "#000000",
-                        "surface-variant": "#dfdcdc",
-                        "tertiary-dim": "#6b4900",
-                        "secondary": "#904800",
-                        "primary-fixed-dim": "#ee6d23",
+                        "inverse-primary": "#ff7a30",
+                        "background": "#f9f6f5",
+                        "primary-container": "#ff7a30",
                         "outline": "#787676",
-                        "inverse-on-surface": "#9e9c9c",
-                        "surface": "#f9f6f5",
-                        "on-primary": "#fff0ea",
-                        "on-error": "#ffefec",
-                        "surface-container-lowest": "#ffffff",
-                        "primary-dim": "#893600",
-                        "secondary-fixed-dim": "#ffb37d",
-                        "on-error-container": "#520c00",
-                        "surface-container-low": "#f3f0ef",
-                        "tertiary": "#7b5400",
-                        "on-surface": "#2f2f2e",
-                        "primary": "#9c3e00",
-                        "on-primary-container": "#401500",
-                        "surface-container-high": "#e4e2e1",
-                        "error-dim": "#b92902",
                         "on-secondary": "#fff0e8",
+                        "surface-bright": "#f9f6f5",
+                        "on-primary-fixed-variant": "#4f1c00",
+                        "on-background": "#2f2f2e",
+                        "on-tertiary-container": "#523700",
                         "secondary-dim": "#7e3e00",
-                        "error-container": "#f95630"
+                        "on-tertiary-fixed-variant": "#5e4000",
+                        "primary-fixed": "#ff7a30",
+                        "outline-variant": "#afadac"
                     },
                     "borderRadius": {
                         "DEFAULT": "1rem",
@@ -91,185 +91,100 @@
     <style>
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
         }
 
-        .bg-glass {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(16px);
-        }
-
-        .asymmetric-card {
-            border-top-left-radius: 3rem;
-            border-bottom-right-radius: 3rem;
-        }
-
-        .hide-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-
-        .hide-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
+        .glass-dark {
+            background-color: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(20px);
         }
     </style>
 </head>
 
 <body class="bg-surface font-body text-on-surface">
+    <!-- Shared Component: TopNavBar -->
+    <nav
+        class="fixed top-0 w-full z-50 h-20 glass-dark border-b border-white/10 flex justify-between items-center px-8 shadow-[0_8px_32px_rgba(156,62,0,0.08)]">
+        <!-- Left: Brand & Breadcrumb -->
+        <div class="flex items-center gap-6">
+            <div class="flex items-center gap-3 group cursor-pointer">
+                <div
+                    class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-primary-container flex items-center justify-center text-on-primary font-black italic tracking-tighter text-xl shadow-lg shadow-primary/20 transition-transform active:scale-95">
+                    MB
+                </div>
+                <div class="hidden md:flex flex-col">
+                    <span
+                        class="text-white font-headline font-extrabold tracking-tight text-sm leading-none">Dashboard</span>
+                    <span class="text-stone-500 font-label text-[10px] uppercase tracking-widest mt-1">Command
+                        Center</span>
+                </div>
+            </div>
+            <div class="hidden lg:flex items-center gap-6 ml-4">
+                <a class="text-orange-500 font-headline font-extrabold border-b-2 border-orange-500 pb-1 text-sm tracking-tight transition-all"
+                    href="#">Projects</a>
+                <a class="text-stone-400 font-headline font-bold text-sm tracking-tight hover:text-stone-100 transition-colors duration-300"
+                    href="#">Team</a>
+                <a class="text-stone-400 font-headline font-bold text-sm tracking-tight hover:text-stone-100 transition-colors duration-300"
+                    href="#">Analytics</a>
+            </div>
+        </div>
+        <!-- Center: Global Fuzzy Search -->
+        <div class="flex-1 max-w-md px-8">
+            <div class="relative group">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <span
+                        class="material-symbols-outlined text-stone-500 group-focus-within:text-orange-500 transition-colors">search</span>
+                </div>
+                <input
+                    class="w-full bg-stone-800/40 border-0 rounded-full py-2.5 pl-11 pr-4 text-stone-200 placeholder-stone-500 font-body text-sm focus:ring-2 focus:ring-orange-500/50 focus:bg-stone-800/60 transition-all duration-300 outline-none w-full group-focus-within:scale-105"
+                    placeholder="Fuzzy search commands..." type="text" />
+                <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none">
+                    <span
+                        class="text-[10px] font-bold text-stone-600 bg-stone-900 px-1.5 py-0.5 rounded border border-white/5 tracking-tighter">CMD
+                        + K</span>
+                </div>
+            </div>
+        </div>
+        <!-- Right: Actions & Profile -->
+        <div class="flex items-center gap-4">
+            <!-- Notifications -->
+            <button
+                class="relative w-10 h-10 flex items-center justify-center rounded-full text-stone-400 hover:bg-orange-500/10 hover:text-orange-400 transition-all duration-300 active:scale-95">
+                <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+                <span
+                    class="absolute top-2.5 right-2.5 w-2 h-2 bg-orange-500 rounded-full border-2 border-[#0A0A0F]"></span>
+            </button>
+            <!-- Settings -->
+            <button
+                class="w-10 h-10 flex items-center justify-center rounded-full text-stone-400 hover:bg-orange-500/10 hover:text-orange-400 transition-all duration-300 active:scale-95">
+                <span class="material-symbols-outlined" data-icon="settings">settings</span>
+            </button>
+            <div class="h-8 w-[1px] bg-white/10 mx-2"></div>
+            <!-- Profile Dropdown -->
+            <div class="flex items-center gap-3 pl-2 cursor-pointer group">
+                <div class="text-right hidden sm:block">
+                    <p class="text-xs font-bold text-stone-100 font-headline leading-none">Alex Rivera</p>
+                    <p class="text-[10px] text-stone-500 font-label mt-1">Lead Architect</p>
+                </div>
+                <div class="relative">
+                    <img alt="User avatar"
+                        class="w-10 h-10 rounded-full object-cover border-2 border-white/10 group-hover:border-orange-500/50 transition-all duration-300"
+                        data-alt="Close-up professional portrait of a confident man with a slight smile in a high-end architectural studio background with soft natural lighting"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYfyOz_pU-ebWO7lBmF41VTSBQBLx04RnelnsP7XTz3_R1W3IyftC_9HnPEy0dZV1Mt42_CJeQUTsasPubLYP4rTEq0PtdbaIrRu2st6mQUNlpDcDa0sVAFJSlA75zQja5YqdQzZbfuP2mxu52gsUw78jGebVHoLrPlqQ-n_BDrTaCkkkkUDekO3v1gv11Xqt0sIX1VoYuRq1iRwIoIJu8pHtgwF1tBEtXqq3h4GKtSkTe_Klp9Oq-Y2srdB1PYmIIyTGcEntfzDnS" />
+                    <div
+                        class="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-green-500 rounded-full border-2 border-[#0A0A0F]">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
 
-    <main class="pt-24 pb-12 px-6 lg:px-12 max-w-7xl mx-auto flex gap-8">
-        <!-- TechArsenal3DSection -->
-        <section
-            class="w-full bg-inverse-surface rounded-xl overflow-hidden relative min-h-[800px] flex flex-col p-8 md:p-12">
-            <!-- Section Header -->
-            <div class="relative z-10 mb-12">
-                <h2
-                    class="font-headline text-5xl md:text-7xl font-extrabold text-white tracking-tighter leading-none mb-4">
-                    Tech Arsenal<span class="text-primary-fixed">.</span>
-                </h2>
-                <p class="font-body text-outline-variant text-lg md:text-xl max-w-2xl uppercase tracking-widest">
-                    Multi-dimensional proficiency across the modern software stack. Engineered for scale, designed for
-                    impact.
-                </p>
-            </div>
-            <!-- Main Canvas Container -->
-            <div class="flex-grow relative flex items-center justify-center">
-                <!-- 3D Visualization Placeholder (Simulated Sphere Graph) -->
-                <div class="relative w-full h-[500px] flex items-center justify-center">
-                    <!-- Orbit Rings -->
-                    <div class="absolute w-[600px] h-[600px] rounded-full orbit-ring"></div>
-                    <div class="absolute w-[450px] h-[450px] rounded-full orbit-ring opacity-50"></div>
-                    <div class="absolute w-[300px] h-[300px] rounded-full orbit-ring opacity-30"></div>
-                    <!-- Tech Spheres (Representing Force-Directed Layout) -->
-                    <!-- React (Active State Example) -->
-                    <div class="absolute top-[20%] left-[45%] group cursor-pointer z-20">
-                        <div
-                            class="w-16 h-16 rounded-full bg-surface-container-lowest/10 backdrop-blur-md border border-primary-fixed/50 flex items-center justify-center sphere-glow transition-transform hover:scale-110">
-                            <span class="material-symbols-outlined text-primary-fixed text-3xl" data-icon="widgets"
-                                style="font-variation-settings: 'FILL' 1;">widgets</span>
-                        </div>
-                        <div
-                            class="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap text-white font-bold text-sm tracking-tight bg-primary-fixed px-2 py-0.5 rounded">
-                            React</div>
-                    </div>
-                    <!-- TypeScript -->
-                    <div class="absolute top-[45%] left-[30%] group cursor-pointer">
-                        <div
-                            class="w-12 h-12 rounded-full bg-surface-container-lowest/5 backdrop-blur-sm border border-outline-variant/30 flex items-center justify-center transition-transform hover:scale-110">
-                            <span class="material-symbols-outlined text-white/80 text-2xl" data-icon="code">code</span>
-                        </div>
-                    </div>
-                    <!-- PyTorch -->
-                    <div class="absolute top-[60%] right-[35%] group cursor-pointer">
-                        <div
-                            class="w-14 h-14 rounded-full bg-surface-container-lowest/5 backdrop-blur-sm border border-tertiary-fixed/40 flex items-center justify-center transition-transform hover:scale-110">
-                            <span class="material-symbols-outlined text-tertiary-fixed text-2xl"
-                                data-icon="psychology">psychology</span>
-                        </div>
-                    </div>
-                    <!-- Node.js -->
-                    <div class="absolute bottom-[25%] left-[50%] group cursor-pointer">
-                        <div
-                            class="w-10 h-10 rounded-full bg-surface-container-lowest/5 backdrop-blur-sm border border-outline-variant/30 flex items-center justify-center transition-transform hover:scale-110">
-                            <span class="material-symbols-outlined text-white/80 text-xl"
-                                data-icon="settings_ethernet">settings_ethernet</span>
-                        </div>
-                    </div>
-                    <!-- AWS -->
-                    <div class="absolute top-[35%] right-[25%] group cursor-pointer">
-                        <div
-                            class="w-12 h-12 rounded-full bg-surface-container-lowest/5 backdrop-blur-sm border border-outline-variant/30 flex items-center justify-center transition-transform hover:scale-110">
-                            <span class="material-symbols-outlined text-white/80 text-2xl"
-                                data-icon="cloud">cloud</span>
-                        </div>
-                    </div>
-                </div>
-                <!-- Active Detail Tooltip (Glassmorphism Card) -->
-                <div
-                    class="absolute top-0 right-0 w-full max-w-sm bg-white/5 backdrop-blur-2xl border border-white/10 rounded-xl p-6 shadow-2xl z-30">
-                    <div class="flex justify-between items-start mb-6">
-                        <div>
-                            <span
-                                class="text-primary-fixed font-bold text-xs uppercase tracking-widest block mb-1">Active
-                                Selection</span>
-                            <h3 class="text-3xl font-headline font-extrabold text-white">React</h3>
-                        </div>
-                        <div class="relative w-16 h-16 flex items-center justify-center">
-                            <!-- Proficiency Ring (SVG) -->
-                            <svg class="absolute inset-0 w-full h-full -rotate-90">
-                                <circle class="text-white/10" cx="32" cy="32" fill="transparent" r="28"
-                                    stroke="currentColor" stroke-width="4"></circle>
-                                <circle class="text-primary-fixed" cx="32" cy="32" fill="transparent" r="28"
-                                    stroke="currentColor" stroke-dasharray="175" stroke-dashoffset="17"
-                                    stroke-width="4"></circle>
-                            </svg>
-                            <span class="text-white font-bold text-xs">92%</span>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4 mb-6">
-                        <div class="bg-white/5 rounded-lg p-3">
-                            <span class="text-outline-variant text-[10px] uppercase block mb-1">Experience</span>
-                            <span class="text-white font-bold">6+ Years</span>
-                        </div>
-                        <div class="bg-white/5 rounded-lg p-3">
-                            <span class="text-outline-variant text-[10px] uppercase block mb-1">Projects</span>
-                            <span class="text-white font-bold">42 Total</span>
-                        </div>
-                    </div>
-                    <div class="space-y-3">
-                        <p class="text-sm text-slate-400 leading-relaxed">
-                            Expert-level implementation of complex design systems, state management (Redux/Zustand), and
-                            high-performance rendering optimizations.
-                        </p>
-                        <div class="flex flex-wrap gap-2">
-                            <span
-                                class="px-2 py-1 bg-primary-fixed/10 border border-primary-fixed/20 text-primary-fixed text-[10px] font-bold rounded">Next.js</span>
-                            <span
-                                class="px-2 py-1 bg-primary-fixed/10 border border-primary-fixed/20 text-primary-fixed text-[10px] font-bold rounded">Three.js</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Controls & Legend -->
-            <div class="relative z-10 mt-auto pt-12 flex flex-col md:flex-row justify-between items-end gap-8">
-                <!-- Category Filter Chips -->
-                <div class="flex flex-wrap gap-3">
-                    <button
-                        class="px-6 py-2 rounded-full bg-primary-fixed text-on-primary-fixed font-bold text-sm transition-all hover:brightness-110">Frontend</button>
-                    <button
-                        class="px-6 py-2 rounded-full bg-white/5 border border-white/10 text-white font-bold text-sm transition-all hover:bg-white/10">Backend</button>
-                    <button
-                        class="px-6 py-2 rounded-full bg-white/5 border border-white/10 text-white font-bold text-sm transition-all hover:bg-white/10">AI
-                        / ML</button>
-                    <button
-                        class="px-6 py-2 rounded-full bg-white/5 border border-white/10 text-white font-bold text-sm transition-all hover:bg-white/10">Embedded</button>
-                    <button
-                        class="px-6 py-2 rounded-full bg-white/5 border border-white/10 text-white font-bold text-sm transition-all hover:bg-white/10">Tools</button>
-                </div>
-                <!-- Legend Block -->
-                <div class="flex gap-6 p-4 bg-white/5 rounded-xl border border-white/5">
-                    <div class="flex items-center gap-2">
-                        <span class="w-3 h-3 rounded-full bg-primary-fixed"></span>
-                        <span class="text-xs font-bold text-outline-variant uppercase tracking-wider">Expert</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <span class="w-3 h-3 rounded-full bg-tertiary-fixed"></span>
-                        <span class="text-xs font-bold text-outline-variant uppercase tracking-wider">Advanced</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <span class="w-3 h-3 rounded-full bg-outline"></span>
-                        <span
-                            class="text-xs font-bold text-outline-variant uppercase tracking-wider">Intermediate</span>
-                    </div>
-                </div>
-            </div>
-            <!-- Background Decorative Texture -->
-            <div class="absolute inset-0 opacity-20 pointer-events-none">
-                <div
-                    class="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,_rgba(156,62,0,0.1)_0%,_transparent_50%)]">
-                </div>
-            </div>
-        </section>
-    </main>
 
 </body>
 

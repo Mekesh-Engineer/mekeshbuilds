@@ -2,16 +2,16 @@
 // Core WYSIWYG editor — the hook composition pattern page.
 import { Helmet } from 'react-helmet-async';
 import { useState } from 'react';
-import { useBuilderStore } from '@/store/builderStore';
+import { useBuilderStore } from '@/stores/builderStore';
 import { useAutoSave } from '@/hooks/useAutoSave';
 import { useThemeEngine } from '@/hooks/useThemeEngine';
 
 // Builder forms
-import { PersonalInfoForm } from '@/components/Builder/PersonalInfoForm';
-import { ExperienceForm } from '@/components/Builder/ExperienceForm';
-import { SkillsForm } from '@/components/Builder/SkillsForm';
-import { ProjectsForm } from '@/components/Builder/ProjectsForm';
-import { ThemeForm } from '@/components/Builder/ThemeForm';
+import { PersonalInfoForm } from '@/features/builder/components/PersonalInfoForm';
+import { ExperienceForm } from '@/features/builder/components/ExperienceForm';
+import { SkillsForm } from '@/features/builder/components/SkillsForm';
+import { ProjectsForm } from '@/features/builder/components/ProjectsForm';
+import { ThemeForm } from '@/features/builder/components/ThemeForm';
 
 // Canvas sections
 import {

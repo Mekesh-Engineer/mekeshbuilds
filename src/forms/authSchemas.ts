@@ -12,7 +12,6 @@ export type LoginInput = z.infer<typeof loginSchema>;
 export const registerSchema = z.object({
   email: emailFieldSchema,
   password: passwordFieldSchema,
-  role: z.enum(['admin', 'user']),
 });
 
 export type RegisterInput = z.infer<typeof registerSchema>;

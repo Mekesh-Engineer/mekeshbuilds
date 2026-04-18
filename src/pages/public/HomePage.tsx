@@ -1,52 +1,62 @@
-// src/pages/HomePage.tsx
-// The SaaS marketing homepage. Fully static — no backend queries.
-import { Helmet } from 'react-helmet-async';
+﻿import { Helmet } from 'react-helmet-async';
+import { Suspense, lazy } from 'react';
 import { Navbar } from '@/components/layout/Navbar/Navbar';
 import { Footer } from '@/components/layout/Footer';
-import HeroSection from '@/components/Pages/Home/HeroSection';
-import MySkillSection from '@/components/Pages/Home/MySkillSection';
-import ProjectSection from '@/components/Pages/Home/ProjectSection';
-import BlogSection from '@/components/Pages/Home/BlogSection';
-import HireMe from '@/components/Pages/Home/HiremeSection';
-import TechArsenal from '@/components/Pages/Home/TechArsenalSection';
-import Achievements from '@/components/Pages/Home/Achievements';
-import QuantifiableImpact from '@/components/Pages/Home/QuantifiableImpact';
-import TestimonialsSection from '@/components/Pages/Home/TestimonialSection';
-import CTASection from '@/components/Pages/Home/Ctasection';
-import MapSection from '@/components/Pages/Home/MapSection';
+import HeroSection from '@/features/profile/components/home/HeroSection';
+import SectionLoader from '@/components/common/SectionLoader';
+
+// Performance enhancement: Lazy load all sections below the fold
+const MySkillSection = lazy(() => import('@/features/profile/components/home/MySkillSection'));
+const HireMe = lazy(() => import('@/features/profile/components/home/HiremeSection'));
+const TechArsenal = lazy(() => import('@/features/profile/components/home/TechArsenalSection'));
+const ProjectSection = lazy(() => import('@/features/profile/components/home/ProjectSection'));
+const Achievements = lazy(() => import('@/features/profile/components/home/Achievements'));
+const BlogSection = lazy(() => import('@/features/profile/components/home/BlogSection'));
+const QuantifiableImpact = lazy(
+  () => import('@/features/profile/components/home/QuantifiableImpact'),
+);
+const MapSection = lazy(() => import('@/features/profile/components/home/MapSection'));
+const TestimonialsSection = lazy(
+  () => import('@/features/profile/components/home/TestimonialSection'),
+);
+const CTASection = lazy(() => import('@/features/profile/components/home/Ctasection'));
 
 export const HomePage: React.FC = () => {
-    return (
-        <>
-            <Helmet>
-                <title>MekeshBuilds — Portfolio Builder for Engineers</title>
-                <meta
-                    name="description"
-                    content="Build a stunning engineering portfolio with real-time editing, theme customization, and PDF resume export."
-                />
-            </Helmet>
+  return (
+    <>
+      <Helmet>
+        <title>MekeshBuilds — Portfolio Builder for Engineers</title>
+        <meta
+          name="description"
+          content="Build a stunning engineering portfolio with real-time editing, theme customization, and PDF resume export."
+        />
+      </Helmet>
 
-            <Navbar />
+      <Navbar />
 
-            <main className="relative bg-sys-bg-primary text-sys-text-primary">
-                <HeroSection />
+      <main className="relative overflow-x-clip bg-(--sys-bg-primary) text-(--sys-text-primary)">
+        {/* Hero is above the fold, loads synchronously */}
+        <HeroSection />
 
-                <div aria-label="Feature sections" className="relative">
-                    <MySkillSection />
-                    <HireMe />
-                    <TechArsenal />
-                    <ProjectSection />
-                    <Achievements />
-                    <BlogSection />
-                    <QuantifiableImpact />
-                    <MapSection />
-                </div>
+        {/* Deferred loading wrapper for all other sections to boost TTFI */}
+        <Suspense fallback={<SectionLoader />}>
+          <div aria-label="Feature sections" className="relative">
+            <MySkillSection />
+            <HireMe />
+            <TechArsenal />
+            <ProjectSection />
+            <Achievements />
+            <BlogSection />
+            <QuantifiableImpact />
+            <MapSection />
+          </div>
 
-                <TestimonialsSection />
-                <CTASection />
-            </main>
+          <TestimonialsSection />
+          <CTASection />
+        </Suspense>
+      </main>
 
-            <Footer />
-        </>
-    );
+      <Footer />
+    </>
+  );
 };

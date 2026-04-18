@@ -52,6 +52,8 @@ const mockProfile: Profile = {
   role: 'owner',
   created_at: new Date().toISOString(),
   updated_at: new Date().toISOString(),
+  hero_image_url: null,
+  hero_badges: null,
 };
 
 const mockPortfolioData: PortfolioData = {

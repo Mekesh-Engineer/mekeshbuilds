@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
-import { auth, db } from '@/lib/firebaseClient';
-import { useAuthStore } from '@/store/authStore';
+import { auth, db } from '@/services/firebase/client';
+import { useAuthStore } from '@/stores/authStore';
 import { Link } from 'react-router-dom';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -100,6 +100,22 @@ const formatDOB = (dob?: string) => {
     return new Date(dob).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 };
 
+const getInitialTheme = (): 'dark' | 'light' => {
+    if (typeof window === 'undefined') return 'dark';
+
+    const attrMode = document.documentElement.getAttribute('data-mode');
+    if (attrMode === 'light' || attrMode === 'dark') return attrMode;
+
+    try {
+        const stored = localStorage.getItem('mekeshbuilds-mode');
+        if (stored === 'light' || stored === 'dark') return stored;
+    } catch {
+        // Storage unavailable — fall back to dark.
+    }
+
+    return 'dark';
+};
+
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
 /** Animated glow ring behind the logo */
@@ -131,6 +147,7 @@ const ScrollProgressBar: React.FC = () => {
 export const Navbar: React.FC = () => {
     // ── State ──────────────────────────────────────────────────────────────────
     const navigate = useNavigate();
+    const location = useLocation();
     const isAuth = useAuthStore((s) => s.isAuthenticated);
     const isAdmin = useAuthStore((s) => s.isOwner);
     const signOut = useAuthStore((s) => s.signOut);
@@ -140,7 +157,7 @@ export const Navbar: React.FC = () => {
     const [scrollDirection, setScrollDirection] = useState<'up' | 'down'>('up');
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-    const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+    const [theme, setTheme] = useState<'dark' | 'light'>(() => getInitialTheme());
 
     const [unreadCount, setUnreadCount] = useState(
         NOTIFICATIONS.filter((n) => !n.read).length,
@@ -149,6 +166,77 @@ export const Navbar: React.FC = () => {
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
     const [profileLoading, setProfileLoading] = useState(false);
     const dropdownTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+    // Keep highlighted nav item in sync with the current route.
+    useEffect(() => {
+        const path = location.pathname.toLowerCase();
+
+        if (path === '/') {
+            setActiveItem('home');
+            return;
+        }
+
+        if (path.startsWith('/about')) {
+            setActiveItem('about');
+            return;
+        }
+
+        if (path.startsWith('/resume')) {
+            setActiveItem('resume');
+            return;
+        }
+
+        if (path.startsWith('/projects') || path.startsWith('/project')) {
+            setActiveItem('project');
+            return;
+        }
+
+        if (path.startsWith('/contact')) {
+            setActiveItem('contact');
+        }
+    }, [location.pathname]);
+
+    // Keep the mobile drawer in sync with route transitions.
+    useEffect(() => {
+        setIsMobileMenuOpen(false);
+    }, [location.pathname]);
+
+    // Ensure mobile drawer is closed when switching to desktop width.
+    useEffect(() => {
+        const onResize = () => {
+            if (window.innerWidth >= 768) setIsMobileMenuOpen(false);
+        };
+        window.addEventListener('resize', onResize);
+        return () => window.removeEventListener('resize', onResize);
+    }, []);
+
+    // Keep system mode synced and persisted across sessions.
+    useEffect(() => {
+        document.documentElement.setAttribute('data-mode', theme);
+        try {
+            localStorage.setItem('mekeshbuilds-mode', theme);
+        } catch {
+            // Storage unavailable — continue without persistence.
+        }
+    }, [theme]);
+
+    // Lock background scroll and support Escape key while mobile drawer is open.
+    useEffect(() => {
+        if (!isMobileMenuOpen) return;
+
+        const prevOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+
+        const onKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') setIsMobileMenuOpen(false);
+        };
+
+        document.addEventListener('keydown', onKeyDown);
+        return () => {
+            document.body.style.overflow = prevOverflow;
+            document.removeEventListener('keydown', onKeyDown);
+        };
+    }, [isMobileMenuOpen]);
 
     // ── Firebase: fetch current user profile ──────────────────────────────────
     useEffect(() => {
@@ -220,7 +308,6 @@ export const Navbar: React.FC = () => {
     const toggleTheme = () => {
         const next = theme === 'dark' ? 'light' : 'dark';
         setTheme(next);
-        document.documentElement.setAttribute('data-mode', next);
     };
 
     // ── Dropdown helpers (debounced close) ─────────────────────────────────────
@@ -236,6 +323,25 @@ export const Navbar: React.FC = () => {
     const markAllRead = () => {
         setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
         setUnreadCount(0);
+    };
+
+    const handleNavItemClick = (itemId: string) => {
+        setActiveItem(itemId);
+
+        if (itemId === 'home') {
+            navigate('/');
+            return;
+        }
+
+        if (itemId === 'about') {
+            navigate('/about');
+            return;
+        }
+
+        const target = document.getElementById(itemId);
+        if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
     };
 
     // ── Variants ───────────────────────────────────────────────────────────────
@@ -280,15 +386,16 @@ export const Navbar: React.FC = () => {
                     <ScrollProgressBar />
                 </div>
 
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="app-shell">
                     <div className={`flex h-14 items-center justify-between gap-4 rounded-full border px-4 ${isScrolled
                         ? 'border-sys-border bg-sys-bg-primary/95 shadow-[0_4px_24px_rgba(0,0,0,0.3)]'
                         : 'border-sys-border/70 bg-sys-bg-primary/90'
                         }`}>
 
                         {/* ── LEFT: Brand Logo ── */}
-                        <motion.a
-                            href="http://localhost:5000/"
+                        <motion.button
+                            type="button"
+                            onClick={() => navigate('/')}
                             whileHover={{ scale: 1.03 }}
                             whileTap={{ scale: 0.97 }}
                             className="relative flex items-center gap-3 select-none shrink-0 rounded-xl px-1 py-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sys-accent"
@@ -323,7 +430,7 @@ export const Navbar: React.FC = () => {
                             <span className="hidden sm:inline-flex items-center rounded-full border border-sys-border/60 bg-sys-bg-secondary px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-sys-text-secondary">
                                 Home
                             </span>
-                        </motion.a>
+                        </motion.button>
 
                         {/* ── CENTER: Desktop Nav Links ── */}
                         <div
@@ -339,8 +446,8 @@ export const Navbar: React.FC = () => {
                                         onMouseLeave={() => item.hasMegaMenu && closeDropdown()}
                                     >
                                         <button
-                                            onClick={() => setActiveItem(item.id)}
-                                            className={`relative flex h-9 items-center rounded-xl px-4 text-[13px] font-medium tracking-wide transition-all duration-200 ${isActive
+                                            onClick={() => handleNavItemClick(item.id)}
+                                            className={`relative flex h-9 items-center rounded-xl px-4 text-[13px] font-medium tracking-wide transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sys-accent/40 ${isActive
                                                 ? 'bg-sys-accent text-white shadow-[0_2px_10px_rgba(255,107,44,0.4)]'
                                                 : 'text-sys-text-secondary hover:bg-sys-bg-tertiary hover:text-sys-text-primary'
                                                 }`}
@@ -369,7 +476,7 @@ export const Navbar: React.FC = () => {
                                                     exit="exit"
                                                     onMouseEnter={() => openDropdown(item.id)}
                                                     onMouseLeave={closeDropdown}
-                                                    className="absolute left-1/2 top-full mt-3 w-105 -translate-x-1/2 overflow-hidden rounded-2xl border border-sys-border"
+                                                    className="absolute left-1/2 top-full mt-3 w-[42rem] max-w-[calc(100vw-2rem)] -translate-x-1/2 overflow-hidden rounded-2xl border border-sys-border"
                                                     style={{
                                                         background: 'var(--sys-bg-primary)',
                                                         boxShadow: '0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04)',
@@ -446,7 +553,7 @@ export const Navbar: React.FC = () => {
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.93 }}
                                 onClick={toggleTheme}
-                                className="flex h-9 w-9 items-center justify-center rounded-xl border border-sys-border/60 bg-sys-bg-secondary text-sys-text-secondary transition-colors hover:border-sys-border hover:text-sys-text-primary"
+                                className="flex h-9 w-9 items-center justify-center rounded-xl border border-sys-border/60 bg-sys-bg-secondary text-sys-text-secondary transition-colors hover:border-sys-border hover:text-sys-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sys-accent/40"
                                 aria-label="Toggle theme"
                             >
                                 <AnimatePresence mode="wait">
@@ -801,19 +908,18 @@ export const Navbar: React.FC = () => {
                                     </AnimatePresence>
                                 </div>
                             ) : (
-                                <Link to="/auth/login">
-                                    <motion.button
-                                        whileHover={{ scale: 1.04 }}
-                                        whileTap={{ scale: 0.96 }}
-                                        className="rounded-xl px-5 py-2 text-[13px] font-semibold text-white transition-all"
+                                <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
+                                    <Link
+                                        to="/auth/login"
+                                        className="inline-flex rounded-xl px-5 py-2 text-[13px] font-semibold text-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sys-accent/40"
                                         style={{
                                             background: 'linear-gradient(135deg, #ff6b2c 0%, #e65100 100%)',
                                             boxShadow: '0 2px 10px rgba(255,107,44,0.4)',
                                         }}
                                     >
                                         Sign In
-                                    </motion.button>
-                                </Link>
+                                    </Link>
+                                </motion.div>
                             )}
                         </div>
 
@@ -821,7 +927,10 @@ export const Navbar: React.FC = () => {
                         <motion.button
                             whileTap={{ scale: 0.9 }}
                             onClick={() => setIsMobileMenuOpen(true)}
-                            className="flex h-9 w-9 items-center justify-center rounded-xl border border-sys-border/60 bg-sys-bg-secondary text-sys-text-primary md:hidden"
+                            className="flex h-9 w-9 items-center justify-center rounded-xl border border-sys-border/60 bg-sys-bg-secondary text-sys-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sys-accent/40 md:hidden"
+                            aria-label="Open navigation menu"
+                            aria-expanded={isMobileMenuOpen}
+                            aria-controls="mobile-nav-drawer"
                         >
                             <span className="material-icons-round text-[20px]">menu</span>
                         </motion.button>
@@ -838,14 +947,19 @@ export const Navbar: React.FC = () => {
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             onClick={() => setIsMobileMenuOpen(false)}
-                            className="fixed inset-0 z-60 bg-black/70 backdrop-blur-sm"
+                            className="fixed inset-0 z-[60] bg-black/70 backdrop-blur-sm"
+                            aria-hidden="true"
                         />
                         <motion.div
                             initial={{ x: '100%' }}
                             animate={{ x: 0 }}
                             exit={{ x: '100%' }}
                             transition={{ type: 'spring', damping: 26, stiffness: 220 }}
-                            className="fixed bottom-0 right-0 top-0 z-70 flex w-72 flex-col border-l border-sys-border bg-sys-bg-primary"
+                            id="mobile-nav-drawer"
+                            role="dialog"
+                            aria-modal="true"
+                            aria-label="Navigation menu"
+                            className="fixed bottom-0 right-0 top-0 z-[70] flex w-72 max-w-[90vw] flex-col border-l border-sys-border bg-sys-bg-primary"
                         >
                             {/* Drawer Header */}
                             <div className="flex items-center justify-between border-b border-sys-border/60 p-5">
@@ -863,7 +977,8 @@ export const Navbar: React.FC = () => {
                                 <motion.button
                                     whileTap={{ scale: 0.9 }}
                                     onClick={() => setIsMobileMenuOpen(false)}
-                                    className="flex h-8 w-8 items-center justify-center rounded-xl bg-sys-bg-secondary text-sys-text-secondary"
+                                    className="flex h-8 w-8 items-center justify-center rounded-xl bg-sys-bg-secondary text-sys-text-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sys-accent/40"
+                                    aria-label="Close navigation menu"
                                 >
                                     <span className="material-icons-round text-[18px]">close</span>
                                 </motion.button>
@@ -882,7 +997,7 @@ export const Navbar: React.FC = () => {
                                             key={item.id}
                                             variants={itemFadeUp}
                                             onClick={() => {
-                                                setActiveItem(item.id);
+                                                handleNavItemClick(item.id);
                                                 setIsMobileMenuOpen(false);
                                             }}
                                             className={`flex items-center gap-3 rounded-xl px-4 py-3 text-left text-[14px] font-medium transition-colors ${activeItem === item.id
@@ -939,7 +1054,7 @@ export const Navbar: React.FC = () => {
 
                                 <button
                                     onClick={toggleTheme}
-                                    className="flex w-full items-center justify-center gap-2 rounded-xl border border-sys-border bg-sys-bg-secondary py-2.5 text-[13px] font-medium text-sys-text-primary"
+                                    className="flex w-full items-center justify-center gap-2 rounded-xl border border-sys-border bg-sys-bg-secondary py-2.5 text-[13px] font-medium text-sys-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sys-accent/40"
                                 >
                                     <span className="material-icons-round text-[16px]">
                                         {theme === 'dark' ? 'light_mode' : 'dark_mode'}
@@ -961,18 +1076,17 @@ export const Navbar: React.FC = () => {
                                         Sign Out
                                     </button>
                                 ) : (
-                                    <Link to="/auth/login" className="w-full">
-                                        <button
-                                            onClick={() => setIsMobileMenuOpen(false)}
-                                            className="flex w-full items-center justify-center gap-2 rounded-xl py-2.5 text-[13px] font-semibold text-white"
-                                            style={{
-                                                background: 'linear-gradient(135deg, #ff6b2c 0%, #e65100 100%)',
-                                                boxShadow: '0 2px 10px rgba(255,107,44,0.4)',
-                                            }}
-                                        >
-                                            <span className="material-icons-round text-[16px]">login</span>
-                                            Sign In
-                                        </button>
+                                    <Link
+                                        to="/auth/login"
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                        className="flex w-full items-center justify-center gap-2 rounded-xl py-2.5 text-[13px] font-semibold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sys-accent/40"
+                                        style={{
+                                            background: 'linear-gradient(135deg, #ff6b2c 0%, #e65100 100%)',
+                                            boxShadow: '0 2px 10px rgba(255,107,44,0.4)',
+                                        }}
+                                    >
+                                        <span className="material-icons-round text-[16px]">login</span>
+                                        Sign In
                                     </Link>
                                 )}
                             </div>

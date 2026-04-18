@@ -121,7 +121,7 @@ export const LoginPage = () => {
                 {/* Form */}
                 <motion.form
                     onSubmit={handleSubmit(onSubmit)}
-                    className="flex flex-col gap-5 w-full"
+                    className="flex w-full flex-col gap-4 sm:gap-5"
                     variants={fadeUp(0.12)} initial="hidden" animate="visible" noValidate
                 >
                     <FormInput
@@ -149,10 +149,7 @@ export const LoginPage = () => {
                                     type="button"
                                     onClick={() => setShowPassword(v => !v)}
                                     aria-label={showPassword ? 'Hide password' : 'Show password'}
-                                    className="flex h-8 w-8 items-center justify-center rounded-lg transition-colors"
-                                    style={{ color: 'var(--sys-text-secondary)' }}
-                                    onMouseEnter={e => (e.currentTarget.style.background = 'var(--sys-bg-tertiary)')}
-                                    onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                                    className="flex h-8 w-8 items-center justify-center rounded-lg text-sys-text-secondary transition-colors hover:bg-sys-bg-tertiary hover:text-sys-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sys-accent/40"
                                 >
                                     <span className="material-icons-round text-[18px]">
                                         {showPassword ? 'visibility_off' : 'visibility'}
@@ -164,7 +161,7 @@ export const LoginPage = () => {
                         <div className="mt-2 flex justify-between items-center">
                             <Link
                                 to="/auth/forgot-password"
-                                className="text-[13px] font-semibold transition-all hover:translate-x-[2px]"
+                                className="text-[13px] font-semibold transition-all hover:translate-x-[2px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sys-accent/40"
                                 style={{
                                     color: 'var(--sys-accent)',
                                     pointerEvents: isLoading || googleLoading ? 'none' : 'auto',
@@ -176,7 +173,7 @@ export const LoginPage = () => {
 
                             <Link
                                 to="/auth/register"
-                                className="text-[13px] font-semibold transition-all hover:-translate-x-[2px] text-sys-text-secondary hover:text-sys-text-primary"
+                                className="text-[13px] font-semibold text-sys-text-secondary transition-all hover:-translate-x-[2px] hover:text-sys-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sys-accent/40"
                                 style={{
                                     pointerEvents: isLoading || googleLoading ? 'none' : 'auto',
                                 }}
@@ -191,7 +188,7 @@ export const LoginPage = () => {
                         disabled={isLoading || submitSuccess || isLockedOut}
                         whileHover={!isLoading && !isLockedOut ? { scale: 1.02, y: -1 } : {}}
                         whileTap={!isLoading && !isLockedOut ? { scale: 0.98 } : {}}
-                        className="relative flex h-12 w-full items-center justify-center gap-2.5 overflow-hidden rounded-xl text-[15px] font-bold text-white transition-all"
+                        className="relative flex h-12 w-full items-center justify-center gap-2.5 overflow-hidden rounded-xl text-[15px] font-bold text-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sys-accent/50"
                         style={{
                             background: submitSuccess ? 'var(--sys-success)' : 'linear-gradient(135deg, var(--sys-accent) 0%, var(--sys-accent-dark) 100%)',
                             boxShadow: submitSuccess ? '0 4px 20px rgba(34,197,94,0.4)' : '0 4px 20px rgba(255,107,44,0.35)',
@@ -234,7 +231,7 @@ export const LoginPage = () => {
                     variants={fadeUp(0.28)} initial="hidden" animate="visible"
                     whileHover={{ scale: 1.02, borderColor: 'var(--sys-accent)' }}
                     whileTap={{ scale: 0.98 }}
-                    className="flex h-12 w-full items-center justify-center gap-3 rounded-xl text-[14px] font-semibold transition-all"
+                    className="flex h-12 w-full items-center justify-center gap-3 rounded-xl text-[14px] font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sys-accent/40"
                     style={{
                         background: 'var(--sys-bg-tertiary)',
                         border: '1.5px solid var(--sys-border)',

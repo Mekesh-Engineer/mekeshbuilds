@@ -7,7 +7,9 @@
   --sys-bg-primary: #0f0f14;
   --sys-bg-secondary: #1a1a22;
   --sys-bg-tertiary: #2a2a33;
+  --sys-bg-elevated: #20202a;
   --sys-border: #2e2e3a;
+  --sys-border-strong: #3b3b49;
 
   /* Text */
   --sys-text-primary: #f3f4f6;
@@ -23,6 +25,24 @@
   --sys-error: #ef4444;
   --sys-warning: #f59e0b;
   --sys-info: #3b82f6;
+  --sys-focus-ring: rgba(255, 107, 44, 0.3);
+
+  /* Surface Radius */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.18);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.24);
+  --shadow-lg: 0 16px 44px rgba(0, 0, 0, 0.3);
+
+  /* Layout */
+  --layout-max-width: 80rem;
+  --layout-gutter-xs: 1rem;
+  --layout-gutter-sm: 1.5rem;
+  --layout-gutter-lg: 2rem;
 
   /* Canvas Theme (Mutable via JS — useThemeEngine) */
   --color-primary: #ff6b2c;
@@ -39,7 +59,9 @@
   --sys-bg-primary: #ffffff;
   --sys-bg-secondary: #f4f4f5;
   --sys-bg-tertiary: #e4e4e7;
+  --sys-bg-elevated: #f8fafc;
   --sys-border: #d4d4d8;
+  --sys-border-strong: #94a3b8;
 
   /* Text */
   --sys-text-primary: #0f172a;
@@ -55,6 +77,12 @@
   --sys-error: #dc2626;
   --sys-warning: #d97706;
   --sys-info: #2563eb;
+  --sys-focus-ring: rgba(234, 88, 12, 0.22);
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.07);
+  --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.1);
+  --shadow-lg: 0 16px 44px rgba(15, 23, 42, 0.14);
 }
 
 /* ── Canvas Mode Overrides (live portfolio preview) ── */

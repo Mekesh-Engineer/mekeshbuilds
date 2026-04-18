@@ -3,7 +3,7 @@
 import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { usePortfolioData } from '@/hooks/usePortfolioData';
-import { Spinner } from '@/components/Shared';
+import { Spinner } from '@/components/common';
 import {
     HeroSection,
     AboutSection,
@@ -45,7 +45,7 @@ export const PublicProfilePage: React.FC = () => {
                 <meta name="description" content={profile.meta_description ?? profile.bio ?? ''} />
             </Helmet>
 
-            <div className="mx-auto max-w-5xl px-6">
+            <div className="app-shell max-w-5xl py-6 sm:py-8">
                 <HeroSection
                     profile={profile}
                     themeColor={themeColor}

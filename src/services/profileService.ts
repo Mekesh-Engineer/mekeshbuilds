@@ -11,7 +11,7 @@ import {
   where,
   orderBy,
 } from 'firebase/firestore';
-import { db } from '@/lib/firebaseClient';
+import { db } from '@/services/firebase/client';
 import type {
   Profile,
   Experience,

@@ -1,27 +1,21 @@
-/**
- * AdminSidebar.tsx
- * ─────────────────────────────────────────────────────────────────
- * Fixed left navigation panel.
- *
- * Features:
- *  • Slides in from left; controlled by AdminLayout state
- *  • NavLink active highlighting with orange accent + glow pill
- *  • Keyboard search shortcut display (⌘K)
- *  • Collapsible nav section groups
- *  • Expandable sub-menu items
- *  • Footer: What's new, Help, Sign out
- *  • Fully dark themed — matches sys-* token system
- *  • Smooth slide animation via Framer Motion
- */
+//AdminSidebar
 
-import { useCallback, useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import {
+    useCallback,
+    useState,
+    useEffect,
+} from 'react';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { signOut } from 'firebase/auth';
+import { auth } from '@/services/firebase/client';
 
 // ─── Types ────────────────────────────────────────────────────────
-interface SidebarProps {
+export interface SidebarProps {
     isOpen: boolean;
     onClose: () => void;
+    /** Optional: pass to open the navbar command palette from sidebar search */
+    onOpenSearch?: () => void;
 }
 
 interface NavItem {
@@ -34,6 +28,7 @@ interface NavItem {
 
 interface NavSection {
     title: string;
+    collapsible?: boolean;
     items: NavItem[];
 }
 
@@ -42,398 +37,554 @@ const NAV_SECTIONS: NavSection[] = [
     {
         title: 'Home',
         items: [
-            {
-                label: 'Dashboard',
-                href: '/admin',
-                icon: <GridIcon />,
-            },
-            {
-                label: 'Analytics',
-                href: '/admin/analytics',
-                icon: <BarChartIcon />,
-                badge: 'New',
-            },
+            { label: 'Dashboard', href: '/dashboard', icon: <GridIcon /> },
+            { label: 'Analytics', href: '/analytics', icon: <BarChartIcon />, badge: 'New' },
         ],
     },
     {
         title: 'Content',
+        collapsible: false,
         items: [
-            {
-                label: 'Posts',
-                href: '/admin/posts',
-                icon: <FileTextIcon />,
-                children: [
-                    { label: 'All Posts', href: '/admin/posts' },
-                    { label: 'Create New', href: '/admin/posts/new' },
-                    { label: 'Drafts', href: '/admin/posts/drafts', badge: 4 },
-                    { label: 'Published', href: '/admin/posts/published' },
-                ],
-            },
-            {
-                label: 'Projects',
-                href: '/admin/projects',
-                icon: <BriefcaseIcon />,
-                children: [
-                    { label: 'All Projects', href: '/admin/projects' },
-                    { label: 'Add Project', href: '/admin/projects/new' },
-                ],
-            },
-            {
-                label: 'Skills',
-                href: '/admin/skills',
-                icon: <ZapIcon />,
-            },
-            {
-                label: 'Media',
-                href: '/admin/media',
-                icon: <ImageIcon />,
-            },
+            { label: 'Content Editor', href: '/content', icon: <FileTextIcon /> },
+            { label: 'Projects', href: '/projects', icon: <BriefcaseIcon /> },
+            { label: 'Resume', href: '/resume', icon: <ZapIcon /> },
+            { label: 'Builder', href: '/builder', icon: <ImageIcon /> },
         ],
     },
     {
-        title: 'Audience',
+        title: 'Communication',
+        collapsible: false,
         items: [
-            {
-                label: 'Members',
-                href: '/admin/members',
-                icon: <UsersIcon />,
-                badge: 128,
-            },
-            {
-                label: 'Messages',
-                href: '/admin/messages',
-                icon: <MessageIcon />,
-                badge: 3,
-            },
+            { label: 'Chats', href: '/chats', icon: <MessageSquareIcon />, badge: 'Live' },
+            { label: 'Visitors', href: '/visitors', icon: <UsersIcon /> },
         ],
     },
     {
-        title: 'Settings',
+        title: 'Configuration',
+        collapsible: true,
         items: [
-            {
-                label: 'Site Settings',
-                href: '/admin/settings',
-                icon: <SettingsIcon />,
-            },
-            {
-                label: 'Integrations',
-                href: '/admin/integrations',
-                icon: <PlugIcon />,
-            },
+            { label: 'Site Settings', href: '/settings', icon: <SettingsIcon /> }
         ],
     },
 ];
 
-// ─── Animated slide variants ──────────────────────────────────────
+// ─── Animation variants ───────────────────────────────────────────
+const EASE = [0.32, 0.72, 0, 1] as const;
+
 const sidebarVariants = {
-    open: { x: 0, transition: { duration: 0.28, ease: 'easeOut' as const } },
-    closed: { x: -240, transition: { duration: 0.24, ease: 'easeOut' as const } },
+    open: { x: 0, opacity: 1, transition: { duration: 0.28, ease: EASE } },
+    closed: { x: '-100%', opacity: 0, transition: { duration: 0.24, ease: EASE } },
 };
 
 const subMenuVariants = {
-    open: { height: 'auto', opacity: 1, transition: { duration: 0.22 } },
-    closed: { height: 0, opacity: 0, transition: { duration: 0.18 } },
+    open: { height: 'auto', opacity: 1, transition: { duration: 0.24, ease: EASE } },
+    closed: { height: 0, opacity: 0, transition: { duration: 0.18, ease: EASE } },
 };
 
-// ─── NavItem component ────────────────────────────────────────────
-const SidebarNavItem = ({ item, depth = 0 }: { item: NavItem; depth?: number }) => {
+const sectionVariants = {
+    open: { height: 'auto', opacity: 1, transition: { duration: 0.22, ease: EASE } },
+    closed: { height: 0, opacity: 0, transition: { duration: 0.16, ease: EASE } },
+};
+
+// ─── Nav item ─────────────────────────────────────────────────────
+const SidebarNavItem = ({
+    item, depth = 0,
+}: { item: NavItem; depth?: number }) => {
     const location = useLocation();
-    const [subOpen, setSubOpen] = useState(
-        // Auto-expand if a child route is active
-        item.children?.some((c) => location.pathname.startsWith(c.href)) ?? false,
-    );
 
     const hasChildren = (item.children?.length ?? 0) > 0;
-    const isExactActive = location.pathname === item.href;
-    const isChildActive = item.children?.some((c) => location.pathname.startsWith(c.href)) ?? false;
+    const isChildActive = item.children?.some(
+        (c) => location.pathname.startsWith(c.href),
+    ) ?? false;
+
+    const [subOpen, setSubOpen] = useState(isChildActive);
+
+    // Auto-open if navigating to a child
+    useEffect(() => {
+        if (isChildActive) setSubOpen(true);
+    }, [isChildActive]);
 
     const toggle = useCallback(() => setSubOpen((v) => !v), []);
 
-    // Common inner content for leaf items
-    const innerContent = (
-        <>
-            {depth === 0 && (
-                <span className="shrink-0 opacity-60 group-[.active-link]:opacity-100
-                    transition-opacity">
-                    {item.icon}
-                </span>
-            )}
-            {depth > 0 && (
-                <span className={[
-                    'w-1.5 h-1.5 rounded-full shrink-0 transition-all',
-                    isExactActive
-                        ? 'bg-sys-accent scale-125'
-                        : 'bg-white/20',
-                ].join(' ')} />
-            )}
-            <span className="flex-1 min-w-0 truncate">{item.label}</span>
-            {item.badge !== undefined && (
-                <span className={[
-                    'shrink-0 text-[10px] font-bold px-1.5 py-0.5 rounded-full',
-                    typeof item.badge === 'number'
-                        ? 'bg-sys-accent/20 text-sys-accent'
-                        : 'bg-sys-accent text-white',
-                ].join(' ')}>
-                    {item.badge}
-                </span>
-            )}
-        </>
+    // Inner content reused by both NavLink and parent button
+    const iconSlot = depth === 0 ? (
+        <span className="shrink-0 transition-all duration-150 text-inherit">{item.icon}</span>
+    ) : (
+        <span
+            className={[
+                'w-1.5 h-1.5 rounded-full shrink-0 transition-all duration-200',
+                location.pathname === item.href
+                    ? 'bg-[var(--sys-accent)] scale-125 shadow-[0_0_6px_var(--sys-accent)]'
+                    : 'bg-[var(--sys-border)]',
+            ].join(' ')}
+        />
     );
 
-    // Parent item with children
+    const badgeSlot = item.badge !== undefined && (
+        <span
+            className={[
+                'shrink-0 text-[9px] font-black px-1.5 py-0.5 rounded-full leading-none',
+                typeof item.badge === 'number'
+                    ? 'bg-[var(--sys-accent)]/15 text-[var(--sys-accent)] border border-[var(--sys-accent)]/25'
+                    : 'bg-[var(--sys-accent)] text-white',
+            ].join(' ')}
+        >
+            {item.badge}
+        </span>
+    );
+
+    const itemBase = [
+        'group relative flex items-center gap-2.5 w-full rounded-xl text-[13px] font-medium',
+        'transition-all duration-150 outline-none',
+        'focus-visible:ring-2 focus-visible:ring-[var(--sys-accent)]/60 focus-visible:ring-offset-1',
+        'focus-visible:ring-offset-[var(--sys-bg-primary)]',
+        depth === 0 ? 'px-2.5 py-2.5' : 'pl-7 pr-2.5 py-1.5',
+    ].join(' ');
+
+    // Parent with collapsible children
     if (hasChildren) {
+        const isActive = isChildActive || subOpen;
         return (
             <li>
                 <button
                     type="button"
                     onClick={toggle}
+                    aria-expanded={subOpen}
                     className={[
-                        'group w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg',
-                        'text-[13px] font-medium transition-all duration-150 text-left',
-                        (isChildActive || subOpen)
-                            ? 'text-sys-text-primary bg-white/[0.07]'
-                            : 'text-sys-text-secondary hover:text-sys-text-primary hover:bg-white/[0.05]',
+                        itemBase,
+                        isActive
+                            ? 'text-[var(--sys-text-primary)] bg-[var(--sys-bg-tertiary)]'
+                            : 'text-[var(--sys-text-secondary)] hover:text-[var(--sys-text-primary)] hover:bg-[var(--sys-bg-tertiary)]/70',
                     ].join(' ')}
                 >
-                    <span className={[
-                        'shrink-0 transition-opacity',
-                        (isChildActive || subOpen) ? 'opacity-100' : 'opacity-60',
-                    ].join(' ')}>
+                    <span className={`shrink-0 transition-opacity ${isActive ? 'opacity-100' : 'opacity-60'}`}>
                         {item.icon}
                     </span>
-                    <span className="flex-1 truncate">{item.label}</span>
-                    {item.badge !== undefined && (
-                        <span className="shrink-0 text-[10px] font-bold px-1.5 py-0.5 rounded-full
-                            bg-sys-accent/20 text-sys-accent">
-                            {item.badge}
-                        </span>
-                    )}
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
-                        className={`shrink-0 transition-transform duration-200 opacity-40
-                            ${subOpen ? 'rotate-180' : ''}`}>
-                        <path d="M2 4l4 4 4-4" stroke="currentColor"
-                            strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
+                    <span className="flex-1 text-left truncate">{item.label}</span>
+                    {badgeSlot}
+                    <ChevronIcon
+                        className={[
+                            'shrink-0 transition-transform duration-200',
+                            subOpen ? 'rotate-180' : '',
+                        ].join(' ')}
+                    />
                 </button>
 
                 <AnimatePresence initial={false}>
                     {subOpen && (
-                        <motion.div
+                        <motion.ul
+                            key="sub"
                             variants={subMenuVariants}
                             initial="closed"
                             animate="open"
                             exit="closed"
-                            className="overflow-hidden"
+                            className="overflow-hidden mt-0.5 space-y-0.5"
                         >
-                            <ul className="mt-0.5 ms-[18px] ps-3 border-l border-white/[0.08]
-                                flex flex-col gap-0.5 pb-1">
-                                {item.children!.map((child) => (
-                                    <SidebarNavItem key={child.href}
-                                        item={{ ...child, icon: item.icon }}
-                                        depth={1} />
-                                ))}
-                            </ul>
-                        </motion.div>
+                            {item.children!.map((child) => (
+                                <SidebarNavItem key={child.href} item={child as NavItem} depth={1} />
+                            ))}
+                        </motion.ul>
                     )}
                 </AnimatePresence>
             </li>
         );
     }
 
-    // Leaf item
+    // Leaf item — NavLink
     return (
-        <li>
+        <li className="relative">
             <NavLink
                 to={item.href}
-                end={item.href === '/admin'}
-                className={({ isActive }) => [
-                    'group flex items-center gap-2.5 px-2.5 py-2 rounded-lg',
-                    'text-[13px] font-medium transition-all duration-150',
-                    isActive
-                        ? 'active-link text-sys-text-primary bg-sys-accent/[0.12] text-sys-accent'
-                        : 'text-sys-text-secondary hover:text-sys-text-primary hover:bg-white/[0.05]',
-                ].join(' ')}
+                aria-current={location.pathname === item.href ? 'page' : undefined}
+                className={({ isActive }) =>
+                    [
+                        itemBase,
+                        isActive
+                            ? 'text-[var(--sys-accent)] bg-[var(--sys-accent)]/10'
+                            : 'text-[var(--sys-text-secondary)] hover:text-[var(--sys-text-primary)] hover:bg-[var(--sys-bg-tertiary)]/70',
+                    ].join(' ')
+                }
             >
-                {innerContent}
+                {({ isActive }) => (
+                    <>
+                        {/* Active left-edge pill */}
+                        {isActive && depth === 0 && (
+                            <motion.span
+                                layoutId="nav-active-pill"
+                                className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5
+                                    bg-[var(--sys-accent)] rounded-full
+                                    shadow-[0_0_8px_var(--sys-accent)]"
+                            />
+                        )}
+                        <span
+                            className={[
+                                'shrink-0 transition-opacity duration-150',
+                                isActive ? 'opacity-100' : 'opacity-55',
+                            ].join(' ')}
+                        >
+                            {iconSlot}
+                        </span>
+                        <span className="flex-1 truncate">{item.label}</span>
+                        {badgeSlot}
+                    </>
+                )}
             </NavLink>
         </li>
     );
 };
 
-// ─── Search bar ───────────────────────────────────────────────────
-const SidebarSearch = () => (
-    <button type="button"
-        className="w-full flex items-center gap-2 px-2.5 h-9 rounded-lg text-[13px]
-            text-sys-text-secondary
-            bg-white/[0.04] border border-white/[0.07]
-            hover:bg-white/[0.07] hover:border-white/[0.12]
-            transition-all duration-150"
-        aria-label="Search (⌘K)">
-        <SearchIcon />
-        <span className="flex-1 text-left">Search…</span>
-        <span className="flex items-center gap-0.5 ms-auto">
-            <kbd className="text-[10px] font-mono px-1 py-0.5 rounded border border-white/[0.12]
-                bg-white/[0.05] text-sys-text-secondary leading-none">
+// ─── Section wrapper (with optional collapse) ─────────────────────
+const NavSection = ({ section }: { section: NavSection }) => {
+    const [collapsed, setCollapsed] = useState(false);
+
+    return (
+        <div>
+            <button
+                type="button"
+                onClick={() => section.collapsible && setCollapsed((v) => !v)}
+                disabled={!section.collapsible}
+                className={[
+                    'w-full flex items-center justify-between px-2.5 mb-2 mt-0.5',
+                    'outline-none group',
+                    section.collapsible
+                        ? 'cursor-pointer focus-visible:ring-1 focus-visible:ring-[var(--sys-accent)]/40 rounded'
+                        : 'cursor-default',
+                ].join(' ')}
+                aria-expanded={section.collapsible ? !collapsed : undefined}
+            >
+                <span className="text-[10px] font-bold uppercase tracking-[0.14em]
+                    text-[var(--sys-text-secondary)] opacity-50
+                    group-hover:opacity-70 transition-opacity">
+                    {section.title}
+                </span>
+                {section.collapsible && (
+                    <ChevronIcon
+                        className={`opacity-30 group-hover:opacity-60 transition-all duration-200 ${collapsed ? '-rotate-90' : ''}`}
+                        size={10}
+                    />
+                )}
+            </button>
+
+            <AnimatePresence initial={false}>
+                {!collapsed && (
+                    <motion.ul
+                        variants={sectionVariants}
+                        initial="closed"
+                        animate="open"
+                        exit="closed"
+                        className="overflow-hidden flex flex-col gap-0.5"
+                    >
+                        {section.items.map((item) => (
+                            <SidebarNavItem key={item.href} item={item} />
+                        ))}
+                    </motion.ul>
+                )}
+            </AnimatePresence>
+        </div>
+    );
+};
+
+// ─── Sidebar search button ────────────────────────────────────────
+const SidebarSearch = ({ onOpenSearch }: { onOpenSearch?: (() => void) | undefined }) => (
+    <button
+        type="button"
+        onClick={onOpenSearch}
+        className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-[12px]
+            text-[var(--sys-text-secondary)] bg-[var(--sys-bg-tertiary)]
+            border border-[var(--sys-border)]/60
+            hover:border-[var(--sys-accent)]/40 hover:text-[var(--sys-text-primary)]
+            focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sys-accent)]/60
+            transition-all duration-200 group"
+        aria-label="Search (⌘K)"
+    >
+        <SearchIcon className="opacity-50 group-hover:opacity-80 transition-opacity" />
+        <span className="flex-1 text-left opacity-60 group-hover:opacity-90 transition-opacity">
+            Search…
+        </span>
+        <span className="flex items-center gap-0.5 shrink-0">
+            <kbd className="text-[9px] font-mono px-1 py-0.5 rounded border border-[var(--sys-border)]/60
+                bg-[var(--sys-bg-primary)]/60 text-[var(--sys-text-secondary)] leading-none">
                 ⌘
             </kbd>
-            <kbd className="text-[10px] font-mono px-1 py-0.5 rounded border border-white/[0.12]
-                bg-white/[0.05] text-sys-text-secondary leading-none">
+            <kbd className="text-[9px] font-mono px-1 py-0.5 rounded border border-[var(--sys-border)]/60
+                bg-[var(--sys-bg-primary)]/60 text-[var(--sys-text-secondary)] leading-none">
                 K
             </kbd>
         </span>
     </button>
 );
 
-// ─── Section separator ────────────────────────────────────────────
-const SectionTitle = ({ title }: { title: string }) => (
-    <span className="block px-2.5 mb-1.5 mt-0.5 text-[10px] font-semibold uppercase
-        tracking-[0.12em] text-sys-text-secondary opacity-40">
-        {title}
-    </span>
-);
-
 // ─── Sidebar footer ───────────────────────────────────────────────
-const SidebarFooter = () => (
-    <footer className="mt-auto pt-3 border-t border-white/[0.07] flex flex-col gap-0.5">
-        {[
-            { label: "What's new", icon: <FlameIcon />, href: '#' },
-            { label: 'Help & support', icon: <ChatIcon />, href: '#' },
-            { label: 'Knowledge Base', icon: <BookIcon />, href: '#' },
-        ].map(({ label, icon, href }) => (
-            <a key={label} href={href}
-                className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[13px]
-                    text-sys-text-secondary hover:text-sys-text-primary hover:bg-white/[0.05]
-                    transition-all duration-150">
-                <span className="opacity-50">{icon}</span>
-                {label}
-            </a>
-        ))}
+const SidebarFooter = () => {
+    const navigate = useNavigate();
 
-        {/* App version */}
-        <div className="mt-2 px-2.5 py-2 flex items-center justify-between">
-            <span className="text-[11px] text-sys-text-secondary opacity-30 font-mono">
-                v1.0.0
-            </span>
-            <span className="text-[11px] text-sys-accent opacity-60 font-medium">
-                Portfolio CMS
-            </span>
-        </div>
-    </footer>
-);
+    const handleSignOut = async () => {
+        try {
+            await signOut(auth);
+            navigate('/', { replace: true });
+        } catch (error) {
+            console.error("Logout failed:", error);
+        }
+    };
+
+    return (
+        <footer className="pt-3 border-t border-[var(--sys-border)]/50 flex flex-col gap-1">
+            <a
+                href="#"
+                className="flex items-center gap-2.5 px-2.5 py-2 rounded-xl text-[12px]
+                    text-[var(--sys-text-secondary)] hover:text-[var(--sys-text-primary)]
+                    hover:bg-[var(--sys-bg-tertiary)]
+                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sys-accent)]/60
+                    transition-all duration-150"
+            >
+                <span className="opacity-50 shrink-0"><ChatIcon /></span>
+                <span className="flex-1">Help & Support</span>
+            </a>
+
+            {/* Version + brand */}
+            <div className="mt-2 px-2.5 py-2 flex items-center justify-between">
+                <span className="text-[10px] text-[var(--sys-text-secondary)] opacity-30 font-mono">
+                    v1.0.0
+                </span>
+                <span className="text-[10px] px-2 py-0.5 rounded-full
+                    bg-[var(--sys-accent)]/10 border border-[var(--sys-accent)]/20
+                    text-[var(--sys-accent)] font-semibold">
+                    MekeshBuilds
+                </span>
+            </div>
+
+            <button
+                onClick={handleSignOut}
+                className="flex w-full items-center gap-2.5 px-3 py-2 text-[12px] font-medium
+        rounded-xl text-white 
+        bg-orange-500 hover:bg-orange-600 
+        dark:bg-orange-600 dark:hover:bg-orange-500
+        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500/60 dark:focus-visible:ring-orange-400/60
+        shadow-sm hover:shadow
+        transition-all duration-150"
+            >
+                <span className="shrink-0"><LogOutIcon /></span>
+                <span className="flex-1 text-left">Log out</span>
+            </button>
+
+        </footer>
+    );
+};
 
 // ─── Main Sidebar ─────────────────────────────────────────────────
-export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => (
-    <>
-        {/* Desktop: always in DOM, translate into/out of view */}
-        <motion.aside
-            aria-label="Sidebar navigation"
-            variants={sidebarVariants}
-            animate={isOpen ? 'open' : 'closed'}
-            initial="closed"
-            className={[
-                'fixed top-0 left-0 bottom-0 z-50 w-60',
-                'flex flex-col pt-20',            // clear the 80px navbar
-                'bg-sys-bg-primary/95 backdrop-blur-xl',
-                'border-r border-white/[0.07]',
-                'shadow-[2px_0_24px_rgba(0,0,0,0.4)]',
-            ].join(' ')}
-        >
-            <div className="flex flex-col h-full overflow-hidden">
+export const Sidebar: React.FC<SidebarProps> = ({
+    isOpen, onClose, onOpenSearch,
+}) => (
+    <motion.aside
+        aria-label="Sidebar navigation"
+        variants={sidebarVariants}
+        animate={isOpen ? 'open' : 'closed'}
+        initial="closed"
+        className={[
+            /* Position — sits just below fixed navbar */
+            'fixed left-0 bottom-0 z-40 w-60',
+            'flex flex-col',
+            /* Surfaces — correct var() syntax */
+            'bg-[var(--sys-bg-primary)]',
+            'border-r border-[var(--sys-border)]/60',
+            'shadow-[2px_0_32px_rgba(0,0,0,0.45)]',
+        ].join(' ')}
+        style={{ top: 'var(--navbar-h, 64px)' }}
+    >
+        <div className="flex flex-col h-full overflow-hidden">
 
-                {/* Mobile close row */}
-                <div className="lg:hidden flex items-center justify-between px-3 py-3
-                    border-b border-white/[0.07]">
-                    <span className="text-[13px] font-bold text-sys-text-primary">Navigation</span>
-                    <button type="button" onClick={onClose}
-                        aria-label="Close sidebar"
-                        className="w-7 h-7 flex items-center justify-center rounded-lg
-                            text-sys-text-secondary hover:text-sys-text-primary hover:bg-white/[0.07]
-                            transition-colors">
-                        <CloseIcon />
-                    </button>
-                </div>
+            {/* ── Mobile close row ── */}
+            <div className="lg:hidden flex items-center justify-between px-3 py-2.5
+                border-b border-[var(--sys-border)]/50">
+                <span className="text-[13px] font-bold text-[var(--sys-text-primary)]">
+                    Navigation
+                </span>
+                <button
+                    type="button"
+                    onClick={onClose}
+                    aria-label="Close navigation"
+                    className="w-8 h-8 flex items-center justify-center rounded-xl
+                        text-[var(--sys-text-secondary)] hover:text-[var(--sys-text-primary)]
+                        hover:bg-[var(--sys-bg-tertiary)]
+                        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sys-accent)]/60
+                        transition-colors"
+                >
+                    <CloseIcon />
+                </button>
+            </div>
 
-                {/* Scrollable nav body */}
-                <nav className="flex-1 overflow-y-auto overflow-x-hidden px-3 pt-3 pb-0
+            {/* ── Scrollable nav body ── */}
+            <nav
+                className="flex-1 overflow-y-auto overflow-x-hidden px-3 pt-3 pb-0
                     [&::-webkit-scrollbar]:w-1
                     [&::-webkit-scrollbar-track]:bg-transparent
-                    [&::-webkit-scrollbar-thumb]:bg-white/10
-                    [&::-webkit-scrollbar-thumb]:rounded-full">
+                    [&::-webkit-scrollbar-thumb]:bg-[var(--sys-border)]
+                    [&::-webkit-scrollbar-thumb]:rounded-full"
+                aria-label="Main navigation"
+            >
+                {/* Search shortcut button */}
+                <SidebarSearch onOpenSearch={onOpenSearch} />
 
-                    {/* Search */}
-                    <SidebarSearch />
+                {/* Accent gradient divider */}
+                <div
+                    className="my-3.5 h-px"
+                    style={{
+                        background: 'linear-gradient(to right, var(--sys-accent), transparent)',
+                        opacity: 0.18,
+                    }}
+                />
 
-                    {/* Accent line — visual rhythm */}
-                    <div className="my-3 h-px bg-gradient-to-r from-sys-accent/20 via-white/5 to-transparent" />
-
-                    {/* Nav sections */}
-                    <div className="flex flex-col gap-4">
-                        {NAV_SECTIONS.map((section) => (
-                            <div key={section.title}>
-                                <SectionTitle title={section.title} />
-                                <ul className="flex flex-col gap-0.5">
-                                    {section.items.map((item) => (
-                                        <SidebarNavItem key={item.href} item={item} />
-                                    ))}
-                                </ul>
-                            </div>
-                        ))}
-                    </div>
-                </nav>
-
-                {/* Footer */}
-                <div className="px-3 pb-3">
-                    <SidebarFooter />
+                {/* Nav sections */}
+                <div className="flex flex-col gap-5 pb-4">
+                    {NAV_SECTIONS.map((section) => (
+                        <NavSection key={section.title} section={section} />
+                    ))}
                 </div>
+            </nav>
+
+            {/* ── Footer ── */}
+            <div className="px-3 pb-3">
+                <SidebarFooter />
             </div>
-        </motion.aside>
-    </>
+        </div>
+    </motion.aside>
 );
 
-// ─── Icons ────────────────────────────────────────────────────────
+export default Sidebar;
 
-function GridIcon() {
-    return <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" /></svg>;
+// ─── Icons ────────────────────────────────────────────────────────
+type IconProps = { size?: number; className?: string };
+
+function GridIcon({ size = 15, className = '' }: IconProps) {
+    return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <rect x="3" y="3" width="7" height="7" rx="1" />
+            <rect x="14" y="3" width="7" height="7" rx="1" />
+            <rect x="14" y="14" width="7" height="7" rx="1" />
+            <rect x="3" y="14" width="7" height="7" rx="1" />
+        </svg>
+    );
 }
-function BarChartIcon() {
-    return <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10" /><line x1="12" y1="20" x2="12" y2="4" /><line x1="6" y1="20" x2="6" y2="14" /></svg>;
+function BarChartIcon({ size = 15, className = '' }: IconProps) {
+    return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <line x1="18" y1="20" x2="18" y2="10" />
+            <line x1="12" y1="20" x2="12" y2="4" />
+            <line x1="6" y1="20" x2="6" y2="14" />
+        </svg>
+    );
 }
-function FileTextIcon() {
-    return <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /><polyline points="10 9 9 9 8 9" /></svg>;
+function FileTextIcon({ size = 15, className = '' }: IconProps) {
+    return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+            <polyline points="14 2 14 8 20 8" />
+            <line x1="16" y1="13" x2="8" y2="13" />
+            <line x1="16" y1="17" x2="8" y2="17" />
+        </svg>
+    );
 }
-function BriefcaseIcon() {
-    return <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" /><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" /></svg>;
+function BriefcaseIcon({ size = 15, className = '' }: IconProps) {
+    return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <rect x="2" y="7" width="20" height="14" rx="2" />
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+        </svg>
+    );
 }
-function ZapIcon() {
-    return <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg>;
+function ZapIcon({ size = 15, className = '' }: IconProps) {
+    return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+        </svg>
+    );
 }
-function ImageIcon() {
-    return <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" /></svg>;
+function ImageIcon({ size = 15, className = '' }: IconProps) {
+    return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <rect x="3" y="3" width="18" height="18" rx="2" />
+            <circle cx="8.5" cy="8.5" r="1.5" />
+            <polyline points="21 15 16 10 5 21" />
+        </svg>
+    );
 }
-function UsersIcon() {
-    return <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" /></svg>;
+function SettingsIcon({ size = 15, className = '' }: IconProps) {
+    return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+            <circle cx="12" cy="12" r="3" />
+        </svg>
+    );
 }
-function MessageIcon() {
-    return <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>;
+
+function SearchIcon({ size = 14, className = '' }: IconProps) {
+    return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.35-4.35" />
+        </svg>
+    );
 }
-function SettingsIcon() {
-    return <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" /><circle cx="12" cy="12" r="3" /></svg>;
+
+function ChatIcon({ size = 14, className = '' }: IconProps) {
+    return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
+        </svg>
+    );
 }
-function PlugIcon() {
-    return <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6l-6 6M5 19l4-4m5-5l4 4m-4-4l-1.5-1.5" /><path d="M12 3v3M21 12h-3M12 21v-3M3 12h3" /></svg>;
+
+function ChevronIcon({ size = 12, className = '' }: IconProps) {
+    return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <path d="M6 9l6 6 6-6" />
+        </svg>
+    );
 }
-function SearchIcon() {
-    return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" /></svg>;
+function CloseIcon({ size = 14, className = '' }: IconProps) {
+    return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            strokeWidth="2" strokeLinecap="round" className={className}>
+            <path d="M18 6 6 18M6 6l12 12" />
+        </svg>
+    );
 }
-function FlameIcon() {
-    return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" /></svg>;
+function MessageSquareIcon({ size = 15, className = '' }: IconProps) {
+    return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg>
+    );
 }
-function ChatIcon() {
-    return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" /></svg>;
+function UsersIcon({ size = 15, className = '' }: IconProps) {
+    return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+            <circle cx="9" cy="7" r="4" />
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+        </svg>
+    );
 }
-function BookIcon() {
-    return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 7v14M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z" /></svg>;
-}
-function CloseIcon() {
-    return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M18 6 6 18M6 6l12 12" /></svg>;
+function LogOutIcon({ size = 14, className = '' }: IconProps) {
+    return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+            <polyline points="16 17 21 12 16 7" />
+            <line x1="21" y1="12" x2="9" y2="12" />
+        </svg>
+    );
 }

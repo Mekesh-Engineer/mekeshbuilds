@@ -2,7 +2,7 @@
 // Dedicated visual workspace for exploring portfolio aesthetics.
 import { Helmet } from 'react-helmet-async';
 import { useThemeEngine } from '@/hooks/useThemeEngine';
-import { Button } from '@/components/Shared';
+import { Button } from '@/components/common';
 
 const presetSchemes = [
     { name: 'Sunset Orange', primary: '#FF6B2C', secondary: '#FF8A57' },
