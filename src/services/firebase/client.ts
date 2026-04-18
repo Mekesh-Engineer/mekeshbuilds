@@ -7,7 +7,6 @@ import {
   persistentMultipleTabManager,
 } from 'firebase/firestore';
 import { getDatabase } from 'firebase/database';
-import { getStorage } from 'firebase/storage';
 
 function requiredEnv(name: string): string {
   const value = (import.meta.env[name] as string | undefined)?.trim();
@@ -29,7 +28,6 @@ const firebaseConfig = {
   apiKey: requiredEnv('VITE_FIREBASE_API_KEY'),
   authDomain: requiredEnv('VITE_FIREBASE_AUTH_DOMAIN'),
   projectId: requiredEnv('VITE_FIREBASE_PROJECT_ID'),
-  storageBucket: requiredEnv('VITE_FIREBASE_STORAGE_BUCKET'),
   messagingSenderId: requiredEnv('VITE_FIREBASE_MESSAGING_SENDER_ID'),
   appId: requiredEnv('VITE_FIREBASE_APP_ID'),
   ...(measurementId ? { measurementId } : {}),
@@ -44,7 +42,6 @@ export const db = initializeFirestore(firebaseApp, {
   }),
 });
 export const realtimeDb = getDatabase(firebaseApp);
-export const storage = getStorage(firebaseApp);
 
 setPersistence(auth, browserLocalPersistence).catch((err) => {
   console.warn('[firebase] Auth persistence setup failed:', err);

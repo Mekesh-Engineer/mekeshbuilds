@@ -14,8 +14,12 @@ export const ResumeManagerPage: React.FC = () => {
         setIsDragging(false);
         const file = e.dataTransfer.files[0];
         if (file?.type === 'application/pdf') {
-            // Upload to Firebase Storage resumes bucket
-            console.log('Upload file:', file.name);
+            // Upload to RTDB
+          import('@/services/uploadService').then(({ uploadFileToRTDB }) => {
+            uploadFileToRTDB(file, 'user-id-placeholder', 'resumes')
+              .then((res) => console.log('Successfully uploaded PDF. ID:', res.id))
+              .catch((err) => console.error('Firebase DB Upload failed', err));
+          });
         }
     };
 
