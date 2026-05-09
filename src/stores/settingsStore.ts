@@ -14,13 +14,14 @@ export interface ThemeSettings {
   secondary: string;
   fontPrimary: string;
   fontSecondary: string;
-  mode: 'light' | 'dark';
+  mode: 'light' | 'dark' | 'auto';
 }
 
 export interface SiteSettings {
   seo: SeoSettings;
   theme: ThemeSettings;
 }
+
 
 interface SettingsStoreState {
   settings: SiteSettings;
@@ -30,7 +31,7 @@ interface SettingsStoreState {
 }
 
 type DeepPartial<T> = T extends object ? {
-    [P in keyof T]?: DeepPartial<T[P]>;
+  [P in keyof T]?: DeepPartial<T[P]>;
 } : T;
 
 const defaultSettings: SiteSettings = {
@@ -43,7 +44,7 @@ const defaultSettings: SiteSettings = {
     secondary: '#FF8A57',
     fontPrimary: 'Inter',
     fontSecondary: 'Inter',
-    mode: 'dark',
+    mode: 'auto',
   },
 };
 
@@ -59,24 +60,24 @@ export const useSettingsStore = create<SettingsStoreState>()(
         if (settingsUnsubscribe) return; // already syncing
 
         const settingsRef = doc(db, 'settings', 'global');
-        
+
         settingsUnsubscribe = onSnapshot(
           settingsRef,
           (snapshot) => {
             if (snapshot.exists()) {
-               const data = snapshot.data();
-               set({
-                  settings: {
-                     seo: { ...defaultSettings.seo, ...data.seo },
-                     theme: { ...defaultSettings.theme, ...data.theme },
-                  },
-                  isLoading: false,
-               }, false, 'settingsSync');
+              const data = snapshot.data();
+              set({
+                settings: {
+                  seo: { ...defaultSettings.seo, ...data.seo },
+                  theme: { ...defaultSettings.theme, ...data.theme },
+                },
+                isLoading: false,
+              }, false, 'settingsSync');
             } else {
-               // initialize default settings in DB if none exist
-               setDoc(settingsRef, defaultSettings, { merge: true })
-                 .catch((e) => console.error("Failed to initialize remote settings:", e));
-               set({ settings: defaultSettings, isLoading: false }, false, 'settingsDefaultInit');
+              // initialize default settings in DB if none exist
+              setDoc(settingsRef, defaultSettings, { merge: true })
+                .catch((e) => console.error("Failed to initialize remote settings:", e));
+              set({ settings: defaultSettings, isLoading: false }, false, 'settingsDefaultInit');
             }
           },
           (error) => {

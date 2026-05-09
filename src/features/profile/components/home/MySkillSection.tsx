@@ -96,10 +96,10 @@ function getVariant(slot: number, isMobile: boolean): TargetAndTransition {
 
     const MAP: Record<number, TargetAndTransition> = {
         0: { x: '-50%', scale: 1, rotate: 0, opacity: 1, zIndex: 7 },
-        1: { x: 'calc(-50% + 280px)', scale: 0.88, rotate: 8, opacity: 0.60, zIndex: 6 },
-        2: { x: 'calc(-50% + 540px)', scale: 0.74, rotate: 14, opacity: 0.18, zIndex: 5 },
-        [-1]: { x: 'calc(-50% - 280px)', scale: 0.88, rotate: -8, opacity: 0.60, zIndex: 6 },
-        [-2]: { x: 'calc(-50% - 540px)', scale: 0.74, rotate: -14, opacity: 0.18, zIndex: 5 },
+        1: { x: 'calc(-50% + 320px)', scale: 0.88, rotate: 8, opacity: 0.60, zIndex: 6 },
+        2: { x: 'calc(-50% + 600px)', scale: 0.74, rotate: 14, opacity: 0.18, zIndex: 5 },
+        [-1]: { x: 'calc(-50% - 320px)', scale: 0.88, rotate: -8, opacity: 0.60, zIndex: 6 },
+        [-2]: { x: 'calc(-50% - 600px)', scale: 0.74, rotate: -14, opacity: 0.18, zIndex: 5 },
     };
 
     return MAP[slot] ?? { x: '-50%', scale: 0.5, rotate: 0, opacity: 0, zIndex: 1 };
@@ -360,7 +360,7 @@ export default function MySkillSection({ cards: inputCards }: ServicesSectionPro
                                 aria-roledescription="slide"
                                 aria-label={`Skill ${index + 1} of ${visibleCards.length}: ${card.title}`}
                                 className={[
-                                    'absolute left-1/2 top-0 w-[min(430px,90vw)] origin-center',
+                                    'absolute left-1/2 top-0 w-[min(480px,90vw)] origin-center',
                                     isHidden ? 'pointer-events-none' : '',
                                 ].join(' ')}
                                 animate={getVariant(slot, isMobile)}

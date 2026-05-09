@@ -100,20 +100,19 @@ const formatDOB = (dob?: string) => {
     return new Date(dob).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 };
 
-const getInitialTheme = (): 'dark' | 'light' => {
-    if (typeof window === 'undefined') return 'dark';
+type ThemeMode = 'dark' | 'light' | 'auto';
 
-    const attrMode = document.documentElement.getAttribute('data-mode');
-    if (attrMode === 'light' || attrMode === 'dark') return attrMode;
+const getInitialTheme = (): ThemeMode => {
+    if (typeof window === 'undefined') return 'auto';
 
     try {
-        const stored = localStorage.getItem('mekeshbuilds-mode');
-        if (stored === 'light' || stored === 'dark') return stored;
+        const stored = localStorage.getItem('mekeshbuilds-mode') as ThemeMode | null;
+        if (stored && ['light', 'dark', 'auto'].includes(stored)) return stored;
     } catch {
-        // Storage unavailable — fall back to dark.
+        // Storage unavailable — fall back to auto.
     }
 
-    return 'dark';
+    return 'auto';
 };
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
@@ -157,7 +156,7 @@ export const Navbar: React.FC = () => {
     const [scrollDirection, setScrollDirection] = useState<'up' | 'down'>('up');
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-    const [theme, setTheme] = useState<'dark' | 'light'>(() => getInitialTheme());
+    const [theme, setTheme] = useState<ThemeMode>(() => getInitialTheme());
 
     const [unreadCount, setUnreadCount] = useState(
         NOTIFICATIONS.filter((n) => !n.read).length,
@@ -211,12 +210,31 @@ export const Navbar: React.FC = () => {
     }, []);
 
     // Keep system mode synced and persisted across sessions.
+    // Time-based checker
     useEffect(() => {
-        document.documentElement.setAttribute('data-mode', theme);
-        try {
-            localStorage.setItem('mekeshbuilds-mode', theme);
-        } catch {
-            // Storage unavailable — continue without persistence.
+        const applyTheme = () => {
+            let modeToApply: 'light' | 'dark';
+            if (theme === 'auto') {
+                const hour = new Date().getHours();
+                modeToApply = (hour >= 6 && hour < 18) ? 'light' : 'dark';
+            } else {
+                modeToApply = theme;
+            }
+
+            document.documentElement.setAttribute('data-mode', modeToApply);
+            try {
+                localStorage.setItem('mekeshbuilds-mode', theme);
+            } catch {
+                // Storage unavailable
+            }
+        };
+
+        applyTheme();
+
+        // 24-hour interval checker to auto toggle if left open
+        if (theme === 'auto') {
+            const interval = setInterval(applyTheme, 60000); // Check every minute
+            return () => clearInterval(interval);
         }
     }, [theme]);
 
@@ -306,8 +324,11 @@ export const Navbar: React.FC = () => {
 
     // ── Theme toggle ───────────────────────────────────────────────────────────
     const toggleTheme = () => {
-        const next = theme === 'dark' ? 'light' : 'dark';
-        setTheme(next);
+        setTheme((prev) => {
+            if (prev === 'auto') return 'dark';
+            if (prev === 'dark') return 'light';
+            return 'auto'; // light -> auto
+        });
     };
 
     // ── Dropdown helpers (debounced close) ─────────────────────────────────────
@@ -335,6 +356,11 @@ export const Navbar: React.FC = () => {
 
         if (itemId === 'about') {
             navigate('/about');
+            return;
+        }
+
+        if (itemId === 'contact') {
+            navigate('/contact');
             return;
         }
 
@@ -530,8 +556,11 @@ export const Navbar: React.FC = () => {
                                                             Ready to collaborate?
                                                         </span>
                                                         <a
-                                                            href="#contact"
-                                                            className="flex items-center gap-1.5 text-[12px] font-semibold text-sys-accent hover:text-sys-accent-light transition-colors"
+                                                            onClick={(e) => {
+                                                                e.preventDefault();
+                                                                navigate('/contact');
+                                                            }}
+                                                            className="flex items-center gap-1.5 text-[12px] font-semibold text-sys-accent hover:text-sys-accent-light transition-colors cursor-pointer"
                                                         >
                                                             Get in touch
                                                             <span className="material-icons-round text-[14px]">arrow_forward</span>
@@ -565,7 +594,11 @@ export const Navbar: React.FC = () => {
                                         transition={{ duration: 0.2 }}
                                         className="material-icons-round text-[18px]"
                                     >
-                                        {theme === 'dark' ? 'light_mode' : 'dark_mode'}
+                                        {theme === 'auto'
+                                            ? 'brightness_auto'
+                                            : theme === 'dark'
+                                                ? 'light_mode'
+                                                : 'dark_mode'}
                                     </motion.span>
                                 </AnimatePresence>
                             </motion.button>
@@ -1057,9 +1090,9 @@ export const Navbar: React.FC = () => {
                                     className="flex w-full items-center justify-center gap-2 rounded-xl border border-sys-border bg-sys-bg-secondary py-2.5 text-[13px] font-medium text-sys-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sys-accent/40"
                                 >
                                     <span className="material-icons-round text-[16px]">
-                                        {theme === 'dark' ? 'light_mode' : 'dark_mode'}
+                                        {theme === 'auto' ? 'brightness_auto' : theme === 'dark' ? 'light_mode' : 'dark_mode'}
                                     </span>
-                                    {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+                                    {theme === 'auto' ? 'Auto Mode' : theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
                                 </button>
 
                                 {isAuth ? (

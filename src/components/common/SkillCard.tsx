@@ -296,12 +296,12 @@ export default function SkillCard({
                 transition={{ duration: 0.35, ease: EASE }}
                 style={activeStyles}
                 className={[
-                    'group relative flex flex-col rounded-[2rem] border p-5',
+                    'group relative flex flex-col rounded-[2rem] border p-5 w-full',
                     'transition-all duration-300',
                     isBlogPost
                         ? 'border-0 bg-transparent p-0 shadow-none'
                         : [
-                            'min-h-[455px] shadow-[0_10px_24px_rgba(0,0,0,0.28)]',
+                            'min-h-[460px] shadow-[0_10px_24px_rgba(0,0,0,0.28)]',
                             'bg-[color-mix(in_srgb,var(--sys-bg-secondary)_88%,black_12%)]',
                             'cursor-pointer',
                             isActive
@@ -317,7 +317,7 @@ export default function SkillCard({
                         'relative mb-6 overflow-hidden',
                         isBlogPost
                             ? 'aspect-[16/10] rounded-[1.25rem] mb-0'
-                            : 'h-[245px] rounded-[1.5rem]',
+                            : 'h-[180px] rounded-[1.5rem]',
                     ].join(' ')}>
 
                         <CardImage

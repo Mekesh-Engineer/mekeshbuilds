@@ -22,6 +22,9 @@ const HomePage = lazy(() =>
 const AboutPage = lazy(() =>
     import('@/pages/public/AboutPage'),
 );
+const ContactPage = lazy(() =>
+    import('@/pages/public/ContactPage'),
+);
 const NotFoundPage = lazy(() =>
     import('@/pages/public/NotFoundPage').then((m) => ({ default: m.NotFoundPage })),
 );
@@ -91,6 +94,10 @@ const router = createBrowserRouter([
     {
         path: '/about',
         element: withSuspense(<AboutPage />),
+    },
+    {
+        path: '/contact',
+        element: withSuspense(<ContactPage />),
     },
     {
         path: '/auth/callback',

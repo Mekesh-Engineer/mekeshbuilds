@@ -1,191 +1,544 @@
 <!DOCTYPE html>
-
-<html class="light" lang="en">
-
+<html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Manrope:wght@400;500;600;700&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "primary": "#9c3e00",
-                        "on-secondary-fixed": "#552800",
-                        "primary-fixed-dim": "#ee6d23",
-                        "surface": "#f9f6f5",
-                        "surface-container-low": "#f3f0ef",
-                        "primary-dim": "#893600",
-                        "surface-dim": "#d6d4d3",
-                        "error-dim": "#b92902",
-                        "secondary": "#904800",
-                        "on-secondary-container": "#723700",
-                        "secondary-fixed-dim": "#ffb37d",
-                        "surface-tint": "#9c3e00",
-                        "surface-container-lowest": "#ffffff",
-                        "tertiary": "#7b5400",
-                        "on-tertiary-fixed": "#372400",
-                        "error": "#b02500",
-                        "surface-container-highest": "#dfdcdc",
-                        "surface-variant": "#dfdcdc",
-                        "on-primary-container": "#401500",
-                        "tertiary-fixed-dim": "#eca60f",
-                        "inverse-on-surface": "#9e9c9c",
-                        "error-container": "#f95630",
-                        "on-error-container": "#520c00",
-                        "surface-container": "#eae7e7",
-                        "surface-container-high": "#e4e2e1",
-                        "tertiary-dim": "#6b4900",
-                        "on-error": "#ffefec",
-                        "on-tertiary": "#fff1df",
-                        "inverse-surface": "#0e0e0e",
-                        "on-secondary-fixed-variant": "#803f00",
-                        "on-primary": "#fff0ea",
-                        "secondary-container": "#ffc6a0",
-                        "on-surface": "#2f2f2e",
-                        "secondary-fixed": "#ffc6a0",
-                        "on-surface-variant": "#5c5b5b",
-                        "on-primary-fixed": "#000000",
-                        "tertiary-container": "#fbb423",
-                        "tertiary-fixed": "#fbb423",
-                        "inverse-primary": "#ff7a30",
-                        "background": "#f9f6f5",
-                        "primary-container": "#ff7a30",
-                        "outline": "#787676",
-                        "on-secondary": "#fff0e8",
-                        "surface-bright": "#f9f6f5",
-                        "on-primary-fixed-variant": "#4f1c00",
-                        "on-background": "#2f2f2e",
-                        "on-tertiary-container": "#523700",
-                        "secondary-dim": "#7e3e00",
-                        "on-tertiary-fixed-variant": "#5e4000",
-                        "primary-fixed": "#ff7a30",
-                        "outline-variant": "#afadac"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "1rem",
-                        "lg": "2rem",
-                        "xl": "3rem",
-                        "full": "9999px"
-                    },
-                    "fontFamily": {
-                        "headline": ["Plus Jakarta Sans"],
-                        "body": ["Manrope"],
-                        "label": ["Manrope"]
-                    }
-                },
-            },
-        }
-    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinFlow | Modern Global Money Transfers</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Material Symbols -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <!-- AOS Animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
     <style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-            display: inline-block;
-            line-height: 1;
-            text-transform: none;
-            letter-spacing: normal;
-            word-wrap: normal;
-            white-space: nowrap;
-            direction: ltr;
+        body { font-family: 'Inter', sans-serif; }
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
-
-        .glass-dark {
-            background-color: rgba(10, 10, 15, 0.8);
-            backdrop-filter: blur(20px);
+        .hero-gradient {
+            background: radial-gradient(circle at top right, #3b82f6, #1e3a8a, #1e1b4b);
+        }
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .custom-shadow {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
         }
     </style>
 </head>
+<body class="bg-slate-50 text-slate-900 overflow-x-hidden">
 
-<body class="bg-surface font-body text-on-surface">
-    <!-- Shared Component: TopNavBar -->
-    <nav
-        class="fixed top-0 w-full z-50 h-20 glass-dark border-b border-white/10 flex justify-between items-center px-8 shadow-[0_8px_32px_rgba(156,62,0,0.08)]">
-        <!-- Left: Brand & Breadcrumb -->
-        <div class="flex items-center gap-6">
-            <div class="flex items-center gap-3 group cursor-pointer">
-                <div
-                    class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-primary-container flex items-center justify-center text-on-primary font-black italic tracking-tighter text-xl shadow-lg shadow-primary/20 transition-transform active:scale-95">
-                    MB
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 transition-all duration-300 px-6 py-4" id="main-nav">
+        <div class="max-w-7xl mx-auto flex justify-between items-center glass rounded-full px-6 py-3 shadow-sm">
+            <div class="flex items-center gap-2 cursor-pointer group">
+                <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white group-hover:rotate-12 transition-transform">
+                    <span class="material-symbols-outlined text-sm">payments</span>
                 </div>
-                <div class="hidden md:flex flex-col">
-                    <span
-                        class="text-white font-headline font-extrabold tracking-tight text-sm leading-none">Dashboard</span>
-                    <span class="text-stone-500 font-label text-[10px] uppercase tracking-widest mt-1">Command
-                        Center</span>
-                </div>
+                <span class="font-bold text-xl tracking-tight">FinFlow</span>
             </div>
-            <div class="hidden lg:flex items-center gap-6 ml-4">
-                <a class="text-orange-500 font-headline font-extrabold border-b-2 border-orange-500 pb-1 text-sm tracking-tight transition-all"
-                    href="#">Projects</a>
-                <a class="text-stone-400 font-headline font-bold text-sm tracking-tight hover:text-stone-100 transition-colors duration-300"
-                    href="#">Team</a>
-                <a class="text-stone-400 font-headline font-bold text-sm tracking-tight hover:text-stone-100 transition-colors duration-300"
-                    href="#">Analytics</a>
+            
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
+                <a href="#" class="hover:text-blue-600 transition-colors">About</a>
+                <a href="#" class="hover:text-blue-600 transition-colors">Features</a>
+                <a href="#" class="hover:text-blue-600 transition-colors">Pricing</a>
             </div>
-        </div>
-        <!-- Center: Global Fuzzy Search -->
-        <div class="flex-1 max-w-md px-8">
-            <div class="relative group">
-                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <span
-                        class="material-symbols-outlined text-stone-500 group-focus-within:text-orange-500 transition-colors">search</span>
-                </div>
-                <input
-                    class="w-full bg-stone-800/40 border-0 rounded-full py-2.5 pl-11 pr-4 text-stone-200 placeholder-stone-500 font-body text-sm focus:ring-2 focus:ring-orange-500/50 focus:bg-stone-800/60 transition-all duration-300 outline-none w-full group-focus-within:scale-105"
-                    placeholder="Fuzzy search commands..." type="text" />
-                <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none">
-                    <span
-                        class="text-[10px] font-bold text-stone-600 bg-stone-900 px-1.5 py-0.5 rounded border border-white/5 tracking-tighter">CMD
-                        + K</span>
-                </div>
-            </div>
-        </div>
-        <!-- Right: Actions & Profile -->
-        <div class="flex items-center gap-4">
-            <!-- Notifications -->
-            <button
-                class="relative w-10 h-10 flex items-center justify-center rounded-full text-stone-400 hover:bg-orange-500/10 hover:text-orange-400 transition-all duration-300 active:scale-95">
-                <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
-                <span
-                    class="absolute top-2.5 right-2.5 w-2 h-2 bg-orange-500 rounded-full border-2 border-[#0A0A0F]"></span>
-            </button>
-            <!-- Settings -->
-            <button
-                class="w-10 h-10 flex items-center justify-center rounded-full text-stone-400 hover:bg-orange-500/10 hover:text-orange-400 transition-all duration-300 active:scale-95">
-                <span class="material-symbols-outlined" data-icon="settings">settings</span>
-            </button>
-            <div class="h-8 w-[1px] bg-white/10 mx-2"></div>
-            <!-- Profile Dropdown -->
-            <div class="flex items-center gap-3 pl-2 cursor-pointer group">
-                <div class="text-right hidden sm:block">
-                    <p class="text-xs font-bold text-stone-100 font-headline leading-none">Alex Rivera</p>
-                    <p class="text-[10px] text-stone-500 font-label mt-1">Lead Architect</p>
-                </div>
-                <div class="relative">
-                    <img alt="User avatar"
-                        class="w-10 h-10 rounded-full object-cover border-2 border-white/10 group-hover:border-orange-500/50 transition-all duration-300"
-                        data-alt="Close-up professional portrait of a confident man with a slight smile in a high-end architectural studio background with soft natural lighting"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYfyOz_pU-ebWO7lBmF41VTSBQBLx04RnelnsP7XTz3_R1W3IyftC_9HnPEy0dZV1Mt42_CJeQUTsasPubLYP4rTEq0PtdbaIrRu2st6mQUNlpDcDa0sVAFJSlA75zQja5YqdQzZbfuP2mxu52gsUw78jGebVHoLrPlqQ-n_BDrTaCkkkkUDekO3v1gv11Xqt0sIX1VoYuRq1iRwIoIJu8pHtgwF1tBEtXqq3h4GKtSkTe_Klp9Oq-Y2srdB1PYmIIyTGcEntfzDnS" />
-                    <div
-                        class="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-green-500 rounded-full border-2 border-[#0A0A0F]">
-                    </div>
-                </div>
+
+            <div class="flex items-center gap-4">
+                <button class="text-sm font-semibold text-slate-700 hover:text-blue-600 px-4 py-2 transition-all">Login</button>
+                <button class="bg-blue-600 text-white text-sm font-semibold px-6 py-2 rounded-full hover:bg-blue-700 transition-all shadow-lg shadow-blue-200">Sign Up</button>
             </div>
         </div>
     </nav>
 
+    <!-- Hero Section -->
+    <section class="hero-gradient min-h-screen flex items-center pt-20 px-6 relative overflow-hidden">
+        <!-- Decorative elements -->
+        <div class="absolute top-20 left-[-10%] w-96 h-96 bg-blue-400/20 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 right-[-5%] w-[500px] h-[500px] bg-indigo-500/20 rounded-full blur-3xl"></div>
 
+        <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center relative z-10">
+            <div data-aos="fade-right" class="text-center lg:text-left text-white">
+                <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-1 rounded-full text-xs font-medium mb-6 border border-white/20">
+                    <span class="material-symbols-outlined text-sm">verified</span> Trusted by 10k+ companies
+                </div>
+                <h1 class="text-5xl lg:text-7xl font-extrabold leading-tight mb-6">
+                    Fast, Easy Global <br><span class="text-blue-300">Money Transfers</span>
+                </h1>
+                <p class="text-lg text-blue-100/80 mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed">
+                    Take control of your spending, set budgets, and manage your money effectively with our seamless, secure, and lightning-fast payment ecosystem.
+                </p>
+                <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                    <button class="bg-white text-blue-900 px-8 py-4 rounded-full font-bold hover:bg-blue-50 transition-all shadow-xl flex items-center gap-2">
+                        Get Started Now <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                    </button>
+                    <button class="bg-transparent border border-white/30 px-8 py-4 rounded-full font-semibold hover:bg-white/10 transition-all">
+                        View Demo
+                    </button>
+                </div>
+            </div>
+
+            <!-- Floating Transfer Card -->
+            <div data-aos="zoom-in" data-aos-delay="200" class="relative">
+                <div class="glass p-8 rounded-3xl custom-shadow max-w-md mx-auto relative z-10">
+                    <div class="flex items-center gap-2 mb-6 text-slate-500">
+                        <span class="material-symbols-outlined text-blue-600">swap_horizontal_circle</span>
+                        <span class="text-sm font-semibold uppercase tracking-wider">Transfer Money</span>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="p-4 bg-slate-100 rounded-2xl border border-slate-200 flex items-center gap-3">
+                            <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600">
+                                <span class="material-symbols-outlined">account_balance</span>
+                            </div>
+                            <div class="text-left">
+                                <p class="text-[10px] text-slate-400 uppercase font-bold">From</p>
+                                <p class="text-sm font-semibold">Trusted by World Bank USA</p>
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-slate-100 rounded-2xl border border-slate-200 flex items-center gap-3">
+                            <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600">
+                                <span class="material-symbols-outlined">person</span>
+                            </div>
+                            <div class="text-left">
+                                <p class="text-[10px] text-slate-400 uppercase font-bold">To</p>
+                                <p class="text-sm font-semibold">John Doe</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold text-slate-400 uppercase ml-1">Amount (USD)</label>
+                            <div class="relative">
+                                <input type="text" value="5,000.00" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+                                <span class="absolute right-4 top-1/2 -translate-y-1/2 font-bold text-slate-400">$</span>
+                            </div>
+                        </div>
+
+                        <button class="w-full bg-blue-600 text-white py-4 rounded-2xl font-bold hover:bg-blue-700 transition-all transform active:scale-95 shadow-lg shadow-blue-200">
+                            Send Money
+                        </button>
+                    </div>
+                </div>
+                <!-- Decorative floating elements -->
+                <div class="absolute -top-6 -right-6 w-20 h-20 bg-yellow-400 rounded-full blur-2xl opacity-50"></div>
+                <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-pink-400 rounded-full blur-3xl opacity-30"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feature Grid 1 -->
+    <section class="py-24 px-6 max-w-7xl mx-auto text-center">
+        <div data-aos="fade-up">
+            <h2 class="text-4xl font-extrabold mb-4">Take full control of your <br>payments with smarter tools</h2>
+            <p class="text-slate-500 max-w-2xl mx-auto mb-16">Even spending, set budgets, and manage your money effectively with our sophisticated financial tools.</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Card 1 -->
+            <div data-aos="fade-up" data-aos-delay="100" class="card-hover p-8 bg-white rounded-3xl border border-slate-100 text-left">
+                <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-6">
+                    <span class="material-symbols-outlined">account_balance_wallet</span>
+                </div>
+                <h3 class="text-xl font-bold mb-3">Bank Integration</h3>
+                <p class="text-slate-500 text-sm leading-relaxed">Connect all your accounts in one place for effortless tracking.</p>
+            </div>
+            <!-- Card 2 -->
+            <div data-aos="fade-up" data-aos-delay="200" class="card-hover p-8 bg-white rounded-3xl border border-slate-100 text-left">
+                <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mb-6">
+                    <span class="material-symbols-outlined">bolt</span>
+                </div>
+                <h3 class="text-xl font-bold mb-3">Instant Transfers</h3>
+                <p class="text-slate-500 text-sm leading-relaxed">Send money instantly and securely across global borders.</p>
+            </div>
+            <!-- Card 3 -->
+            <div data-aos="fade-up" data-aos-delay="300" class="card-hover p-8 bg-white rounded-3xl border border-slate-100 text-left">
+                <div class="w-12 h-12 bg-cyan-50 text-cyan-600 rounded-2xl flex items-center justify-center mb-6">
+                    <span class="material-symbols-outlined">phonelink_ring</span>
+                </div>
+                <h3 class="text-xl font-bold mb-3">Mobile Payment</h3>
+                <p class="text-slate-500 text-sm leading-relaxed">Easy, touchless, and integrated mobile payments with a tap.</p>
+            </div>
+            <!-- Card 4 -->
+            <div data-aos="fade-up" data-aos-delay="400" class="card-hover p-8 bg-white rounded-3xl border border-slate-100 text-left">
+                <div class="w-12 h-12 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center mb-6">
+                    <span class="material-symbols-outlined">savings</span>
+                </div>
+                <h3 class="text-xl font-bold mb-3">Smart Wallet</h3>
+                <p class="text-slate-500 text-sm leading-relaxed">Automated savings and control over your monthly spend.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section class="py-24 bg-slate-100 px-6 overflow-hidden">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-4xl font-extrabold mb-4">Powerful Finance, Zero Complexity</h2>
+                <p class="text-slate-500">Clear insights into money to manage, track, and grow your finances.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <!-- Mimicked Dashboard UI -->
+                <div data-aos="fade-right" class="bg-white p-6 rounded-3xl shadow-2xl border border-slate-200 relative">
+                    <div class="flex justify-between items-center mb-8">
+                        <h4 class="font-bold text-lg">Currency Details</h4>
+                        <span class="material-symbols-outlined text-slate-400">more_horiz</span>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-8">
+                        <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                            <p class="text-xs text-slate-400 font-bold uppercase mb-2">USD</p>
+                            <p class="text-xl font-bold">\$12,000.00</p>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                            <p class="text-xs text-slate-400 font-bold uppercase mb-2">EUR</p>
+                            <p class="text-xl font-bold">€8,500.00</p>
+                        </div>
+                    </div>
+
+                    <div class="p-6 bg-blue-600 rounded-3xl text-white mb-8 relative overflow-hidden">
+                        <div class="relative z-10">
+                            <p class="text-blue-200 text-sm font-medium mb-1">Earning Balance</p>
+                            <h3 class="text-3xl font-bold">\$45,726,389.89</h3>
+                        </div>
+                        <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-white/10 rounded-full blur-2xl"></div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-4 hover:bg-slate-50 rounded-2xl transition-all cursor-pointer group">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-green-100 text-green-600 rounded-full flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-sm">trending_up</span>
+                                </div>
+                                <span class="text-sm font-medium">Investment Growth</span>
+                            </div>
+                            <span class="text-green-600 font-bold text-sm">+12.5%</span>
+                        </div>
+                        <div class="flex items-center justify-between p-4 hover:bg-slate-50 rounded-2xl transition-all cursor-pointer group">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-red-100 text-red-600 rounded-full flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-sm">trending_down</span>
+                                </div>
+                                <span class="text-sm font-medium">Tax Deductions</span>
+                            </div>
+                            <span class="text-red-600 font-bold text-sm">-2.1%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div data-aos="fade-left" class="space-y-8">
+                    <div class="flex gap-6 p-6 bg-white rounded-3xl border border-slate-100 hover:border-blue-300 transition-all cursor-pointer group">
+                        <div class="w-14 h-14 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:bg-blue-600 group-hover:text-white transition-all">
+                            <span class="material-symbols-outlined">insights</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg mb-2">Manage global payments</h4>
+                            <p class="text-slate-500 text-sm">Effortlessly track, convert, and send payments in one dashboard.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-6 p-6 bg-white rounded-3xl border border-slate-100 hover:border-blue-300 transition-all cursor-pointer group">
+                        <div class="w-14 h-14 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:bg-indigo-600 group-hover:text-white transition-all">
+                            <span class="material-symbols-outlined">shield_with_heart</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg mb-2">Secure Encryption</h4>
+                            <p class="text-slate-500 text-sm">Bank-grade security ensuring your data and funds are always protected.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- App Experience Section -->
+    <section class="py-24 px-6 max-w-7xl mx-auto">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+            <div data-aos="fade-right" class="order-2 lg:order-1 relative">
+                <!-- Mimicked Phone Mockup -->
+                <div class="w-[300px] h-[600px] bg-slate-900 rounded-[3rem] border-[8px] border-slate-800 shadow-2xl mx-auto relative overflow-hidden">
+                    <div class="bg-blue-600 h-48 p-6 text-white">
+                        <div class="flex justify-between items-center mb-8">
+                            <span class="material-symbols-outlined">menu</span>
+                            <div class="w-8 h-8 rounded-full bg-white/20"></div>
+                        </div>
+                        <p class="text-xs opacity-80">Welcome back,</p>
+                        <h4 class="text-xl font-bold">Alex Morgan</h4>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div class="bg-slate-100 p-4 rounded-2xl flex justify-between items-center">
+                            <span class="text-xs font-bold text-slate-500">SCHEDULED</span>
+                            <span class="text-xs font-bold text-blue-600">Tomorrow</span>
+                        </div>
+                        <div class="p-4 border border-slate-100 rounded-2xl flex items-center gap-4">
+                            <div class="w-10 h-10 bg-slate-200 rounded-full"></div>
+                            <div class="text-left">
+                                <p class="text-xs font-bold">Send to Samuel</p>
+                                <p class="text-[10px] text-slate-400">Auto-payment</p>
+                            </div>
+                            <span class="ml-auto font-bold text-sm">\$250</span>
+                        </div>
+                        <div class="p-4 border border-slate-100 rounded-2xl flex items-center gap-4">
+                            <div class="w-10 h-10 bg-slate-200 rounded-full"></div>
+                            <div class="text-left">
+                                <p class="text-xs font-bold">Maurice Kaplan</p>
+                                <p class="text-[10px] text-slate-400">Freelance Payment</p>
+                            </div>
+                            <span class="ml-auto font-bold text-sm">\$1,200</span>
+                        </div>
+                    </div>
+                    <div class="absolute bottom-6 left-1/2 -translate-x-1/2 w-32 h-1 bg-slate-700 rounded-full"></div>
+                </div>
+            </div>
+            <div data-aos="fade-left" class="order-1 lg:order-2 text-center lg:text-left">
+                <h2 class="text-4xl font-extrabold mb-6 leading-tight">Manage Every Payment <br>with Confidence</h2>
+                <p class="text-slate-500 mb-10 leading-relaxed">One app for everything. Set budgets, track your spending, and automate your payments in one place. Experience the future of finance.</p>
+                <button class="bg-blue-600 text-white px-10 py-4 rounded-full font-bold hover:bg-blue-700 transition-all shadow-xl shadow-blue-200">Schedule Now</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Stats -->
+    <section class="py-24 bg-white px-6">
+        <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+            <div data-aos="fade-right" class="flex gap-8">
+                <div class="w-1/2 p-8 bg-blue-50 rounded-3xl border border-blue-100 flex flex-col justify-center items-center text-center">
+                    <span class="text-4xl font-black text-blue-600 mb-2">+90%</span>
+                    <p class="text-slate-500 text-xs font-bold uppercase">Efficiency Rate</p>
+                </div>
+                <div class="w-1/2 p-8 bg-slate-50 rounded-3xl border border-slate-100 flex flex-col justify-center items-center text-center">
+                    <span class="text-4xl font-black text-slate-800 mb-2">Premium</span>
+                    <p class="text-slate-500 text-xs font-bold uppercase">User Experience</p>
+                </div>
+            </div>
+            <div data-aos="fade-left">
+                <h2 class="text-4xl font-extrabold mb-6 leading-tight">Make smarter financial decisions with <span class="text-blue-600">real-time insights</span></h2>
+                <p class="text-slate-500 mb-12">Move beyond spreadsheets and manual tracking. Our intuitive visualization transforms your finance into a clear roadmap.</p>
+                
+                <div class="grid grid-cols-3 gap-8">
+                    <div class="text-center">
+                        <h3 class="text-3xl font-black text-slate-900">4.9</h3>
+                        <p class="text-slate-400 text-xs font-medium">Customer Rating</p>
+                    </div>
+                    <div class="text-center border-x border-slate-100">
+                        <h3 class="text-3xl font-black text-slate-900">$25M</h3>
+                        <p class="text-slate-400 text-xs font-medium">Revenue Managed</p>
+                    </div>
+                    <div class="text-center">
+                        <h3 class="text-3xl font-black text-slate-900">1600+</h3>
+                        <p class="text-slate-400 text-xs font-medium">Trusted Businesses</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partners -->
+    <section class="py-20 bg-slate-50 px-6 text-center">
+        <h3 class="text-slate-400 text-sm font-bold uppercase tracking-widest mb-12">Connect With Your Favorite Platforms</h3>
+        <div class="max-w-5xl mx-auto flex flex-wrap justify-center items-center gap-12 opacity-50 grayscale hover:grayscale-0 transition-all">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Square_Inc_logo.svg/1200px-Square_Inc_logo.svg.png" class="h-6" alt="Square">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Adobe_Corporate_logo.svg/2560px-Adobe_Corporate_logo.svg.png" class="h-6" alt="Adobe">
+            <div class="font-bold text-xl text-slate-800">Visa</div>
+            <div class="font-bold text-xl text-slate-800">Mastercard</div>
+            <div class="font-bold text-xl text-slate-800">Stripe</div>
+            <div class="font-bold text-xl text-slate-800">PayPal</div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="py-24 px-6 max-w-7xl mx-auto">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <h2 class="text-4xl font-extrabold mb-4">Our pricing is simple with no hidden fees</h2>
+            <p class="text-slate-500">Choose the plan that fits your business scale perfectly.</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+            <!-- Starter -->
+            <div data-aos="fade-up" data-aos-delay="100" class="p-8 bg-white rounded-3xl border border-slate-200 flex flex-col">
+                <h3 class="font-bold text-lg mb-2">Starter Plan</h3>
+                <p class="text-slate-400 text-xs mb-6">For individuals and small teams</p>
+                <div class="mb-8">
+                    <span class="text-4xl font-black">$0</span>
+                    <span class="text-slate-400 text-sm">/month</span>
+                </div>
+                <button class="w-full py-3 rounded-xl border border-slate-200 font-semibold hover:bg-slate-50 transition-all mb-8">Current Plan</button>
+                <ul class="space-y-4 text-sm text-slate-600 mb-8 flex-grow">
+                    <li class="flex items-center gap-2"><span class="material-symbols-outlined text-green-500 text-sm">check_circle</span> Unlimited sends & diets</li>
+                    <li class="flex items-center gap-2"><span class="material-symbols-outlined text-green-500 text-sm">check_circle</span> Basic analytics</li>
+                    <li class="flex items-center gap-2"><span class="material-symbols-outlined text-green-500 text-sm">check_circle</span> Scheduled one-time payments</li>
+                    <li class="flex items-center gap-2"><span class="material-symbols-outlined text-green-500 text-sm">check_circle</span> Email support</li>
+                </ul>
+            </div>
+            <!-- Professional -->
+            <div data-aos="fade-up" data-aos-delay="200" class="p-8 bg-white rounded-3xl border-2 border-blue-600 relative flex flex-col shadow-2xl scale-105 z-10">
+                <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-[10px] font-bold px-4 py-1 rounded-full uppercase">Most Popular</div>
+                <h3 class="font-bold text-lg mb-2">Professional Plan</h3>
+                <p class="text-slate-400 text-xs mb-6">For growing businesses</p>
+                <div class="mb-8">
+                    <span class="text-4xl font-black">$250.00</span>
+                    <span class="text-slate-400 text-sm">/month</span>
+                </div>
+                <button class="w-full py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-all mb-8 shadow-lg shadow-blue-200">Upgrade to Pro</button>
+                <ul class="space-y-4 text-sm text-slate-600 mb-8 flex-grow">
+                    <li class="flex items-center gap-2"><span class="material-symbols-outlined text-green-500 text-sm">check_circle</span> Everything in Starter</li>
+                    <li class="flex items-center gap-2"><span class="material-symbols-outlined text-green-500 text-sm">check_circle</span> Advanced analytics</li>
+                    <li class="flex items-center gap-2"><span class="material-symbols-outlined text-green-500 text-sm">check_circle</span> Cash flow forecasting</li>
+                    <li class="flex items-center gap-2"><span class="material-symbols-outlined text-green-500 text-sm">check_circle</span> Priority support</li>
+                </ul>
+            </div>
+            <!-- Enterprise -->
+            <div data-aos="fade-up" data-aos-delay="300" class="p-8 bg-white rounded-3xl border border-slate-200 flex flex-col">
+                <h3 class="font-bold text-lg mb-2">Enterprise Plan</h3>
+                <p class="text-slate-400 text-xs mb-6">For large scale corporations</p>
+                <div class="mb-8">
+                    <span class="text-4xl font-black">$800.00</span>
+                    <span class="text-slate-400 text-sm">/month</span>
+                </div>
+                <button class="w-full py-3 rounded-xl border border-slate-200 font-semibold hover:bg-slate-50 transition-all mb-8">Upgrade to Enterprise</button>
+                <ul class="space-y-4 text-sm text-slate-600 mb-8 flex-grow">
+                    <li class="flex items-center gap-2"><span class="material-symbols-outlined text-green-500 text-sm">check_circle</span> Everything in Professional</li>
+                    <li class="flex items-center gap-2"><span class="material-symbols-outlined text-green-500 text-sm">check_circle</span> Dedicated account manager</li>
+                    <li class="flex items-center gap-2"><span class="material-symbols-outlined text-green-500 text-sm">check_circle</span> API & custom integration</li>
+                    <li class="flex items-center gap-2"><span class="material-symbols-outlined text-green-500 text-sm">check_circle</span> Enterprise grade security</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-24 bg-slate-100 px-6">
+        <div class="max-w-3xl mx-auto">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-4xl font-extrabold mb-4">Frequently Asked Questions</h2>
+                <p class="text-slate-500">Everything you need to know about our secure platform.</p>
+            </div>
+
+            <div class="space-y-4" data-aos="fade-up">
+                <details class="group bg-white rounded-2xl border border-slate-200 overflow-hidden transition-all">
+                    <summary class="flex items-center justify-between p-6 cursor-pointer list-none font-semibold text-slate-700 hover:bg-slate-50">
+                        <span>01. How do I update my account information?</span>
+                        <span class="material-symbols-outlined transition-transform group-open:rotate-180">expand_more</span>
+                    </summary>
+                    <div class="p-6 pt-0 text-slate-500 text-sm leading-relaxed">
+                        Go to your profile settings, select "Account Info", and update your details. Changes are applied instantly after verification.
+                    </div>
+                </details>
+
+                <details class="group bg-white rounded-2xl border border-slate-200 overflow-hidden transition-all">
+                    <summary class="flex items-center justify-between p-6 cursor-pointer list-none font-semibold text-slate-700 hover:bg-slate-50">
+                        <span>02. Can I change my email address?</span>
+                        <span class="material-symbols-outlined transition-transform group-open:rotate-180">expand_more</span>
+                    </summary>
+                    <div class="p-6 pt-0 text-slate-500 text-sm leading-relaxed">
+                        Yes, you can change it in settings. You will need to verify the new email address via a confirmation link.
+                    </div>
+                </details>
+
+                <details class="group bg-white rounded-2xl border border-slate-200 overflow-hidden transition-all">
+                    <summary class="flex items-center justify-between p-6 cursor-pointer list-none font-semibold text-slate-700 hover:bg-slate-50">
+                        <span>03. What should I do if I forget my password?</span>
+                        <span class="material-symbols-outlined transition-transform group-open:rotate-180">expand_more</span>
+                    </summary>
+                    <div class="p-6 pt-0 text-slate-500 text-sm leading-relaxed">
+                        Click "Forgot Password" on the login page and follow the instructions sent to your registered email.
+                    </div>
+                </details>
+            </div>
+
+            <div class="mt-16 p-8 bg-blue-600 rounded-3xl text-white text-center" data-aos="zoom-in">
+                <h4 class="text-xl font-bold mb-4">Do you have more questions?</h4>
+                <p class="text-blue-100 text-sm mb-6">Our team is here to help you 24/7 with any queries.</p>
+                <button class="bg-white text-blue-600 px-8 py-3 rounded-full font-bold hover:bg-blue-50 transition-all">Contact Us</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="py-24 hero-gradient relative overflow-hidden text-center px-6">
+        <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(#fff 1px, transparent 1px); background-size: 40px 40px;"></div>
+        <div class="relative z-10 max-w-4xl mx-auto" data-aos="fade-up">
+            <h2 class="text-5xl font-extrabold text-white mb-8 leading-tight">Build Your Financial Future <br>with Confidence</h2>
+            <button class="bg-white text-blue-900 px-12 py-5 rounded-full font-black text-lg hover:bg-blue-50 transition-all shadow-2xl transform hover:scale-105">Get Started</button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white py-16 px-6 border-t border-slate-100">
+        <div class="max-w-7xl mx-auto grid lg:grid-cols-4 gap-12">
+            <div class="col-span-1">
+                <div class="flex items-center gap-2 mb-6">
+                    <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white">
+                        <span class="material-symbols-outlined text-sm">payments</span>
+                    </div>
+                    <span class="font-bold text-xl tracking-tight">FinFlow</span>
+                </div>
+                <p class="text-slate-500 text-sm leading-relaxed mb-6">The world's most advanced financial operating system for modern businesses.</p>
+                <div class="flex gap-4">
+                    <a href="#" class="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-slate-600 hover:bg-blue-600 hover:text-white transition-all"><span class="material-symbols-outlined text-sm">share</span></a>
+                    <a href="#" class="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-slate-600 hover:bg-blue-600 hover:text-white transition-all"><span class="material-symbols-outlined text-sm">public</span></a>
+                    <a href="#" class="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-slate-600 hover:bg-blue-600 hover:text-white transition-all"><span class="material-symbols-outlined text-sm">mail</span></a>
+                </div>
+            </div>
+            
+            <div class="space-y-4">
+                <h4 class="font-bold mb-4">Location</h4>
+                <p class="text-slate-500 text-sm">100 Bank Plaza, Financial District<br>New York, NY 10001</p>
+                <p class="text-blue-600 font-semibold text-sm">+1 (202) 555-0100</p>
+            </div>
+
+            <div class="space-y-4">
+                <h4 class="font-bold mb-4">Quick Links</h4>
+                <ul class="text-slate-500 text-sm space-y-2">
+                    <li><a href="#" class="hover:text-blue-600 transition-all">Products</a></li>
+                    <li><a href="#" class="hover:text-blue-600 transition-all">Pricing</a></li>
+                    <li><a href="#" class="hover:text-blue-600 transition-all">Terms of Service</a></li>
+                    <li><a href="#" class="hover:text-blue-600 transition-all">Privacy Policy</a></li>
+                </ul>
+            </div>
+
+            <div class="space-y-4">
+                <h4 class="font-bold mb-4">Working Hours</h4>
+                <p class="text-slate-500 text-sm">Mon - Fri: 9:00 AM - 6:00 PM (EST)</p>
+                <p class="text-slate-500 text-sm">Sat - Sun: Closed</p>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto mt-16 pt-8 border-t border-slate-100 text-center text-slate-400 text-xs">
+            © 2024 FinFlow. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize Animations
+        AOS.init({
+            duration: 1000,
+            once: true,
+            easing: 'ease-out-cubic'
+        });
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('main-nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('py-2');
+                nav.classList.remove('py-4');
+            } else {
+                nav.classList.add('py-4');
+                nav.classList.remove('py-2');
+            }
+        });
+    </script>
 </body>
-
 </html>

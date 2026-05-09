@@ -1,14 +1,16 @@
-# Home Page (Landing Page) — Revised Technical Specification
+# Home Page (Landing Page) — 2026 UI Design & Technical Specification
 
-> **Version:** 2.0 | **Last Updated:** 2026-04-02 | **Status:** Active Revision
+> **Version:** 3.0 | **Last Updated:** 2026-05-06 | **Status:** Active Revision
 >
-> This document supersedes the original `home.md`. Every section has been revised to reflect:
+> This document supersedes previous revisions. Every section has been updated to reflect:
 >
+> - **Futuristic 2026 Web Design Trends** — High-end cinematic polish, glassmorphism, glowing accents, and premium visual hierarchy.
+> - **Recruiter-Friendly UX** — Layout and flow optimized for instant impact, ensuring high conversion and easy scanning by hiring managers.
+> - **Semantic Accessibility & Performance** — Fast-loading, highly-accessible, screen-reader optimized structures.
 > - **Full Firebase dynamic data** — no section relies on static local constants in production.
 > - **Bento Grid architecture** — the linear section-stack is replaced with a modular, asymmetric CSS Grid composition.
 > - **3D & immersive visuals** — each section has a defined Three.js / React Three Fiber (R3F) integration or Framer Motion enhancement.
-> - **Builder mode bi-directional sync** — all editable fields originate from Firestore and are writable through `/builder`, propagating instantly to public pages.
-> - **Three new sections** introduced: `TechArsenal3DSection`, `AchievementsTimelineSection`, and `ImpactMetricsSection`.
+> - **Builder mode bi-directional sync** — all editable fields originate from Firestore and are writable through `/builder`.
 
 ---
 
@@ -18,25 +20,26 @@
 2. [Dynamic Data Strategy](#2-dynamic-data-strategy)
 3. [Builder Mode Sync Model](#3-builder-mode-sync-model)
 4. [Bento Grid Layout Specification](#4-bento-grid-layout-specification)
-5. [Section-by-Section Specification](#5-section-by-section-specification)
-   - 5.1 Navbar
-   - 5.2 HeroSection _(Revised — Full 3D + Firebase)_
-   - 5.3 MySkillSection _(Revised — Firebase-driven)_
-   - 5.4 HireMe _(Revised — Firebase stats)_
-   - 5.5 TechArsenal3DSection 🆕
-   - 5.6 ProjectSection _(Revised — Firebase-driven)_
-   - 5.7 AchievementsTimelineSection 🆕
-   - 5.8 BlogSection _(Revised — Firebase-driven)_
-   - 5.9 ImpactMetricsSection 🆕
-   - 5.10 MapSection _(Revised — Firebase location)_
-   - 5.11 TestimonialsSection _(Revised — Firebase-driven)_
-   - 5.12 CTASection _(Revised)_
-   - 5.13 Footer _(Revised)_
-6. [Backend & External Integration Matrix](#6-backend--external-integration-matrix)
-7. [Builder Mode Field Map](#7-builder-mode-field-map)
-8. [Performance & PWA Considerations](#8-performance--pwa-considerations)
-9. [Accessibility Standards](#9-accessibility-standards)
-10. [Gaps & Technical Debt](#10-gaps--technical-debt)
+5. [Cinematic UI & 2026 Design Trends](#5-cinematic-ui--2026-design-trends)
+6. [Section-by-Section Specification](#6-section-by-section-specification)
+   - 6.1 Navbar
+   - 6.2 HeroSection _(Revised — Full 3D + Firebase)_
+   - 6.3 MySkillSection _(Revised — Firebase-driven)_
+   - 6.4 HireMe _(Revised — Firebase stats)_
+   - 6.5 TechArsenal 🆕
+   - 6.6 ProjectSection _(Revised — Firebase-driven)_
+   - 6.7 Achievements 🆕
+   - 6.8 BlogSection _(Revised — Firebase-driven)_
+   - 6.9 QuantifiableImpact 🆕
+   - 6.10 MapSection _(Revised — Firebase location)_
+   - 6.11 TestimonialsSection _(Revised — Firebase-driven)_
+   - 6.12 CTASection _(Revised)_
+   - 6.13 Footer _(Revised)_
+7. [Backend & External Integration Matrix](#7-backend--external-integration-matrix)
+8. [Builder Mode Field Map](#8-builder-mode-field-map)
+9. [Performance & PWA Considerations](#9-performance--pwa-considerations)
+10. [Accessibility Standards](#10-accessibility-standards)
+11. [Gaps & Technical Debt](#11-gaps--technical-debt)
 
 ---
 
@@ -50,17 +53,23 @@
 HomePage.tsx
   -> SEO metadata (react-helmet-async)
   -> <Navbar />                         [Firebase: profiles]
-  -> <HeroSection />                    [Firebase: profiles]
-  -> <MySkillSection />                 [Firebase: skills]
-  -> <HireMe />                         [Firebase: profiles.stats]
-  -> <TechArsenal3DSection />           [Firebase: skills] 🆕
-  -> <ProjectSection />                 [Firebase: projects]
-  -> <AchievementsTimelineSection />    [Firebase: certificates, experience] 🆕
-  -> <BlogSection />                    [Firebase: blog_posts]
-  -> <ImpactMetricsSection />           [Firebase: analytics_events, profiles] 🆕
-  -> <MapSection />                     [Firebase: profiles.location]
-  -> <TestimonialsSection />            [Firebase: testimonials]
-  -> <CTASection />                     [External: ctaMailService → FormSubmit]
+  -> <main>
+       -> <HeroSection />               [Firebase: profiles]
+       -> <Suspense fallback={<SectionLoader />}>
+            -> <div aria-label="Feature sections">
+                 -> <MySkillSection />      [Firebase: skills]
+                 -> <HireMe />              [Firebase: profiles.stats]
+                 -> <TechArsenal />         [Firebase: skills] 🆕
+                 -> <ProjectSection />      [Firebase: projects]
+                 -> <Achievements />        [Firebase: certificates, experience] 🆕
+                 -> <BlogSection />         [Firebase: blog_posts]
+                 -> <QuantifiableImpact />  [Firebase: analytics_events, profiles] 🆕
+                 -> <MapSection />          [Firebase: profiles.location]
+               </div>
+            -> <TestimonialsSection />  [Firebase: testimonials]
+            -> <CTASection />           [External: ctaMailService → FormSubmit]
+       </Suspense>
+     </main>
   -> <Footer />                         [Firebase: profiles, newsletter_subscribers]
 ```
 
@@ -72,7 +81,7 @@ The single source of truth for all public-facing content is Firestore. The `/bui
 
 - **Hero, Navbar, and Profile blocks**: Fetched via `usePortfolioData(ownerUsername)` which resolves the singleton owner profile from Firestore `profiles`.
 - **Portfolio assets (skills, projects, blog)**: Fetched by dedicated query hooks, each independently loading, skeleton-rendering, and error-bounding.
-- **Analytics / metrics**: Fetched client-side via `useAnalyticsData()` for the `ImpactMetricsSection`. Aggregated counts are stored as denormalized fields on `profiles` to reduce cold-load Firestore reads.
+- **Analytics / metrics**: Fetched client-side via `useAnalyticsData()` for the `QuantifiableImpact` section. Aggregated counts are stored as denormalized fields on `profiles` to reduce cold-load Firestore reads.
 - **3D assets**: Lazily loaded via `React.lazy` + `<Suspense>` with 2D skeleton fallbacks. Deferred behind a `requestIdleCallback` gate to prevent blocking FCP.
 
 ---
@@ -154,14 +163,14 @@ Every piece of content visible on the landing page has a corresponding editable 
   ├── location.city             → MapSection: base map coordinate and display label
   ├── location.lat / .lng       → MapSection: embedded map center
   ├── stats.yearsExperience     → HireMe: stat block
-  ├── stats.projectsCompleted   → HireMe / ImpactMetricsSection: stat block
-  ├── stats.awardsWon           → HireMe / ImpactMetricsSection: stat block
-  ├── stats.competitionsEntered → ImpactMetricsSection: stat block
+  ├── stats.projectsCompleted   → HireMe / QuantifiableImpact: stat block
+  ├── stats.awardsWon           → HireMe / QuantifiableImpact: stat block
+  ├── stats.competitionsEntered → QuantifiableImpact: stat block
   └── availability              → HireMe / CTASection: availability badge text
 
 /builder → Skills Accordion
   ├── Per-skill: name, category, proficiencyLevel, iconUrl, sortOrder, isPublished
-  ├── showIn3DBadge (bool)      → TechArsenal3DSection: floating 3D globe
+  ├── showIn3DBadge (bool)      → TechArsenal: floating 3D globe
   └── featuredOnLanding (bool)  → MySkillSection: carousel
 
 /builder → Projects Accordion
@@ -177,7 +186,7 @@ Every piece of content visible on the landing page has a corresponding editable 
 /builder → Experience & Certificates Accordion
   ├── Experience: role, company, startDate, endDate, description, type
   └── Certificates: name, issuer, date, credentialUrl, badgeUrl
-      → AchievementsTimelineSection: rendered timeline entries
+      → Achievements: rendered timeline entries
 ```
 
 ### 3.3 Real-Time Preview in Builder
@@ -254,11 +263,48 @@ The `editable` prop (only truthy in builder mode) renders a subtle pencil-icon o
 
 ---
 
-## 5. Section-by-Section Specification
+## 5. Cinematic UI & 2026 Design Trends
+
+The layout prioritizes premium cinematic polish optimized for recruiters and hiring managers. Inspired by 2026 trending aesthetics, it leverages **Bento Grids**, **Glassmorphism**, and **Functional Illumination** built on strong web accessibility and performance foundations.
+
+### 5.1 Visual Hierarchy & Aesthetics
+- **Dark-First Immersion:** A rich `#0B0C10` (or dynamic `--sys-bg-primary`) background sets the tone.
+- **Glassmorphism & Depth:** Bento cards utilize `backdrop-blur-md` (blur 12px) and semi-transparent backgrounds (`rgba(255, 255, 255, 0.05)`) to layer content weightlessly.
+- **Organic Accents:** Sharp structural grid lines are intentionally broken by hand-drawn SVG borders (via Rough.js) or floating particles on hover to add human warmth to technical structure.
+- **Functional Illumination:** Glowing drop-shadows (`--bento-glow-shadow`) and vibrant accent colors (`--color-primary`) draw attention to primary calls-to-action, active builder states, or interactive 3D elements.
+- **Interactive Micro-Motions:** Buttons and chips use Framer Motion springs (`type: "spring", stiffness: 300, damping: 20`) for bouncy, organic tactile feedback on click/hover.
+
+### 5.2 Typography & Spacing
+- **Typography:** Uses a strong, modern, geometric sans-serif typeface paired with a monospace font (like JetBrains Mono or Fira Code) for code-like highlights, role chips, and metrics.
+- **Sizing Scale:**
+  - `H1`: Bold tracking, tight line-height (e.g., `text-5xl md:text-7xl font-extrabold tracking-tight`).
+  - `H2` / `H3`: High contrast, slightly muted colors for section headers (`text-(--sys-text-secondary)`).
+  - `Body`: `text-base md:text-lg leading-relaxed` for maximum readability.
+- **Spacing:** The layout implements a breathing **1rem (16px)** base Bento gap (`--bento-gap`) with padding scaling from `px-4` (mobile) to `px-8` (desktop) to ensure scanning speed.
+
+### 5.3 High-Conversion "Recruiter-Friendly" UX
+- **Above-The-Fold Real Estate:** The Hero section prioritizes the candidate's Value Proposition (`fullName`, `tagline`) immediately adjacent to a clear **"Hire Me" / "Download Resume"** CTA pair.
+- **Scan-Optimized Feature Highlights:** Work history and projects are surfaced directly in the top-level grid using punchy `1x1` and `2x1` Bento cells so recruiters don't need to dig through nested pages.
+- **Social Proof:** Testimonial cards are placed as a continuous horizontal marquee or structured Bento block just before the primary CTA modules to reinforce trust.
+
+### 5.4 Accessibility (A11y) & Semantic HTML
+- **ARIA Labeling:** Non-text interactions (Bento toggles, canvas controls) strictly use `aria-label` and `aria-expanded` attributes.
+- **Semantic Tags:** Native `<header>`, `<main>`, `<section>`, `<article>`, and `<footer>` elements define the structure.
+- **Reduced Motion Support:** Framer Motion respects the OS-level `prefers-reduced-motion` settings. WebGL fallback components swap out continuously spinning 3D canvas environments for accessible 2D static equivalents.
+- **High Contrast Focus:** Explicit `:focus-visible` styling with 2px solid offsetting focus rings for keyboard users.
+
+### 5.5 Web Performance Optimization
+- **Lazy Hydration:** R3F/Three.js assets, below-the-fold Testimonials, CTA modules, and heavy map geometries are deferred using `React.lazy` and `<Suspense>` behind a `requestIdleCallback`.
+- **Image Formats:** WebP/AVIF formats forced for portrait cards, project thumbnails, and blog covers, dynamically sized via Next/Vite optimized image loaders if applicable.
+- **TTFI Over FCP:** Time to First Interactive is prioritized by splitting bundle sizes by route and loading Framer components asynchronously.
 
 ---
 
-### 5.1 Navbar
+## 6. Section-by-Section Specification
+
+---
+
+### 6.1 Navbar
 
 **Purpose:** Global navigation, auth access, live profile chip.
 
@@ -288,7 +334,7 @@ const { data: profile } = useQuery({
 
 ---
 
-### 5.2 HeroSection (Revised — Full 3D + Firebase)
+### 6.2 HeroSection (Revised — Full 3D + Firebase)
 
 **Purpose:** Primary personal brand statement, immersive 3D visual centerpiece.
 
@@ -347,7 +393,7 @@ The admin configures up to 4 hero cards in the builder. Cards animate in with st
 
 ---
 
-### 5.3 MySkillSection (Revised — Firebase-Driven)
+### 6.3 MySkillSection (Revised — Firebase-Driven)
 
 **Purpose:** Showcase core capabilities in an interactive rotating card slider.
 
@@ -381,7 +427,7 @@ Skills are rendered in a 3-column Bento grid on desktop (carousel on mobile), re
 
 ---
 
-### 5.4 HireMe (Revised — Firebase Stats)
+### 6.4 HireMe (Revised — Firebase Stats)
 
 **Purpose:** Conversion section explaining hiring value and dynamic achievements.
 
@@ -428,7 +474,7 @@ const { data: profile } = useHeroData(ownerUsername);
 
 ---
 
-### 5.5 TechArsenal3DSection 🆕
+### 6.5 TechArsenal 🆕
 
 **Purpose:** An immersive, recruiter-unforgettable interactive 3D showcase of the full technology stack — far beyond a typical "skills list". Positions the owner as a practitioner of a broad, modern toolkit, with depth visible on interaction.
 
@@ -504,7 +550,7 @@ const { data: techStack, isLoading } = useQuery({
 
 ---
 
-### 5.6 ProjectSection (Revised — Firebase-Driven)
+### 6.6 ProjectSection (Revised — Firebase-Driven)
 
 **Purpose:** Showcase project portfolio with rich interactions and a detail modal.
 
@@ -526,17 +572,20 @@ const { data: projects, isLoading } = useFeaturedProjects(ownerId, {
 - Featured carousel becomes the center `2x2` Bento hero block.
 - Secondary projects render as a `1x1` Bento grid row beneath.
 - Project modal now includes deep-link URL (`/:username/projects/:id`) for PWA sharability.
+- Grid adjusts seamlessly from a single-column stack on mobile to a staggered asymmetric masonry grid on ultra-wide screens.
 
 **3D / Motion Enhancement:**
 
-- The pointer-driven 3D tilt/parallax (previously in-component) is extracted to a shared `useTilt3D` hook and applied uniformly to all project Bento blocks.
+- The pointer-driven 3D tilt/parallax (previously in-component) is extracted to a shared `useTilt3D` hook and applied uniformly to all project Bento blocks. This delivers premium tactile feedback.
+- `react-spring` handles smooth origin-return when the pointer leaves the card.
 - Featured project screenshot in the carousel supports a `glTF` scene preview if a `modelUrl` is set on the project document — allowing 3D architecture diagrams to replace static screenshots.
+- **Scroll Reveal:** Uses Framer Motion `whileInView` with a threshold of 0.2 to stagger opacity and Y-axis transforms for each grid element as the recruiter scrolls down.
 
 **Builder Sync Fields:** All `projects` collection fields: `title`, `description`, `techStack[]`, `thumbnailUrl`, `liveUrl`, `repoUrl`, `isFeatured`, `status`, `sortOrder`, `modelUrl`
 
 ---
 
-### 5.7 AchievementsTimelineSection 🆕
+### 6.7 Achievements 🆕
 
 **Purpose:** A visually rich, chronological narrative of the owner's certifications, awards, competitions, and industrial training — presented as an interactive 3D timeline that makes the resume's achievements tangible and memorable to recruiters.
 
@@ -591,6 +640,7 @@ interface TimelineEntry {
    - Each milestone uses Drei's `<Html>` for the card content (crisp text, no WebGL font rendering).
    - Cards use glassmorphism styling with `backdrop-blur-md` and a left accent border in `accentColor`.
    - Featured entries get `row-span-2` Bento height equivalents within the card layout.
+   - Screen reader attributes (`aria-label`) describe the milestone timeline visually represented in 3D.
 
 5. **Entry Type Icons**
    - Each `type` has a unique Rough.js hand-drawn SVG icon (certificate scroll, award ribbon, briefcase, factory building, graduation cap) rendered in the `--color-primary` accent.
@@ -626,7 +676,7 @@ interface TimelineEntry {
 
 ---
 
-### 5.8 BlogSection (Revised — Firebase-Driven)
+### 6.8 BlogSection (Revised — Firebase-Driven)
 
 **Purpose:** Promote technical writing and thought content.
 
@@ -657,14 +707,16 @@ const { data: posts, isLoading } = usePublishedBlogPosts(ownerId, {
 
 **3D / Motion Enhancement:**
 
-- Each blog card Bento block animates with the shared `useTilt3D` hook.
+- Each blog card Bento block animates with the shared `useTilt3D` hook for depth perception.
 - The featured post card uses a `THREE.PlaneGeometry` cover image mesh in a mini R3F canvas, with a subtle wave displacement shader on hover — making the cover image feel 3D and tactile.
+- On hover, the `Read More` arrow micro-animates via a spring motion `translateX(4px)` to encourage click-through.
+- Semantic HTML tags (`<article>`) are used for each post cell for screen readers.
 
 **Builder Sync Fields (per blog post):** `title`, `excerpt`, `slug`, `coverImageUrl`, `tags[]`, `publishedAt`, `isPublished`, `featuredOnLanding`, `readTimeMinutes`
 
 ---
 
-### 5.9 ImpactMetricsSection 🆕
+### 6.9 QuantifiableImpact 🆕
 
 **Purpose:** Deliver a data-driven, quantified argument for hiring the owner. Combines animated live stats with subtle data visualization, creating a "mission control dashboard" feel that differentiates the portfolio from all text-and-image alternatives.
 
@@ -696,8 +748,10 @@ To avoid expensive aggregation queries on page load, metric counts are maintaine
 
 1. **Animated Counter Bento Blocks**
    - 6 animated counter blocks, each showing one metric with an icon, value, and context label.
+   - Ranks top metrics for scanability.
    - Counters use `react-countup` (triggered by `IntersectionObserver` on section entry).
    - Each block has a colored left-border accent per metric category.
+   - Reduced-motion safe: If OS prefers reduced motion, values render immediately instead of counting up.
 
    | Block                 | Metric                        | Icon | Firebase Source  |
    | --------------------- | ----------------------------- | ---- | ---------------- |
@@ -758,7 +812,7 @@ To avoid expensive aggregation queries on page load, metric counts are maintaine
 
 ---
 
-### 5.10 MapSection (Revised — Firebase Location)
+### 6.10 MapSection (Revised — Firebase Location)
 
 **Purpose:** Show collaboration geography and location-based credibility.
 
@@ -773,11 +827,14 @@ const { data: profile } = useHeroData(ownerUsername);
 
 **Builder Sync Fields:** `profiles.location.city`, `profiles.location.lat`, `profiles.location.lng`, `profiles.location.remoteAvailable`
 
-**3D / Motion Enhancement:** No change to the embedded Google Maps approach. The animated panel overlays use Framer Motion entrance transitions consistent with other sections.
+**3D / Motion Enhancement:** 
+- Embedded maps are loaded lazily to maintain rapid page performance (LCP).
+- A glowing pulse dot in CSS or a low-poly R3F pin is placed at the exact lat/long coordinate.
+- Panel overlays detailing timezones use Framer Motion entrance transitions (`viewport.once`) consistent with other sections.
 
 ---
 
-### 5.11 TestimonialsSection (Revised — Firebase-Driven)
+### 6.11 TestimonialsSection (Revised — Firebase-Driven)
 
 **Purpose:** Social proof and trust reinforcement.
 
@@ -793,25 +850,38 @@ const { data: testimonials, isLoading } = useTestimonials(ownerId, {
 // Source: Firestore 'testimonials' collection
 ```
 
-**Bento Grid Layout:** Testimonials are arranged in a masonry-style Bento grid (alternating `1x1` and `1x2` height blocks) rather than a pure horizontal scroll, creating a more editorial feel.
+**Bento Grid Layout:** 
+Testimonials are arranged in a horizontal continuous CSS scrolling marquee or a masonry-style Bento grid (alternating `1x1` and `1x2` height blocks) to create an editorial, recruiter-friendly feel that promotes scanning.
 
-**3D / Motion Enhancement:** Reviewer avatar images are rendered on `THREE.CircleGeometry` meshes in a mini R3F canvas per card, with a subtle ring-rotation shader. This differentiates the avatars from standard `<img>` circles without heavy computational cost.
+**3D / Motion Enhancement:** 
+- Scrolling speed slows on hover, utilizing CSS `animation-play-state: paused` for readability.
+- Reviewer avatar images are rendered on `THREE.CircleGeometry` meshes in a mini R3F canvas per card, with a subtle ring-rotation shader. This differentiates the avatars from standard `<img>` circles without heavy computational cost.
+- Glassmorphic card backgrounds with floating `--color-glow` drop shadows reinforce the premium hierarchy.
 
 **Builder Sync Fields (per testimonial):** `name`, `role`, `company`, `avatarUrl`, `text`, `rating`, `isPublished`, `sortOrder`
 
 ---
 
-### 5.12 CTASection (Revised)
+### 6.12 CTASection (Revised)
 
-**Purpose:** Primary lead capture and contact conversion.
+**Purpose:** Primary lead capture and contact conversion, serving as the definitive end-of-funnel for recruiters and leads.
 
-**Changes from original:** The availability copy within the CTA is driven from `profiles.availability` (same field as ImpactMetricsSection). No structural integration change — FormSubmit remains the external delivery mechanism.
+**Layout & Aesthetic:**
+Centered layout maximizing negative space, drawing the eye directly to the input fields. Inputs utilize glassmorphism (translucency + background blur) over a dark, deeply saturated `--sys-bg-primary` base.
 
-**3D / Motion Enhancement:** The 3D tilt effect on the CTA frame is upgraded to use `useTilt3D` (the shared hook) for consistency. A subtle R3F background of slow-drifting particles fills the section canvas.
+**Changes from original:** The availability copy within the CTA is driven from `profiles.availability` (same field as QuantifiableImpact). No structural integration change — FormSubmit remains the external delivery mechanism.
+
+**3D / Motion Enhancement:** 
+- The main contact card and layout frame use the shared `useTilt3D` hook for a rich, premium float effect on hover.
+- A subtle R3F background of slow-drifting interactive particles fills the section canvas to maintain immersion without distracting from form completion.
+- Form inputs transition focus states elegantly with a `--color-primary` glowing bottom border/ring, ensuring accessibility and clear keyboard navigation visibility.
 
 ---
 
-### 5.13 Footer (Revised)
+### 6.13 Footer (Revised)
+
+**Layout & Aesthetic:**
+Minimalist footprint. Uses muted typography (`text-(--sys-text-secondary)`) for secondary links to establish ending hierarchy, preventing distraction from the main CTA.
 
 **Route Mismatch Fix:**
 Footer CTA and access links that previously pointed to `/admin-access` are confirmed correct (this IS the right route per the actual router). Documentation inconsistency resolved.

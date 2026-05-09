@@ -18,7 +18,7 @@ const NAV_LINKS = [
     { label: 'Features', to: '/#features', icon: 'auto_awesome' },
     { label: 'Projects', to: '/#projects', icon: 'work' },
     { label: 'Resume', to: '/resume', icon: 'description' },
-    { label: 'Contact', to: '/#contact', icon: 'mail' },
+    { label: 'Contact', to: '/contact', icon: 'mail' },
 ];
 
 const SOCIAL_LINKS = [
