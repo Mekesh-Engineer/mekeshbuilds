@@ -55,7 +55,7 @@ export interface HeroData {
 
 export const HERO_DATA: HeroData = {
     sectionAriaLabelTemplate: 'Hero - {name} profile',
-    greetingBadgeText: 'Hello!',
+    greetingBadgeText: 'hi',
     headingPrefix: "I'm",
     fallbackFirstName: 'Mekesh Kumar',
 
